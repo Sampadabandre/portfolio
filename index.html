@@ -1,0 +1,2043 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sampada Bandre | AI & Machine Learning Engineer Portfolio</title>
+  <meta name="description"
+    content="Portfolio of Sampada Bandre - 3rd Year B.Tech CSE (AI & ML) student at Symbiosis Institute of Technology, Nagpur. Specializing in Machine Learning, Explainable AI, Generative AI, and AI Agents.">
+  <meta name="keywords"
+    content="Sampada Bandre, Portfolio, AI Engineer, Machine Learning, Symbiosis Institute of Technology, SIT Nagpur, Explainable AI, Generative AI, Python">
+  <meta name="author" content="Sampada Bandre">
+  <meta name="theme-color" content="#fae1e6">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Sampada Bandre | AI & ML Engineer Portfolio">
+  <meta property="og:description"
+    content="Explore projects, research, credentials, and achievements of Sampada Bandre.">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon -->
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="theme-cozy mode-desk">
+  <!-- Audio Toggle / Status Bar -->
+  <header class="top-desk-bar" id="topDeskBar">
+    <div class="desk-bar-brand">
+      <span class="sparkle-icon">✨</span>
+      <span class="brand-title">Sampada's Desk</span>
+      <span class="status-pill"><span class="status-dot"></span> Open to Internships & AI Roles</span>
+    </div>
+
+    <div class="desk-bar-controls">
+      <!-- View Mode Switcher -->
+      <div class="view-switch-group" role="group" aria-label="Portfolio View Mode">
+        <button id="btnDeskView" class="view-mode-btn active" title="Switch to Desk Flatlay View">
+          <i class="fa-solid fa-folder-open"></i>
+          <span>Desk View</span>
+        </button>
+        <button id="btnScrollView" class="view-mode-btn" title="Switch to Full Continuous Scroll View">
+          <i class="fa-solid fa-scroll"></i>
+          <span>Scroll View</span>
+        </button>
+      </div>
+
+      <!-- Sound Toggle -->
+      <button id="btnSoundToggle" class="desk-action-btn" title="Toggle Haptic Paper Sounds" aria-label="Toggle Sound">
+        <i class="fa-solid fa-volume-high" id="soundIcon"></i>
+      </button>
+
+      <!-- Theme Toggle -->
+      <button id="btnThemeToggle" class="desk-action-btn" title="Toggle Day/Night Desk Lighting"
+        aria-label="Toggle Theme">
+        <i class="fa-solid fa-moon" id="themeIcon"></i>
+      </button>
+
+      <!-- Quick Resume Download -->
+      <a href="assets/Sampada_Bandre_Resume.pdf" download="Sampada_Bandre_Resume.pdf" class="resume-download-btn"
+        id="headerResumeBtn" title="Download Official Resume PDF">
+        <i class="fa-solid fa-file-arrow-down"></i>
+        <span>Resume PDF</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Flatlay Desk Workspace -->
+  <main class="desk-viewport" id="deskViewport">
+
+    <!-- DESK ACCESSORY: Top-Left Laptop Keyboard -->
+    <div class="desk-item laptop-keyboard" id="laptopElement" title="Engineering Workspace">
+      <div class="keyboard-inner">
+        <div class="keyboard-row">
+          <span class="key small">esc</span>
+          <span class="key cute-star">★</span>
+          <span class="key">F1</span>
+          <span class="key">F2</span>
+          <span class="key">F3</span>
+          <span class="key">F4</span>
+          <span class="key pink-key">♥</span>
+          <span class="key">F5</span>
+          <span class="key">F6</span>
+        </div>
+        <div class="keyboard-row">
+          <span class="key">~</span>
+          <span class="key">1</span>
+          <span class="key">2</span>
+          <span class="key">3</span>
+          <span class="key">4</span>
+          <span class="key pattern-key">5</span>
+          <span class="key">6</span>
+          <span class="key">7</span>
+          <span class="key">8</span>
+          <span class="key delete-key">del</span>
+        </div>
+        <div class="keyboard-row">
+          <span class="key tab-key">tab</span>
+          <span class="key">Q</span>
+          <span class="key">W</span>
+          <span class="key">E</span>
+          <span class="key">R</span>
+          <span class="key">T</span>
+          <span class="key">Y</span>
+          <span class="key">U</span>
+          <span class="key">I</span>
+          <span class="key">O</span>
+        </div>
+        <div class="keyboard-row">
+          <span class="key caps-key">caps</span>
+          <span class="key">A</span>
+          <span class="key love-key" title="I Love ML">I ♥ ML</span>
+          <span class="key">D</span>
+          <span class="key">F</span>
+          <span class="key">G</span>
+          <span class="key">H</span>
+          <span class="key">J</span>
+          <span class="key">K</span>
+          <span class="key enter-key">return</span>
+        </div>
+        <div class="keyboard-row bottom-row">
+          <span class="key ctrl-key">ctrl</span>
+          <span class="key opt-key">alt</span>
+          <span class="key cmd-key">cmd</span>
+          <span class="key space-key pattern-strip" title="Space"></span>
+          <span class="key cmd-key">cmd</span>
+          <span class="key opt-key">alt</span>
+        </div>
+      </div>
+      <div class="keyboard-sticker-badge">AI / ML DEV</div>
+    </div>
+
+    <!-- DESK ACCESSORY: Top-Right Polka-dot Washi Tape & Pins -->
+    <div class="desk-item washi-tape-strip" aria-hidden="true"></div>
+    <div class="desk-item push-pin pin-gold" aria-hidden="true"></div>
+
+    <!-- DESK ACCESSORY: Bottom-Left Newspaper & Coffee Mug -->
+    <div class="desk-item news-and-coffee-cluster" id="coffeeCluster">
+      <!-- Folded Newspaper -->
+      <div class="folded-newspaper" title="SIT Nagpur AI Gazette">
+        <div class="newspaper-header">
+          <span class="news-logo">AI & TECH CHRONICLE</span>
+          <span class="news-date">October 2026 • SIT Nagpur</span>
+        </div>
+        <div class="newspaper-headline">Third-Year Engineer Drives Explainable AI & Healthcare Predictive Breakthroughs
+        </div>
+        <div class="newspaper-columns">
+          <p>Symbiosis Institute of Technology student Sampada Bandre pioneers interpretable ML frameworks and voice
+            acoustic detection...</p>
+        </div>
+      </div>
+
+      <!-- Ceramic Coffee Mug with Latte Art -->
+      <div class="coffee-cup" id="coffeeCup" title="Click for a fresh sip of inspiration!">
+        <div class="cup-rim">
+          <div class="coffee-liquid">
+            <div class="latte-art">
+              <span class="heart-foam"></span>
+            </div>
+          </div>
+        </div>
+        <div class="cup-handle"></div>
+        <div class="steam-container" id="steamContainer">
+          <svg class="steam-svg" viewBox="0 0 70 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <!-- Light mode warm café steam gradient -->
+              <linearGradient id="steamGradLight" x1="0" y1="100" x2="0" y2="0" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#7c5339" stop-opacity="0" />
+                <stop offset="20%" stop-color="#6e462d" stop-opacity="0.45" />
+                <stop offset="50%" stop-color="#a47d63" stop-opacity="0.55" />
+                <stop offset="80%" stop-color="#dfcfc4" stop-opacity="0.38" />
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+              </linearGradient>
+              <!-- Night mode ethereal vapor gradient -->
+              <linearGradient id="steamGradNight" x1="0" y1="100" x2="0" y2="0" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0" />
+                <stop offset="20%" stop-color="#fdfbf7" stop-opacity="0.75" />
+                <stop offset="60%" stop-color="#ffffff" stop-opacity="0.5" />
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+              </linearGradient>
+              <filter id="steamSoftBlur" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="2.2" />
+              </filter>
+            </defs>
+            <!-- 3 Natural S-Curving Vapor Trails -->
+            <path class="steam-wisp wisp-1" d="M26,90 C18,70 34,50 22,20 C18,8 24,2 26,0" />
+            <path class="steam-wisp wisp-2" d="M35,92 C46,68 22,42 38,18 C44,7 36,1 34,0" />
+            <path class="steam-wisp wisp-3" d="M44,90 C36,68 50,46 38,22 C32,10 40,2 42,0" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESK ACCESSORY: Bottom-Right Tortoiseshell Eyeglasses -->
+    <div class="desk-item designer-glasses" id="glassesElement" title="Click glasses for Focus Mode!">
+      <div class="glasses-frame">
+        <div class="lens left-lens">
+          <div class="lens-glare"></div>
+        </div>
+        <div class="bridge"></div>
+        <div class="lens right-lens">
+          <div class="lens-glare"></div>
+        </div>
+        <div class="temple left-temple"></div>
+        <div class="temple right-temple"></div>
+      </div>
+    </div>
+
+    <!-- CENTRAL HERO DOSSIER: Manila Folder -->
+    <div class="portfolio-dossier" id="portfolioDossier">
+
+      <!-- Dossier Top Header Area (Hosts sticky note, central title badge, and paperclipped ID card above the tabs) -->
+      <div class="dossier-top-band">
+        <!-- Sticky Note with handwritten message (Like reference photo) -->
+        <div class="sticky-note" id="stickyGreeting" title="Personal note from Sampada">
+          <div class="tape-strip"></div>
+          <div class="sticky-hint-pill">
+            <i class="fa-solid fa-note-sticky"></i> Note from Sampada
+          </div>
+          <div class="sticky-text">
+            <span class="sticky-salutation">dear recruiter & team,</span>
+            <p>Thanks in advance for stopping by! Explore my projects, publications & credentials below to unlock my
+              full engineering potential!</p>
+            <span class="sticky-sign">— Sampada ★</span>
+          </div>
+        </div>
+
+        <!-- Dossier Center Branding Banner -->
+        <div class="dossier-cover-brand" id="dossierCoverBrand" title="Sampada Bandre Portfolio Dossier">
+          <span class="dossier-stars">
+            <span class="star-item">★</span>
+            <span class="star-item">★</span>
+            <span class="star-item">★</span>
+          </span>
+          <h2 class="dossier-cover-title" id="dossierCoverTitle">
+            <span class="typing-text" id="brandTypingText">Sampada's Portfolio</span><span class="typing-cursor" id="brandTypingCursor">|</span>
+          </h2>
+          <span class="dossier-year-badge">B.Tech CSE (AI & ML) • Class of 2028</span>
+        </div>
+
+        <!-- Paperclip & ID Badge (Attached to top of folder like in reference photo) -->
+        <div class="attached-id-badge" id="studentIdBadge" title="Click to flip ID badge!">
+          <div class="paperclip-graphic"></div>
+
+          <!-- Floating interactive hint pill -->
+          <div class="id-flip-pill" id="idFlipPill">
+            <i class="fa-solid fa-arrows-rotate"></i> Click to Flip ID
+          </div>
+
+          <div class="id-card-inner" id="idCardInner">
+            <!-- FRONT SIDE -->
+            <div class="id-card-front">
+              <div class="id-header">
+                <span class="id-org">SYMBIOSIS INSTITUTE OF TECH</span>
+                <span class="id-chip"><i class="fa-solid fa-microchip"></i></span>
+              </div>
+              <div class="id-body">
+                <div class="id-photo-frame">
+                  <img src="assets/profile_id.png" alt="Sampada Bandre" class="id-photo" loading="eager">
+                </div>
+                <div class="id-info">
+                  <h3 class="id-name">Sampada Bandre</h3>
+                  <p class="id-role">AI & ML Engineer</p>
+                  <p class="id-spec">B.Tech CSE | SIT Nagpur</p>
+                  <div class="id-cgpa-tag">CGPA: 8.14 / 10</div>
+                </div>
+              </div>
+              <div class="id-barcode">|||| | ||||| || |||||| | |||</div>
+              <div class="id-card-tap-hint">
+                <i class="fa-solid fa-rotate"></i> Tap to view reverse
+              </div>
+            </div>
+
+            <!-- BACK SIDE: A Mind That Makes Things -->
+            <div class="id-card-back build-card-back">
+              <div class="build-header">
+                <h4 class="build-main-title">A mind that makes things</h4>
+              </div>
+
+              <div class="build-list">
+                <div class="build-item">
+                  <h5 class="build-item-title">I experiment</h5>
+                  <p class="build-item-desc">Testing ideas, exploring models, learning by building.</p>
+                </div>
+
+                <div class="build-item">
+                  <h5 class="build-item-title">I connect</h5>
+                  <p class="build-item-desc">Bringing data, intelligence, and technology together.</p>
+                </div>
+
+                <div class="build-item">
+                  <h5 class="build-item-title">I create</h5>
+                  <p class="build-item-desc">Turning rough concepts into working projects.</p>
+                </div>
+              </div>
+
+              <div class="build-tagline">
+                Not just learning technology. Making something with it.
+              </div>
+
+              <div class="id-card-tap-hint back-hint">
+                <i class="fa-solid fa-rotate"></i> Tap to view photo ID
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dossier Manila Folder Tabs Header (Continuous Smooth Marquee Ribbon) -->
+      <div class="dossier-tab-row" id="dossierTabs" role="tablist" title="Hover over menu bar to pause">
+        <div class="dossier-tab-track" id="dossierTabTrack">
+          <!-- GROUP 1: Primary Tabs -->
+          <div class="dossier-tab-group">
+            <button class="dossier-tab active" data-target="section-about" role="tab" aria-selected="true">
+              <i class="fa-solid fa-user-astronaut"></i>
+              <span>About Me</span>
+            </button>
+            <button class="dossier-tab" data-target="section-education" role="tab" aria-selected="false">
+              <i class="fa-solid fa-graduation-cap"></i>
+              <span>Education</span>
+            </button>
+            <button class="dossier-tab" data-target="section-skills" role="tab" aria-selected="false">
+              <i class="fa-solid fa-laptop-code"></i>
+              <span>Skills</span>
+            </button>
+            <button class="dossier-tab" data-target="section-experience" role="tab" aria-selected="false">
+              <i class="fa-solid fa-briefcase"></i>
+              <span>Experience</span>
+            </button>
+            <button class="dossier-tab" data-target="section-projects" role="tab" aria-selected="false">
+              <i class="fa-solid fa-rocket"></i>
+              <span>Projects</span>
+            </button>
+            <button class="dossier-tab" data-target="section-patent" role="tab" aria-selected="false">
+              <i class="fa-solid fa-stamp"></i>
+              <span>Patent (Govt of India)</span>
+            </button>
+            <button class="dossier-tab" data-target="section-achievements" role="tab" aria-selected="false">
+              <i class="fa-solid fa-trophy"></i>
+              <span>Achievements</span>
+            </button>
+            <button class="dossier-tab" data-target="section-certificates" role="tab" aria-selected="false">
+              <i class="fa-solid fa-certificate"></i>
+              <span>Certificates</span>
+            </button>
+            <button class="dossier-tab" data-target="section-gallery" role="tab" aria-selected="false">
+              <i class="fa-solid fa-images"></i>
+              <span>Gallery</span>
+            </button>
+            <button class="dossier-tab" data-target="section-contact" role="tab" aria-selected="false">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>Contact</span>
+            </button>
+          </div>
+
+          <!-- GROUP 2: Seamless Infinite Loop Clones -->
+          <div class="dossier-tab-group" aria-hidden="true">
+            <button class="dossier-tab" data-target="section-about" role="tab" aria-selected="false" tabindex="-1">
+              <i class="fa-solid fa-user-astronaut"></i>
+              <span>About Me</span>
+            </button>
+            <button class="dossier-tab" data-target="section-education" role="tab" aria-selected="false" tabindex="-1">
+              <i class="fa-solid fa-graduation-cap"></i>
+              <span>Education</span>
+            </button>
+            <button class="dossier-tab" data-target="section-skills" role="tab" aria-selected="false" tabindex="-1">
+              <i class="fa-solid fa-laptop-code"></i>
+              <span>Skills</span>
+            </button>
+            <button class="dossier-tab" data-target="section-experience" role="tab" aria-selected="false" tabindex="-1">
+              <i class="fa-solid fa-briefcase"></i>
+              <span>Experience</span>
+            </button>
+            <button class="dossier-tab" data-target="section-projects" role="tab" aria-selected="false" tabindex="-1">
+              <i class="fa-solid fa-rocket"></i>
+              <span>Projects</span>
+            </button>
+            <button class="dossier-tab" data-target="section-patent" role="tab" aria-selected="false" tabindex="-1">
+              <i class="fa-solid fa-stamp"></i>
+              <span>Patent (Govt of India)</span>
+            </button>
+            <button class="dossier-tab" data-target="section-achievements" role="tab" aria-selected="false" tabindex="-1">
+              <i class="fa-solid fa-trophy"></i>
+              <span>Achievements</span>
+            </button>
+            <button class="dossier-tab" data-target="section-certificates" role="tab" aria-selected="false" tabindex="-1">
+              <i class="fa-solid fa-certificate"></i>
+              <span>Certificates</span>
+            </button>
+            <button class="dossier-tab" data-target="section-gallery" role="tab" aria-selected="false" tabindex="-1">
+              <i class="fa-solid fa-images"></i>
+              <span>Gallery</span>
+            </button>
+            <button class="dossier-tab" data-target="section-contact" role="tab" aria-selected="false" tabindex="-1">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>Contact</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- DOSSIER FOLDER COVER & INTERNAL CONTENT -->
+      <div class="dossier-folder-body">
+
+        <!-- ==============================================
+             SECTION 1: PERSONAL INTRODUCTION / ABOUT ME
+             ============================================== -->
+        <section id="section-about" class="dossier-section active" role="tabpanel">
+          <div class="section-badge-header">
+            <span class="folder-doc-label">DOCUMENT NO. SB-2026/01</span>
+            <span class="folder-doc-cat">PROFILE DOSSIER</span>
+          </div>
+
+          <div class="about-hero-grid">
+            <div class="about-intro-column">
+              <div class="dossier-title-group">
+                <span class="handwritten-tag">Hello world! I'm</span>
+                <h1 class="dossier-main-title">
+                  Sampada Bandre
+                </h1>
+                <p class="dossier-subtitle">
+                  AI & Machine Learning Undergraduate • Researcher • Club Coordinator
+                </p>
+              </div>
+
+              <div class="quick-bio-box">
+                <p>
+                  Third-year Computer Science Engineering student specializing in <strong>Artificial Intelligence &
+                    Machine Learning</strong> at <strong>Symbiosis Institute of Technology, Nagpur</strong> (CGPA:
+                  <strong>8.14 / 10</strong>).
+                </p>
+                <p>
+                  Passionate about engineering reliable ML workflows, <strong>Explainable AI (XAI)</strong> to make
+                  high-stakes healthcare models transparent, <strong>Generative AI & Autonomous Agent Systems</strong>,
+                  and backend data pipelines. Experienced in bridging software, deep learning, and student-led
+                  IoT/robotics activities.
+                </p>
+              </div>
+
+              <!-- Key Stat Highlights -->
+              <div class="stats-ribbon">
+                <div class="stat-card">
+                  <span class="stat-number">8.14</span>
+                  <span class="stat-label">Current CGPA (SIT Nagpur)</span>
+                </div>
+                <div class="stat-card featured-stat" onclick="switchSection('section-patent')" style="cursor: pointer;"
+                  title="Click to view Patent">
+                  <span class="stat-number" style="color: #991b1b;"><i class="fa-solid fa-stamp"></i> 1</span>
+                  <span class="stat-label">Published Patent (Govt of India)</span>
+                </div>
+                <div class="stat-card">
+                  <span class="stat-number">1</span>
+                  <span class="stat-label">IJCDS Research Paper (Cond. Accepted)</span>
+                </div>
+                <div class="stat-card">
+                  <span class="stat-number">8+</span>
+                  <span class="stat-label">Industry & Global Certifications</span>
+                </div>
+              </div>
+
+              <!-- Quick Action Links -->
+              <div class="about-cta-row">
+                <button class="cta-primary-btn" onclick="switchSection('section-projects')">
+                  <i class="fa-solid fa-diagram-project"></i> View Projects
+                </button>
+                <button class="cta-secondary-btn" onclick="switchSection('section-patent')">
+                  <i class="fa-solid fa-stamp"></i> Published Patent
+                </button>
+                <a href="assets/Sampada_Bandre_Resume.pdf" download="Sampada_Bandre_Resume.pdf"
+                  class="cta-secondary-btn">
+                  <i class="fa-solid fa-download"></i> Download Resume
+                </a>
+                <button class="cta-ghost-btn" onclick="switchSection('section-contact')">
+                  <i class="fa-solid fa-envelope"></i> Let's Connect
+                </button>
+              </div>
+            </div>
+
+            <!-- Profile Snapshot Card with Real Photo & Badges -->
+            <div class="about-visual-column">
+              <div class="profile-card-polaroid">
+                <div class="polaroid-pin">★</div>
+                <div class="polaroid-img-wrapper">
+                  <img src="assets/sampada_portrait.jpg" alt="Sampada Bandre Portrait" class="polaroid-img"
+                    loading="eager">
+                  <div class="polaroid-tag-overlay">SIT Nagpur AI/ML '28</div>
+                </div>
+                <div class="polaroid-caption">
+                  <h4>Sampada Bandre</h4>
+                  <p class="polaroid-desc">B.Tech CSE (AI & ML) • Smart Tech Club Coordinator</p>
+                  <div class="polaroid-links">
+                    <a href="https://github.com/Sampadabandre" target="_blank" rel="noopener" title="GitHub Profile"><i
+                        class="fa-brands fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/sampada-bandre-28257431a" target="_blank" rel="noopener"
+                      title="LinkedIn Profile"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="mailto:sampadabandre2@gmail.com" title="Direct Email"><i
+                        class="fa-solid fa-envelope"></i></a>
+                    <a href="tel:9284712889" title="Call Sampada"><i class="fa-solid fa-phone"></i></a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Career Interests Widget -->
+              <div class="interests-card">
+                <div class="interests-title"><i class="fa-solid fa-compass"></i> Core Engineering Interests</div>
+                <div class="interest-tags">
+                  <span class="int-tag"><i class="fa-solid fa-brain"></i> Explainable AI (SHAP, LIME)</span>
+                  <span class="int-tag"><i class="fa-solid fa-microchip"></i> AI Agents & LangGraph</span>
+                  <span class="int-tag"><i class="fa-solid fa-database"></i> RAG & LLM Engineering</span>
+                  <span class="int-tag"><i class="fa-solid fa-heart-pulse"></i> Healthcare ML Diagnostics</span>
+                  <span class="int-tag"><i class="fa-solid fa-server"></i> Backend Systems & APIs</span>
+                  <span class="int-tag"><i class="fa-solid fa-robot"></i> IoT, Robotics & Embedded Systems</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==============================================
+             SECTION 2: EDUCATIONAL DETAILS & MARKS
+             ============================================== -->
+        <section id="section-education" class="dossier-section" role="tabpanel">
+          <div class="section-badge-header">
+            <span class="folder-doc-label">DOCUMENT NO. SB-2026/02</span>
+            <span class="folder-doc-cat">ACADEMIC CREDENTIALS</span>
+          </div>
+
+          <div class="section-intro">
+            <h2 class="section-title"><i class="fa-solid fa-graduation-cap"></i> Educational Timeline & Academic
+              Performance</h2>
+            <p class="section-lead">Rigorous engineering foundation with specialized coursework in Artificial
+              Intelligence, Machine Learning, and Computational Systems.</p>
+          </div>
+
+          <!-- Academic Timeline -->
+          <div class="timeline-container">
+            <!-- SIT Nagpur -->
+            <div class="timeline-item featured">
+              <div class="timeline-marker"><i class="fa-solid fa-university"></i></div>
+              <div class="timeline-card">
+                <div class="timeline-card-header">
+                  <div>
+                    <span class="timeline-date">2023 — Present (Expected 2028)</span>
+                    <h3 class="timeline-title">B.Tech in Computer Science Engineering</h3>
+                    <h4 class="timeline-institution">Symbiosis Institute of Technology (SIT), Nagpur</h4>
+                    <p class="timeline-location"><i class="fa-solid fa-location-dot"></i> Nagpur, Maharashtra, India</p>
+                  </div>
+                  <div class="grade-badge">
+                    <span class="grade-score">8.14 / 10</span>
+                    <span class="grade-label">Cumulative GPA</span>
+                    <span class="grade-year">Third Year</span>
+                  </div>
+                </div>
+                <div class="timeline-body">
+                  <p><strong>Specialization:</strong> Artificial Intelligence & Machine Learning</p>
+                  <p>Engaged in advanced AI coursework, departmental research on neurodegenerative disease
+                    classification, hands-on IoT laboratory projects, and serving as Coordinator for the university
+                    Smart Tech Club.</p>
+                  <div class="coursework-box">
+                    <div class="coursework-title">Key Academic Coursework:</div>
+                    <div class="course-chips">
+                      <span class="chip">Data Structures & Algorithms</span>
+                      <span class="chip">Artificial Intelligence</span>
+                      <span class="chip">Machine Learning & Optimization</span>
+                      <span class="chip">Deep Learning</span>
+                      <span class="chip">Database Management Systems (SQL)</span>
+                      <span class="chip">Computer Networks</span>
+                      <span class="chip">Operating Systems</span>
+                      <span class="chip">Explainable AI & Counterfactuals</span>
+                      <span class="chip">Object-Oriented Programming (C, Python)</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Global Immersion Program: AIT Thailand -->
+            <div class="timeline-item">
+              <div class="timeline-marker"><i class="fa-solid fa-globe"></i></div>
+              <div class="timeline-card">
+                <div class="timeline-card-header">
+                  <div>
+                    <span class="timeline-date">2025</span>
+                    <h3 class="timeline-title">Global Immersion Academic Program</h3>
+                    <h4 class="timeline-institution">Asian Institute of Technology (AIT), Thailand</h4>
+                    <p class="timeline-location"><i class="fa-solid fa-location-dot"></i> Pathum Thani, Thailand</p>
+                  </div>
+                  <div class="grade-badge international">
+                    <span class="grade-score"><i class="fa-solid fa-plane-departure"></i></span>
+                    <span class="grade-label">Global Exchange</span>
+                  </div>
+                </div>
+                <div class="timeline-body">
+                  <p>Completed intensive global immersion training exposing students to international technological
+                    innovation paradigms, cross-cultural engineering problem solving, and modern smart system
+                    implementations.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Data Science Summer School -->
+            <div class="timeline-item">
+              <div class="timeline-marker"><i class="fa-solid fa-code"></i></div>
+              <div class="timeline-card">
+                <div class="timeline-card-header">
+                  <div>
+                    <span class="timeline-date">2025</span>
+                    <h3 class="timeline-title">Data Science Summer School</h3>
+                    <h4 class="timeline-institution">Advanced Statistical & Machine Learning Intensive</h4>
+                  </div>
+                  <div class="grade-badge summer">
+                    <span class="grade-score">Completed</span>
+                    <span class="grade-label">Certification</span>
+                  </div>
+                </div>
+                <div class="timeline-body">
+                  <p>Focused on exploratory data analysis (EDA), statistical inference, predictive modeling algorithms,
+                    and feature normalization strategies.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==============================================
+             SECTION 3: TECHNICAL SKILLS
+             ============================================== -->
+        <section id="section-skills" class="dossier-section" role="tabpanel">
+          <div class="section-badge-header">
+            <span class="folder-doc-label">DOCUMENT NO. SB-2026/03</span>
+            <span class="folder-doc-cat">TECHNICAL CAPABILITIES</span>
+          </div>
+
+          <div class="section-intro">
+            <h2 class="section-title"><i class="fa-solid fa-laptop-code"></i> Technical Skills & Competencies</h2>
+            <p class="section-lead">A comprehensive toolkit spanning predictive modeling, modern Generative AI
+              orchestrations, full-stack tools, and hardware prototyping.</p>
+          </div>
+
+          <!-- Skills Filter Tabs -->
+          <div class="skill-category-filters">
+            <button class="skill-filter-btn active" data-filter="all">All Skills</button>
+            <button class="skill-filter-btn" data-filter="aiml">AI / ML & Explainability</button>
+            <button class="skill-filter-btn" data-filter="genai">Generative AI & Agents</button>
+            <button class="skill-filter-btn" data-filter="programming">Programming Languages</button>
+            <button class="skill-filter-btn" data-filter="tools">Tools, Web & Data</button>
+          </div>
+
+          <!-- Skills Grid -->
+          <div class="skills-card-grid">
+
+            <!-- Card 1: Machine Learning & XAI -->
+            <div class="skill-group-card" data-category="aiml">
+              <div class="skill-group-header">
+                <div class="skill-icon-box bg-purple"><i class="fa-solid fa-brain"></i></div>
+                <div>
+                  <h3 class="skill-group-title">AI & Machine Learning</h3>
+                  <p class="skill-group-desc">Predictive pipelines, validation & interpretability</p>
+                </div>
+              </div>
+              <div class="skill-items-list">
+                <div class="skill-bar-row">
+                  <div class="skill-meta"><span>Machine Learning & Preprocessing</span><span class="percent">90%</span>
+                  </div>
+                  <div class="progress-track">
+                    <div class="progress-fill" style="width: 90%;"></div>
+                  </div>
+                </div>
+                <div class="skill-bar-row">
+                  <div class="skill-meta"><span>Feature Engineering & Evaluation</span><span class="percent">88%</span>
+                  </div>
+                  <div class="progress-track">
+                    <div class="progress-fill" style="width: 88%;"></div>
+                  </div>
+                </div>
+                <div class="skill-bar-row">
+                  <div class="skill-meta"><span>Explainable AI (SHAP, LIME, Counterfactuals)</span><span
+                      class="percent">85%</span></div>
+                  <div class="progress-track">
+                    <div class="progress-fill" style="width: 85%;"></div>
+                  </div>
+                </div>
+                <div class="skill-bar-row">
+                  <div class="skill-meta"><span>Scikit-Learn, XGBoost, Random Forest</span><span
+                      class="percent">92%</span></div>
+                  <div class="progress-track">
+                    <div class="progress-fill" style="width: 92%;"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="skill-pills">
+                <span>Model Tuning</span>
+                <span>Cross Validation</span>
+                <span>ROC / AUC</span>
+                <span>Hyperparameter Optimization</span>
+              </div>
+            </div>
+
+            <!-- Card 2: Generative AI & Autonomous Agents -->
+            <div class="skill-group-card" data-category="genai">
+              <div class="skill-group-header">
+                <div class="skill-icon-box bg-pink"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <div>
+                  <h3 class="skill-group-title">Generative AI & Agentic AI</h3>
+                  <p class="skill-group-desc">LLM orchestration, RAG & agent workflows</p>
+                </div>
+              </div>
+              <div class="skill-items-list">
+                <div class="skill-bar-row">
+                  <div class="skill-meta"><span>LLMs & Prompt Engineering</span><span class="percent">88%</span></div>
+                  <div class="progress-track">
+                    <div class="progress-fill" style="width: 88%;"></div>
+                  </div>
+                </div>
+                <div class="skill-bar-row">
+                  <div class="skill-meta"><span>Retrieval-Augmented Generation (RAG)</span><span
+                      class="percent">85%</span></div>
+                  <div class="progress-track">
+                    <div class="progress-fill" style="width: 85%;"></div>
+                  </div>
+                </div>
+                <div class="skill-bar-row">
+                  <div class="skill-meta"><span>LangChain & LangGraph Frameworks</span><span class="percent">82%</span>
+                  </div>
+                  <div class="progress-track">
+                    <div class="progress-fill" style="width: 82%;"></div>
+                  </div>
+                </div>
+                <div class="skill-bar-row">
+                  <div class="skill-meta"><span>AI Agents & Multi-Agent Collaboration</span><span
+                      class="percent">80%</span></div>
+                  <div class="progress-track">
+                    <div class="progress-fill" style="width: 80%;"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="skill-pills">
+                <span>IBM SkillsBuild Certified</span>
+                <span>Hugging Face</span>
+                <span>Embeddings</span>
+                <span>Vector Retrieval</span>
+              </div>
+            </div>
+
+            <!-- Card 3: Programming Languages -->
+            <div class="skill-group-card" data-category="programming">
+              <div class="skill-group-header">
+                <div class="skill-icon-box bg-blue"><i class="fa-solid fa-code"></i></div>
+                <div>
+                  <h3 class="skill-group-title">Programming Languages</h3>
+                  <p class="skill-group-desc">Core algorithmic & software development</p>
+                </div>
+              </div>
+              <div class="skill-items-list">
+                <div class="skill-bar-row">
+                  <div class="skill-meta"><span>Python (Red Hat & Infosys Certified)</span><span
+                      class="percent">95%</span></div>
+                  <div class="progress-track">
+                    <div class="progress-fill" style="width: 95%;"></div>
+                  </div>
+                </div>
+                <div class="skill-bar-row">
+                  <div class="skill-meta"><span>C Language</span><span class="percent">82%</span></div>
+                  <div class="progress-track">
+                    <div class="progress-fill" style="width: 82%;"></div>
+                  </div>
+                </div>
+                <div class="skill-bar-row">
+                  <div class="skill-meta"><span>JavaScript (ES6+)</span><span class="percent">80%</span></div>
+                  <div class="progress-track">
+                    <div class="progress-fill" style="width: 80%;"></div>
+                  </div>
+                </div>
+                <div class="skill-bar-row">
+                  <div class="skill-meta"><span>HTML5 & CSS3</span><span class="percent">90%</span></div>
+                  <div class="progress-track">
+                    <div class="progress-fill" style="width: 90%;"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="skill-pills">
+                <span>OOP</span>
+                <span>Data Structures</span>
+                <span>Algorithms</span>
+                <span>Async Programming</span>
+              </div>
+            </div>
+
+            <!-- Card 4: Tools, Web & Data -->
+            <div class="skill-group-card" data-category="tools">
+              <div class="skill-group-header">
+                <div class="skill-icon-box bg-emerald"><i class="fa-solid fa-database"></i></div>
+                <div>
+                  <h3 class="skill-group-title">Web, Data & Engineering Tools</h3>
+                  <p class="skill-group-desc">End-to-end tooling, visualization & data store</p>
+                </div>
+              </div>
+              <div class="skill-items-list">
+                <div class="skill-bar-row">
+                  <div class="skill-meta"><span>Pandas, NumPy, Matplotlib, Seaborn</span><span
+                      class="percent">90%</span></div>
+                  <div class="progress-track">
+                    <div class="progress-fill" style="width: 90%;"></div>
+                  </div>
+                </div>
+                <div class="skill-bar-row">
+                  <div class="skill-meta"><span>Git & GitHub Version Control</span><span class="percent">88%</span>
+                  </div>
+                  <div class="progress-track">
+                    <div class="progress-fill" style="width: 88%;"></div>
+                  </div>
+                </div>
+                <div class="skill-bar-row">
+                  <div class="skill-meta"><span>SQL & Relational Databases</span><span class="percent">82%</span></div>
+                  <div class="progress-track">
+                    <div class="progress-fill" style="width: 82%;"></div>
+                  </div>
+                </div>
+                <div class="skill-bar-row">
+                  <div class="skill-meta"><span>Node.js, REST APIs, Gradio</span><span class="percent">80%</span></div>
+                  <div class="progress-track">
+                    <div class="progress-fill" style="width: 80%;"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="skill-pills">
+                <span>VS Code</span>
+                <span>Jupyter Notebook</span>
+                <span>Google Colab</span>
+                <span>MongoDB (Familiarity)</span>
+                <span>Arduino IDE</span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==============================================
+             SECTION 4: PROFESSIONAL EXPERIENCE / INTERNSHIP
+             ============================================== -->
+        <section id="section-experience" class="dossier-section" role="tabpanel">
+          <div class="section-badge-header">
+            <span class="folder-doc-label">DOCUMENT NO. SB-2026/04</span>
+            <span class="folder-doc-cat">PROFESSIONAL EXPERIENCE</span>
+          </div>
+
+          <div class="section-intro">
+            <h2 class="section-title"><i class="fa-solid fa-briefcase"></i> Work Experience & Industrial Internship</h2>
+            <p class="section-lead">Hands-on industry experience delivering machine learning models, validating
+              architectures, and optimizing statistical metrics.</p>
+          </div>
+
+          <div class="experience-card featured">
+            <div class="exp-badge-corner">Verified Internship</div>
+            <div class="exp-header-row">
+              <div class="exp-logo-box">
+                <i class="fa-solid fa-microchip"></i>
+              </div>
+              <div class="exp-title-meta">
+                <h3 class="exp-role">AI & ML Intern</h3>
+                <h4 class="exp-company">Main Crafts Technology</h4>
+                <div class="exp-tags">
+                  <span class="exp-pill"><i class="fa-solid fa-calendar"></i> Professional Internship</span>
+                  <span class="exp-pill"><i class="fa-solid fa-location-dot"></i> Hybrid</span>
+                  <span class="exp-pill domain"><i class="fa-solid fa-code-branch"></i> Applied Machine Learning</span>
+                </div>
+              </div>
+              <div class="exp-cert-cta">
+                <a href="https://github.com/Sampadabandre/AIML_internship_Maincrafts" target="_blank" rel="noopener"
+                  class="cert-open-btn github-btn" title="View Internship Codebase on GitHub">
+                  <i class="fa-brands fa-github"></i> Internship Code
+                </a>
+                <button class="cert-open-btn"
+                  onclick="openCertModal('assets/cert_maincrafts_internship.jpg', 'Main Crafts Technology — AI & ML Internship Certificate', 'Official certificate of internship completion recognizing practical ML development and validation work.')">
+                  <i class="fa-solid fa-eye"></i> View Certificate
+                </button>
+              </div>
+            </div>
+
+            <div class="exp-details-body">
+              <h5 class="details-heading">Core Responsibilities & Technical Deliverables:</h5>
+              <ul class="exp-bullet-list">
+                <li>
+                  <i class="fa-solid fa-check-circle"></i>
+                  <span><strong>End-to-End ML Pipeline Engineering:</strong> Executed end-to-end data preparation,
+                    outlier mitigation, missing value imputation, and automated feature transformation for
+                    production-like datasets.</span>
+                </li>
+                <li>
+                  <i class="fa-solid fa-check-circle"></i>
+                  <span><strong>Regression & Classification Workflows:</strong> Built, evaluated, and tuned diverse
+                    supervised learning algorithms including Random Forest, Gradient Boosting, Support Vector Machines,
+                    and ensemble architectures.</span>
+                </li>
+                <li>
+                  <i class="fa-solid fa-check-circle"></i>
+                  <span><strong>Rigorous Metrics Optimization:</strong> Conducted fine-grained hyperparameter tuning
+                    using Grid Search and Randomized Search CV, optimizing model performance on MAE, RMSE, R²,
+                    Precision, Recall, and F1-Score.</span>
+                </li>
+                <li>
+                  <i class="fa-solid fa-check-circle"></i>
+                  <span><strong>Model Benchmarking & Comparison:</strong> Documented comprehensive validation reports
+                    comparing baseline estimators against tuned pipelines, evaluating generalization across k-fold
+                    cross-validation splits.</span>
+                </li>
+              </ul>
+
+              <div class="exp-tech-stack">
+                <span class="stack-title">Technologies Used:</span>
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Scikit-learn</span>
+                <span class="tech-tag">Pandas</span>
+                <span class="tech-tag">NumPy</span>
+                <span class="tech-tag">Hyperparameter Tuning</span>
+                <span class="tech-tag">Cross-Validation</span>
+                <span class="tech-tag">Model Benchmarking</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==============================================
+             SECTION 5: PROJECTS
+             ============================================== -->
+        <section id="section-projects" class="dossier-section" role="tabpanel">
+          <div class="section-badge-header">
+            <span class="folder-doc-label">DOCUMENT NO. SB-2026/05</span>
+            <span class="folder-doc-cat">PORTFOLIO PROJECTS</span>
+          </div>
+
+          <div class="section-intro">
+            <h2 class="section-title"><i class="fa-solid fa-rocket"></i> Featured Projects & Research Implementations
+            </h2>
+            <p class="section-lead">Innovative software engineering projects combining Explainable AI, healthcare
+              analytics, multimodal climate ensembles, and computer vision.</p>
+          </div>
+
+          <!-- Project Cards Grid -->
+          <div class="projects-grid">
+
+            <!-- Project 1: Explainable AI Stroke Platform -->
+            <div class="project-card featured-project">
+              <div class="project-top-strip">
+                <span class="project-badge highlight"><i class="fa-solid fa-star"></i> Flagship Project</span>
+                <span class="project-domain">Healthcare & Explainable AI</span>
+              </div>
+              <div class="project-card-content">
+                <h3 class="project-title">Explainable AI-Driven Stroke Risk Assessment Platform</h3>
+                <p class="project-desc">
+                  A high-sensitivity machine learning platform designed to assess stroke risk probabilities while
+                  de-mystifying black-box predictions through interpretability frameworks.
+                </p>
+                <div class="project-feature-list">
+                  <div class="feature-item"><i class="fa-solid fa-brain"></i> Feature importance scoring to identify
+                    patient-specific critical risk biomarkers.</div>
+                  <div class="feature-item"><i class="fa-solid fa-shuffle"></i> <strong>Counterfactual-style
+                      recommendations:</strong> Generates actionable guidance demonstrating how specific biometric
+                    modifications (e.g. blood pressure, glucose) reduce predicted risk.</div>
+                  <div class="feature-item"><i class="fa-solid fa-shield-halved"></i> Clinically intuitive dashboard
+                    with interactive risk simulations.</div>
+                </div>
+                <div class="project-tags">
+                  <span>Python</span>
+                  <span>Explainable AI (XAI)</span>
+                  <span>Counterfactuals</span>
+                  <span>Scikit-learn</span>
+                  <span>Gradio</span>
+                  <span>Pandas</span>
+                </div>
+                <div class="project-card-footer">
+                  <a href="https://github.com/Sampadabandre" target="_blank" rel="noopener"
+                    class="proj-link-btn primary">
+                    <i class="fa-brands fa-github"></i> Repository
+                  </a>
+                  <button class="proj-link-btn secondary" onclick="openProjectDetail('stroke')">
+                    <i class="fa-solid fa-circle-info"></i> Project Details
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 2: Parkinson's Disease Prediction -->
+            <div class="project-card publication-project">
+              <div class="project-top-strip">
+                <span class="project-badge paper-badge"><i class="fa-solid fa-book-bookmark"></i> IJCDS Journal Cond.
+                  Accepted</span>
+                <span class="project-domain">Acoustic Biomarkers & ML</span>
+              </div>
+              <div class="project-card-content">
+                <h3 class="project-title">Parkinson’s Disease Prediction via Voice-Feature ML</h3>
+                <p class="project-desc">
+                  Machine learning model utilizing multi-dimensional vocal phonation acoustic features (jitter, shimmer,
+                  fundamental vocal frequencies) to detect early-stage Parkinson’s disease non-invasively.
+                </p>
+                <div class="project-feature-list">
+                  <div class="feature-item"><i class="fa-solid fa-microphone-lines"></i> Trained on acoustic vocal data
+                    with specialized signal preprocessing.</div>
+                  <div class="feature-item"><i class="fa-solid fa-award"></i> <strong>Academic Publication:</strong>
+                    Research paper conditionally accepted for publication in the prestigious <em>International Journal
+                      of Computing and Digital Systems (IJCDS)</em>.</div>
+                  <div class="feature-item"><i class="fa-solid fa-chart-line"></i> Rigorous classification validation
+                    with high precision & sensitivity.</div>
+                </div>
+                <div class="project-tags">
+                  <span>Machine Learning</span>
+                  <span>Acoustic Signal Data</span>
+                  <span>Scikit-learn</span>
+                  <span>Research Paper</span>
+                  <span>Streamlit</span>
+                </div>
+                <div class="project-card-footer">
+                  <a href="https://github.com/Sampadabandre/parkinsons-voice-detector" target="_blank" rel="noopener"
+                    class="proj-link-btn primary">
+                    <i class="fa-brands fa-github"></i> Repository
+                  </a>
+                  <button class="proj-link-btn secondary" onclick="openProjectDetail('parkinsons')">
+                    <i class="fa-solid fa-circle-info"></i> Read Abstract
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 3: Hybrid Climate Forecasting Ensemble -->
+            <div class="project-card">
+              <div class="project-media-thumb">
+                <img src="assets/project_climate.png"
+                  alt="Hybrid Climate Forecasting Presentation and Model Comparison Chart" loading="lazy">
+              </div>
+              <div class="project-card-content">
+                <div class="project-top-strip">
+                  <span class="project-badge"><i class="fa-solid fa-cloud-sun-rain"></i> Predictive Analytics</span>
+                </div>
+                <h3 class="project-title">Hybrid Climate Forecasting Ensemble Architecture</h3>
+                <p class="project-desc">
+                  A multi-model predictive framework fusing atmospheric climate datasets, regression ensembles, and
+                  time-series feature representations for high-precision environmental temperature and anomaly
+                  forecasting.
+                </p>
+                <div class="project-tags">
+                  <span>Ensemble Models</span>
+                  <span>Python</span>
+                  <span>Model Benchmarking</span>
+                  <span>Matplotlib</span>
+                </div>
+                <div class="project-card-footer">
+                  <a href="https://github.com/Sampadabandre/Hybrid-Climate-Forecasting" target="_blank" rel="noopener"
+                    class="proj-link-btn primary">
+                    <i class="fa-brands fa-github"></i> Repository
+                  </a>
+                  <button class="proj-link-btn secondary" onclick="openProjectDetail('climate')">
+                    <i class="fa-solid fa-magnifying-glass-plus"></i> View Metrics
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 4: ForensicAI -->
+            <div class="project-card">
+              <div class="project-media-thumb">
+                <img src="assets/project_forensic.jpeg" alt="ForensicAI Detection Output" loading="lazy">
+              </div>
+              <div class="project-card-content">
+                <div class="project-top-strip">
+                  <span class="project-badge"><i class="fa-solid fa-fingerprint"></i> Computer Vision</span>
+                </div>
+                <h3 class="project-title">ForensicAI: Automated Image Forensic Analysis</h3>
+                <p class="project-desc">
+                  Computer vision and deep learning pipeline built in Google Colab for inspecting digital artifacts,
+                  image manipulation evidence, and noise inconsistency localization.
+                </p>
+                <div class="project-tags">
+                  <span>Computer Vision</span>
+                  <span>Google Colab</span>
+                  <span>Image Forensics</span>
+                  <span>OpenCV</span>
+                </div>
+                <div class="project-card-footer">
+                  <a href="https://github.com/Sampadabandre/ForensicAi" target="_blank" rel="noopener"
+                    class="proj-link-btn primary">
+                    <i class="fa-brands fa-github"></i> Repository
+                  </a>
+                  <button class="proj-link-btn secondary" onclick="openProjectDetail('forensic')">
+                    <i class="fa-solid fa-circle-info"></i> Pipeline Info
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 5: Intelligent Vacation Planning Assistant -->
+            <div class="project-card">
+              <div class="project-card-content">
+                <div class="project-top-strip">
+                  <span class="project-badge highlight"><i class="fa-solid fa-wand-magic-sparkles"></i> Generative AI
+                    Agent</span>
+                  <span class="project-domain">Groq & LLMs</span>
+                </div>
+                <h3 class="project-title">Intelligent Vacation Planning Assistant</h3>
+                <p class="project-desc">
+                  AI-powered autonomous vacation planning assistant using Python, Gradio, and Groq LLM API. Generates
+                  customized multi-day itineraries, cultural points of interest, budget recommendations, and real-time
+                  travel advice from natural language prompts.
+                </p>
+                <div class="project-tags">
+                  <span>Python</span>
+                  <span>Gradio</span>
+                  <span>Groq LLM</span>
+                  <span>AI Agents</span>
+                  <span>Prompt Engineering</span>
+                </div>
+                <div class="project-card-footer">
+                  <a href="https://github.com/Sampadabandre/Intelligent-Vacation-Planning-Assistant" target="_blank"
+                    rel="noopener" class="proj-link-btn primary">
+                    <i class="fa-brands fa-github"></i> Repository
+                  </a>
+                  <button class="proj-link-btn secondary" onclick="openProjectDetail('vacation')">
+                    <i class="fa-solid fa-circle-info"></i> Project Details
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 6: JavaScript Mini Projects & Lab Suite -->
+            <div class="project-card">
+              <div class="project-card-content">
+                <div class="project-top-strip">
+                  <span class="project-badge"><i class="fa-brands fa-js"></i> Web Applications</span>
+                  <span class="project-domain">Frontend Engineering</span>
+                </div>
+                <h3 class="project-title">JavaScript Mini Projects & Lab Development Suite</h3>
+                <p class="project-desc">
+                  A modular collection of interactive JavaScript applications and academic laboratory implementations,
+                  featuring weather telemetry dashboards, e-commerce cart calculation, dynamic to-do trackers, and DOM
+                  algorithmic manipulations.
+                </p>
+                <div class="project-tags">
+                  <span>JavaScript (ES6+)</span>
+                  <span>HTML5 & CSS3</span>
+                  <span>REST APIs</span>
+                  <span>DOM Manipulation</span>
+                </div>
+                <div class="project-card-footer">
+                  <a href="https://github.com/Sampadabandre/java_script_mini_projects" target="_blank" rel="noopener"
+                    class="proj-link-btn primary">
+                    <i class="fa-brands fa-github"></i> Mini Projects
+                  </a>
+                  <a href="https://github.com/Sampadabandre/Java_Script_lab" target="_blank" rel="noopener"
+                    class="proj-link-btn secondary">
+                    <i class="fa-brands fa-github"></i> Lab Code
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 7: Smart Tech IoT & Robotics Systems -->
+            <div class="project-card">
+              <div class="project-card-content">
+                <div class="project-top-strip">
+                  <span class="project-badge"><i class="fa-solid fa-robot"></i> Embedded & Hardware</span>
+                </div>
+                <h3 class="project-title">Smart Tech IoT & Robotics Hardware Systems</h3>
+                <p class="project-desc">
+                  Interactive microcontroller implementations involving Arduino programming, sensor interfaces, wireless
+                  protocols, and dynamic LED matrix controllers developed as part of Smart Tech Club initiatives.
+                </p>
+                <div class="project-tags">
+                  <span>Arduino</span>
+                  <span>IoT Sensors</span>
+                  <span>LED Matrices</span>
+                  <span>Robotics</span>
+                  <span>C++</span>
+                </div>
+                <div class="project-card-footer">
+                  <button class="proj-link-btn secondary" onclick="switchSection('section-gallery')">
+                    <i class="fa-solid fa-images"></i> See Workshop Photos
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==============================================
+             SECTION: PUBLISHED PATENT (GOVERNMENT OF INDIA)
+             ============================================== -->
+        <section id="section-patent" class="dossier-section" role="tabpanel">
+          <div class="section-badge-header">
+            <span class="folder-doc-label">OFFICIAL GAZETTE PUB NO. 38/2026 • PAGE 117339</span>
+            <span class="folder-doc-cat">GOVERNMENT PATENT PUBLICATION</span>
+          </div>
+
+          <div class="section-intro">
+            <div class="patent-flag-tag"><i class="fa-solid fa-scale-balanced"></i> PATENT OFFICE OF INDIA • OFFICIAL
+              PUBLICATION</div>
+            <h2 class="section-title"><i class="fa-solid fa-stamp"></i> Published Patent Application</h2>
+            <p class="section-lead">
+              Officially published in <em>The Patent Office Journal</em> (Issue No. 38/2026, Dated 18/09/2026) by the
+              Controller General of Patents, Designs & Trademarks, Government of India.
+            </p>
+          </div>
+
+          <!-- Main Patent Feature Card -->
+          <div class="patent-dossier-card">
+            <div class="patent-watermark-seal">PATENT PUBLISHED</div>
+
+            <!-- Patent Header Ribbon -->
+            <div class="patent-card-header">
+              <div class="patent-emblem-badge">
+                <i class="fa-solid fa-landmark"></i>
+              </div>
+              <div class="patent-header-text">
+                <span class="patent-gov-label">GOVERNMENT OF INDIA • THE PATENT OFFICE</span>
+                <h3 class="patent-app-num">Application No. 202621092295 A</h3>
+                <span class="patent-pub-date"><i class="fa-regular fa-calendar-check"></i> Published: 18th September
+                  2026 • Filing Date: 29th July 2026</span>
+              </div>
+              <div class="patent-status-stamp">
+                <span class="stamp-inner">OFFICIALLY PUBLISHED</span>
+              </div>
+            </div>
+
+            <!-- Patent Title -->
+            <div class="patent-title-box">
+              <span class="patent-title-prefix">(54) Title of the Invention:</span>
+              <h3 class="patent-invention-title">
+                FORENSIC FACIAL IMAGE GENERATION AND CRIMINAL IDENTIFICATION SYSTEM USING LATENT DIFFUSION MODELS
+              </h3>
+            </div>
+
+            <!-- Patent Core Metrics Ribbon -->
+            <div class="patent-metrics-row">
+              <div class="patent-metric">
+                <span class="metric-val highlight">48x</span>
+                <span class="metric-lbl">Computational Reduction over Pixel Diffusion</span>
+              </div>
+              <div class="patent-metric">
+                <span class="metric-val">Dual</span>
+                <span class="metric-lbl">Mugshot & Forensic Sketch Generation</span>
+              </div>
+              <div class="patent-metric">
+                <span class="metric-val">10</span>
+                <span class="metric-lbl">Granted Legal Claims</span>
+              </div>
+              <div class="patent-metric">
+                <span class="metric-val">27</span>
+                <span class="metric-lbl">Specification Pages</span>
+              </div>
+            </div>
+
+            <!-- Dual Columns: Technical Abstract & Document Preview -->
+            <div class="patent-body-grid">
+
+              <!-- Left Column: Technical Breakdown & Inventors -->
+              <div class="patent-info-column">
+                <div class="patent-section-block">
+                  <h4 class="patent-block-title"><i class="fa-solid fa-users"></i> Applicant & Inventors:</h4>
+                  <div class="applicant-info">
+                    <strong>Applicant:</strong> Symbiosis International (Deemed University), Pune, Maharashtra, India
+                  </div>
+                  <div class="inventors-list">
+                    <span class="inventor-chip mentor"><i class="fa-solid fa-chalkboard-user"></i> Prof. Riddhi Doshi
+                      (Faculty Guide)</span>
+                    <span class="inventor-chip primary"><i class="fa-solid fa-star"></i> <strong>Sampada Bandre</strong>
+                      (Inventor / AI Engineer)</span>
+                    <span class="inventor-chip"><i class="fa-solid fa-user-gear"></i> Arpita Waghmare
+                      (Co-Inventor)</span>
+                    <span class="inventor-chip"><i class="fa-solid fa-user-gear"></i> Lavanya Tiwade
+                      (Co-Inventor)</span>
+                  </div>
+                </div>
+
+                <div class="patent-section-block">
+                  <h4 class="patent-block-title"><i class="fa-solid fa-microchip"></i> System Architecture & Key
+                    Modules:</h4>
+                  <div class="patent-modules-list">
+                    <div class="module-card">
+                      <div class="mod-num">110</div>
+                      <div class="mod-info">
+                        <strong>Text Processing Module (CLIP):</strong> Employs a CLIP text encoder (114) for converting
+                        natural language eyewitness descriptions into semantic embedding tensors.
+                      </div>
+                    </div>
+                    <div class="module-card">
+                      <div class="mod-num">120</div>
+                      <div class="mod-info">
+                        <strong>Latent Diffusion Image Synthesis:</strong> Operates in a compressed latent space via
+                        U-Net denoiser (124) achieving a <strong>48-fold computational efficiency gain</strong> over
+                        traditional pixel diffusion.
+                      </div>
+                    </div>
+                    <div class="module-card">
+                      <div class="mod-num">130</div>
+                      <div class="mod-info">
+                        <strong>Dual-Mode Prompt Engineering:</strong> Concurrently generates photorealistic suspect
+                        mugshots and forensic pencil sketches using structured negative prompts.
+                      </div>
+                    </div>
+                    <div class="module-card">
+                      <div class="mod-num">140</div>
+                      <div class="mod-info">
+                        <strong>Face Matching & Cosine Similarity:</strong> Deep learning face recognition ensemble
+                        (142, 144) performing biometric cross-referencing against law enforcement databases.
+                      </div>
+                    </div>
+                    <div class="module-card">
+                      <div class="mod-num">150</div>
+                      <div class="mod-info">
+                        <strong>Database & Persistence:</strong> Automated suspect identification with calibrated
+                        similarity thresholds and multi-session persistence.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="patent-ipc-box">
+                  <span class="ipc-title">International Classifications:</span>
+                  <span class="ipc-code">G06K 9/00</span>
+                  <span class="ipc-code">G06K 9/62</span>
+                  <span class="ipc-code">G06N 3/04</span>
+                  <span class="ipc-code">G06N 3/08</span>
+                  <span class="ipc-code">G06V 10/764</span>
+                </div>
+              </div>
+
+              <!-- Right Column: Official Gazette Document Card & Forensic Output Preview -->
+              <div class="patent-visual-column">
+
+                <!-- Gazette Official Document Card (Rendered from official Government PDF) -->
+                <div class="gazette-preview-frame" onclick="openPatentModal()">
+                  <div class="gazette-badge"><i class="fa-solid fa-file-pdf"></i> Official Journal Page 117339 (Issue
+                    38/2026)</div>
+                  <img src="assets/patent_gazette_page2.png" alt="Official Journal of the Patent Office Publication"
+                    class="gazette-thumb-img">
+                  <div class="gazette-zoom-overlay">
+                    <i class="fa-solid fa-file-pdf"></i> View Official Government PDF
+                  </div>
+                </div>
+
+                <!-- Forensic Model Output Preview -->
+                <div class="forensic-output-box">
+                  <div class="forensic-box-header">
+                    <span><i class="fa-solid fa-fingerprint"></i> Generated Forensic Output</span>
+                    <span class="mod-tag">Diffusion Model</span>
+                  </div>
+                  <div class="forensic-img-wrapper"
+                    onclick="openImageLightbox('assets/project_forensic.jpeg', 'ForensicAI Latent Diffusion Output', 'Reconstructed forensic portrait and digital artifact comparison generated by the system.')">
+                    <img src="assets/project_forensic.jpeg" alt="Forensic Facial Generation Output"
+                      class="forensic-img">
+                    <div class="forensic-hover-hint"><i class="fa-solid fa-expand"></i> Inspect Output</div>
+                  </div>
+                  <p class="forensic-caption">Automated facial reconstruction output synthesized from witness
+                    descriptions.</p>
+                </div>
+
+                <!-- Patent Download & Verification Actions (Direct links to official PDF) -->
+                <div class="patent-cta-stack">
+                  <a href="assets/patent_publication_gazette.pdf" target="_blank" rel="noopener"
+                    class="patent-btn primary">
+                    <i class="fa-solid fa-file-pdf"></i> View Official PDF (The Patent Office)
+                  </a>
+                  <a href="assets/patent_publication_gazette.pdf"
+                    download="The_Patent_Office_Journal_38_2026_Application_202621092295A.pdf"
+                    class="patent-btn secondary">
+                    <i class="fa-solid fa-download"></i> Download Official PDF
+                  </a>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- ==============================================
+             SECTION 6: ACHIEVEMENTS & CONTRIBUTIONS
+             ============================================== -->
+        <section id="section-achievements" class="dossier-section" role="tabpanel">
+          <div class="section-badge-header">
+            <span class="folder-doc-label">DOCUMENT NO. SB-2026/06</span>
+            <span class="folder-doc-cat">HONORS & LEADERSHIP</span>
+          </div>
+
+          <div class="section-intro">
+            <h2 class="section-title"><i class="fa-solid fa-trophy"></i> Honors, Leadership & University Contributions
+            </h2>
+            <p class="section-lead">Active engagement across student technical leadership, competitive hackathons,
+              research publications, and global academic initiatives.</p>
+          </div>
+
+          <!-- Achievements Grid -->
+          <div class="achievements-grid">
+
+            <!-- Achievement 1: Research Paper IJCDS -->
+            <div class="achievement-card gold">
+              <div class="ach-icon-wrapper"><i class="fa-solid fa-file-signature"></i></div>
+              <div class="ach-content">
+                <div class="ach-type">Academic Research Publication</div>
+                <h3 class="ach-title">Research Paper Conditionally Accepted by IJCDS Journal</h3>
+                <p class="ach-desc">
+                  Authored an innovative research paper titled <em>"Parkinson’s Disease Prediction Using Machine
+                    Learning"</em> leveraging acoustic voice biomarkers, conditionally accepted by the peer-reviewed
+                  <strong>International Journal of Computing and Digital Systems (IJCDS)</strong>.
+                </p>
+                <span class="ach-tag"><i class="fa-solid fa-check"></i> Peer-Reviewed Journal</span>
+              </div>
+            </div>
+
+            <!-- Achievement 2: Smart Tech Club Coordinator -->
+            <div class="achievement-card blue">
+              <div class="ach-icon-wrapper"><i class="fa-solid fa-users-gear"></i></div>
+              <div class="ach-content">
+                <div class="ach-type">Leadership & Mentorship</div>
+                <h3 class="ach-title">Coordinator — Smart Tech Club (IoT & Robotics)</h3>
+                <h4 class="ach-sub">Symbiosis Institute of Technology, Nagpur</h4>
+                <p class="ach-desc">
+                  Coordinate departmental technical activities, conduct hands-on interactive workshops introducing
+                  engineering peers to IoT architectures, Arduino microcontrollers, hardware sensors, LED matrices, and
+                  robotics paradigms.
+                </p>
+                <span class="ach-tag"><i class="fa-solid fa-calendar-check"></i> Active Student Leadership</span>
+              </div>
+            </div>
+
+            <!-- Achievement 3: Genathon 3.0 at TantraFiesta'25 IIIT Nagpur -->
+            <div class="achievement-card purple">
+              <div class="ach-icon-wrapper"><i class="fa-solid fa-laptop-code"></i></div>
+              <div class="ach-content">
+                <div class="ach-type">Competitive Hackathon</div>
+                <h3 class="ach-title">Genathon 3.0 of TantraFiesta'25 — IIIT Nagpur</h3>
+                <p class="ach-desc">
+                  Participated as part of <strong>Team Rescue Coders</strong> from SIT Nagpur in the national-level
+                  generative AI hackathon organized by Indian Institute of Information Technology (IIIT), Nagpur.
+                </p>
+                <div class="ach-action-row">
+                  <button class="cert-open-btn mini"
+                    onclick="openCertModal('assets/iiit_nagpur_certificate.jpeg', 'Genathon 3.0 TantraFiesta\'25 IIIT Nagpur Certificate', 'Certificate of Participation as Team Rescue Coders at Indian Institute of Information Technology Nagpur.')">
+                    <i class="fa-solid fa-eye"></i> View Certificate
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Achievement 4: Global Immersion at AIT Thailand -->
+            <div class="achievement-card emerald">
+              <div class="ach-icon-wrapper"><i class="fa-solid fa-earth-asia"></i></div>
+              <div class="ach-content">
+                <div class="ach-type">International Immersion</div>
+                <h3 class="ach-title">Global Immersion Program — AIT Thailand</h3>
+                <p class="ach-desc">
+                  Selected to participate in the international academic and technological immersion delegation at Asian
+                  Institute of Technology, Thailand, broadening perspectives on global smart city and AI infrastructure.
+                </p>
+                <div class="ach-action-row">
+                  <button class="cert-open-btn mini"
+                    onclick="openCertModal('assets/cert_thailand.jpeg', 'Asian Institute of Technology Thailand — Global Immersion Certificate', 'International technology and immersion credential at AIT Thailand.')">
+                    <i class="fa-solid fa-eye"></i> View Certificate
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==============================================
+             SECTION 7: CERTIFICATES & CREDENTIALS
+             ============================================== -->
+        <section id="section-certificates" class="dossier-section" role="tabpanel">
+          <div class="section-badge-header">
+            <span class="folder-doc-label">DOCUMENT NO. SB-2026/07</span>
+            <span class="folder-doc-cat">VERIFIED CREDENTIALS</span>
+          </div>
+
+          <div class="section-intro">
+            <h2 class="section-title"><i class="fa-solid fa-certificate"></i> Verified Industry & Academic
+              Certifications</h2>
+            <p class="section-lead">Click on any certificate to view high-resolution documentation and issuing
+              organization details.</p>
+          </div>
+
+          <!-- Certificates Gallery Grid -->
+          <div class="certificates-grid">
+
+            <!-- Cert 1: Infosys Springboard DSA -->
+            <div class="cert-card"
+              onclick="openCertModal('assets/cert_infosys.jpg', 'Data Structures and Algorithms using Python - Part 1', 'Infosys Springboard verified course completion certificate issued October 2025.')">
+              <div class="cert-thumb-box">
+                <img src="assets/cert_infosys.jpg" alt="Infosys Springboard Certificate" loading="lazy">
+                <div class="cert-hover-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i> View Certificate</div>
+              </div>
+              <div class="cert-info">
+                <div class="cert-issuer"><i class="fa-solid fa-award"></i> Infosys Springboard</div>
+                <h3 class="cert-name">Data Structures and Algorithms using Python - Part 1</h3>
+                <div class="cert-meta">
+                  <span><i class="fa-regular fa-calendar"></i> October 2025</span>
+                  <span class="cert-verified"><i class="fa-solid fa-circle-check"></i> Verified</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cert 2: IIIT Nagpur Genathon 3.0 -->
+            <div class="cert-card"
+              onclick="openCertModal('assets/iiit_nagpur_certificate.jpeg', 'Genathon 3.0 TantraFiesta\'25 — IIIT Nagpur', 'Certificate of Participation in national hackathon at IIIT Nagpur as Team Rescue Coders.')">
+              <div class="cert-thumb-box">
+                <img src="assets/iiit_nagpur_certificate.jpeg" alt="IIIT Nagpur Hackathon Certificate" loading="lazy">
+                <div class="cert-hover-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i> View Certificate</div>
+              </div>
+              <div class="cert-info">
+                <div class="cert-issuer"><i class="fa-solid fa-trophy"></i> IIIT Nagpur / Unstop</div>
+                <h3 class="cert-name">Certificate of Participation — Genathon 3.0</h3>
+                <div class="cert-meta">
+                  <span><i class="fa-regular fa-calendar"></i> TantraFiesta'25</span>
+                  <span class="cert-verified"><i class="fa-solid fa-circle-check"></i> Team Rescue Coders</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cert 3: VOIS Browser Attacks -->
+            <div class="cert-card"
+              onclick="openCertModal('assets/cert_vois.jpg', 'Protection from Browser Attacks — VOIS & Vodafone Idea Foundation', 'Certificate of completion awarded by VOIS, Vodafone Idea Foundation & Edunet Foundation (ID: VFLMS26_149319).')">
+              <div class="cert-thumb-box">
+                <img src="assets/cert_vois.jpg" alt="VOIS Cybersecurity Certificate" loading="lazy">
+                <div class="cert-hover-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i> View Certificate</div>
+              </div>
+              <div class="cert-info">
+                <div class="cert-issuer"><i class="fa-solid fa-shield-halved"></i> VOIS & Vodafone Idea Foundation</div>
+                <h3 class="cert-name">Protection from Browser Attacks</h3>
+                <div class="cert-meta">
+                  <span><i class="fa-regular fa-calendar"></i> March 2026</span>
+                  <span class="cert-verified"><i class="fa-solid fa-circle-check"></i> Edunet Verified</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cert 4: Main Crafts Internship -->
+            <div class="cert-card"
+              onclick="openCertModal('assets/cert_maincrafts_internship.jpg', 'Main Crafts Technology — AI & ML Internship Certificate', 'Official certificate of internship completion recognizing practical ML development and validation work.')">
+              <div class="cert-thumb-box">
+                <img src="assets/cert_maincrafts_internship.jpg" alt="Main Crafts Internship Certificate"
+                  loading="lazy">
+                <div class="cert-hover-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i> View Certificate</div>
+              </div>
+              <div class="cert-info">
+                <div class="cert-issuer"><i class="fa-solid fa-briefcase"></i> Main Crafts Technology</div>
+                <h3 class="cert-name">AI & ML Internship Completion Certificate</h3>
+                <div class="cert-meta">
+                  <span><i class="fa-regular fa-calendar"></i> Industry Internship</span>
+                  <span class="cert-verified"><i class="fa-solid fa-circle-check"></i> Verified</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cert 5: IBM SkillsBuild RAG -->
+            <div class="cert-card"
+              onclick="openCertModal('assets/cert_ibm_rag.jpg', 'Introduction to Retrieval-Augmented Generation (RAG)', 'IBM SkillsBuild certified credential on modern RAG pipelines and vector knowledge grounding.')">
+              <div class="cert-thumb-box">
+                <img src="assets/cert_ibm_rag.jpg" alt="IBM SkillsBuild RAG Certificate" loading="lazy">
+                <div class="cert-hover-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i> View Certificate</div>
+              </div>
+              <div class="cert-info">
+                <div class="cert-issuer"><i class="fa-solid fa-brain"></i> IBM SkillsBuild</div>
+                <h3 class="cert-name">Introduction to Retrieval-Augmented Generation (RAG)</h3>
+                <div class="cert-meta">
+                  <span><i class="fa-regular fa-calendar"></i> 2025</span>
+                  <span class="cert-verified"><i class="fa-solid fa-circle-check"></i> IBM Credential</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cert 6: Red Hat Python -->
+            <div class="cert-card"
+              onclick="openCertModal('assets/cert_redhat.jpg', 'Introduction to Python Programming — Red Hat', 'Red Hat Training and Certification recognizing core and object-oriented Python development proficiency.')">
+              <div class="cert-thumb-box">
+                <img src="assets/cert_redhat.jpg" alt="Red Hat Python Certificate" loading="lazy">
+                <div class="cert-hover-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i> View Certificate</div>
+              </div>
+              <div class="cert-info">
+                <div class="cert-issuer"><i class="fa-brands fa-redhat"></i> Red Hat Training & Cert</div>
+                <h3 class="cert-name">Introduction to Python Programming</h3>
+                <div class="cert-meta">
+                  <span><i class="fa-regular fa-calendar"></i> 2025</span>
+                  <span class="cert-verified"><i class="fa-solid fa-circle-check"></i> Red Hat Academy</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cert 7: Red Hat Networks -->
+            <div class="cert-card"
+              onclick="openCertModal('assets/cert_redhat_networks.jpg', 'Computer Networks — Red Hat Academy', 'Red Hat training and certification on modern TCP/IP protocols and networking fundamentals.')">
+              <div class="cert-thumb-box">
+                <img src="assets/cert_redhat_networks.jpg" alt="Red Hat Computer Networks Certificate" loading="lazy">
+                <div class="cert-hover-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i> View Certificate</div>
+              </div>
+              <div class="cert-info">
+                <div class="cert-issuer"><i class="fa-brands fa-redhat"></i> Red Hat Academy</div>
+                <h3 class="cert-name">Computer Networks Fundamental Certification</h3>
+                <div class="cert-meta">
+                  <span><i class="fa-regular fa-calendar"></i> 2026</span>
+                  <span class="cert-verified"><i class="fa-solid fa-circle-check"></i> Red Hat</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cert 8: AIT Thailand Immersion -->
+            <div class="cert-card"
+              onclick="openCertModal('assets/cert_thailand.jpeg', 'Asian Institute of Technology (AIT) Thailand — Global Immersion', 'International certificate of completion for the Global Immersion academic exchange program in Thailand.')">
+              <div class="cert-thumb-box">
+                <img src="assets/cert_thailand.jpeg" alt="AIT Thailand Certificate" loading="lazy">
+                <div class="cert-hover-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i> View Certificate</div>
+              </div>
+              <div class="cert-info">
+                <div class="cert-issuer"><i class="fa-solid fa-globe"></i> Asian Institute of Technology</div>
+                <h3 class="cert-name">Global Immersion Program (Thailand)</h3>
+                <div class="cert-meta">
+                  <span><i class="fa-regular fa-calendar"></i> 2025</span>
+                  <span class="cert-verified"><i class="fa-solid fa-circle-check"></i> International</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cert 9: Agentic AI -->
+            <div class="cert-card"
+              onclick="openCertModal('assets/cert_agentiai.jpg', 'Agentic AI Specialization & Hands-on Workflows', 'Advanced hands-on certification in autonomous AI agents and tool-calling architectures.')">
+              <div class="cert-thumb-box">
+                <img src="assets/cert_agentiai.jpg" alt="Agentic AI Certificate" loading="lazy">
+                <div class="cert-hover-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i> View Certificate</div>
+              </div>
+              <div class="cert-info">
+                <div class="cert-issuer"><i class="fa-solid fa-robot"></i> Advanced AI Specialist</div>
+                <h3 class="cert-name">Agentic AI & Autonomous Architectures</h3>
+                <div class="cert-meta">
+                  <span><i class="fa-regular fa-calendar"></i> 2026</span>
+                  <span class="cert-verified"><i class="fa-solid fa-circle-check"></i> Verified</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==============================================
+             SECTION 8: PHOTOS / ACTIVITY GALLERY
+             ============================================== -->
+        <section id="section-gallery" class="dossier-section" role="tabpanel">
+          <div class="section-badge-header">
+            <span class="folder-doc-label">DOCUMENT NO. SB-2026/08</span>
+            <span class="folder-doc-cat">PHOTO GALLERY & ACTIVITIES</span>
+          </div>
+
+          <div class="section-intro">
+            <h2 class="section-title"><i class="fa-solid fa-camera-retro"></i> Academic Life, Robotics Workshops &
+              Events</h2>
+            <p class="section-lead">A visual glimpse into university milestones at Symbiosis Institute of Technology,
+              IoT workshops, and student leadership.</p>
+          </div>
+
+          <!-- Photo Gallery Grid with Polaroid aesthetic -->
+          <div class="gallery-photo-grid">
+
+            <!-- Photo 1: Award Ceremony SIT -->
+            <div class="gallery-card wide"
+              onclick="openImageLightbox('assets/gallery_award_sit.jpg', 'Award Presentation Ceremony at Symbiosis Institute of Technology, Nagpur', 'Director & senior faculty presenting recognition at SIT Nagpur to Sampada Bandre and peers.')">
+              <div class="gallery-thumb-container">
+                <img src="assets/gallery_award_sit.jpg" alt="Award Ceremony at Symbiosis Institute of Technology"
+                  loading="lazy">
+                <div class="gallery-expand-hint"><i class="fa-solid fa-expand"></i></div>
+              </div>
+              <div class="gallery-caption-box">
+                <h4><i class="fa-solid fa-award"></i> University Award Ceremony</h4>
+                <p>Receiving formal academic & project recognition from SIT Nagpur leadership and faculty members.</p>
+              </div>
+            </div>
+
+            <!-- Photo 2: IoT Lab Team -->
+            <div class="gallery-card"
+              onclick="openImageLightbox('assets/gallery_iot_lab_team.jpg', 'Smart Tech Club IoT & Robotics Lab Team', 'Club coordinators and student engineers gathered around the IoT workbench at SIT Nagpur.')">
+              <div class="gallery-thumb-container">
+                <img src="assets/gallery_iot_lab_team.jpg" alt="Smart Tech Club IoT Lab Team" loading="lazy">
+                <div class="gallery-expand-hint"><i class="fa-solid fa-expand"></i></div>
+              </div>
+              <div class="gallery-caption-box">
+                <h4><i class="fa-solid fa-microchip"></i> Smart Tech Club Lab Team</h4>
+                <p>Collaborative engineering and hardware sessions at the IoT & Robotics innovation lab.</p>
+              </div>
+            </div>
+
+            <!-- Photo 3: Robotics & Arduino Workshop -->
+            <div class="gallery-card"
+              onclick="openImageLightbox('assets/gallery_robotics_workshop.jpg', 'Hands-On Robotics & Arduino Programming Workshop', 'Mentoring student peers on microcontrollers, LED matrices, and embedded coding.')">
+              <div class="gallery-thumb-container">
+                <img src="assets/gallery_robotics_workshop.jpg" alt="Arduino Programming Workshop" loading="lazy">
+                <div class="gallery-expand-hint"><i class="fa-solid fa-expand"></i></div>
+              </div>
+              <div class="gallery-caption-box">
+                <h4><i class="fa-solid fa-laptop-code"></i> Robotics & Arduino Workshop</h4>
+                <p>Conducting practical hands-on workshops guiding junior batches on breadboards and sensor circuits.
+                </p>
+              </div>
+            </div>
+
+            <!-- Photo 4: Student Tech Event / Interactive Challenge -->
+            <div class="gallery-card"
+              onclick="openImageLightbox('assets/gallery_club_event.jpg', 'Student Tech Event & Club Activity Challenge', 'Organizing interactive problem-solving challenges during SIT Nagpur campus festival.')">
+              <div class="gallery-thumb-container">
+                <img src="assets/gallery_club_event.jpg" alt="Student Club Interactive Activity" loading="lazy">
+                <div class="gallery-expand-hint"><i class="fa-solid fa-expand"></i></div>
+              </div>
+              <div class="gallery-caption-box">
+                <h4><i class="fa-solid fa-puzzle-piece"></i> Interactive Campus Tech Event</h4>
+                <p>Hosting interactive logic and engineering challenges to spark interest in STEM.</p>
+              </div>
+            </div>
+
+            <!-- Photo 5: SIT Group Photo on Grand Staircase -->
+            <div class="gallery-card wide"
+              onclick="openImageLightbox('assets/gallery_sit_group.jpg', 'Symbiosis Institute of Technology Department & Club Delegation', 'Grand group gathering of department students and faculty on the central campus staircase.')">
+              <div class="gallery-thumb-container">
+                <img src="assets/gallery_sit_group.jpg" alt="SIT Nagpur Department & Club Group Photo" loading="lazy">
+                <div class="gallery-expand-hint"><i class="fa-solid fa-expand"></i></div>
+              </div>
+              <div class="gallery-caption-box">
+                <h4><i class="fa-solid fa-users"></i> Department & Leadership Delegation</h4>
+                <p>Commemorative photo with department faculty, mentors, and club members at SIT Nagpur.</p>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==============================================
+             SECTION 9: CONTACT INFORMATION & LINKS
+             ============================================== -->
+        <section id="section-contact" class="dossier-section" role="tabpanel">
+          <div class="section-badge-header">
+            <span class="folder-doc-label">DOCUMENT NO. SB-2026/09</span>
+            <span class="folder-doc-cat">COMMUNICATIONS DISPATCH</span>
+          </div>
+
+          <div class="section-intro">
+            <h2 class="section-title"><i class="fa-solid fa-paper-plane"></i> Get in Touch & Professional Links</h2>
+            <p class="section-lead">Feel free to reach out for internship opportunities, AI research collaborations, or
+              a casual conversation about machine learning.</p>
+          </div>
+
+          <div class="contact-dual-grid">
+
+            <!-- Contact Channels & Information -->
+            <div class="contact-info-panel">
+              <div class="contact-stamp-header">
+                <div class="stamp-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+                <div>
+                  <h3 class="panel-heading">Direct Contact Details</h3>
+                  <p class="panel-sub">Fastest response via email or LinkedIn</p>
+                </div>
+              </div>
+
+              <div class="contact-cards-stack">
+                <!-- Email -->
+                <a href="mailto:sampadabandre2@gmail.com" class="contact-channel-card">
+                  <div class="channel-icon-circle bg-red"><i class="fa-solid fa-envelope"></i></div>
+                  <div class="channel-text">
+                    <span class="channel-label">Email Address</span>
+                    <span class="channel-val">sampadabandre2@gmail.com</span>
+                  </div>
+                  <span class="channel-action"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                </a>
+
+                <!-- Phone -->
+                <a href="tel:9284712889" class="contact-channel-card">
+                  <div class="channel-icon-circle bg-green"><i class="fa-solid fa-phone"></i></div>
+                  <div class="channel-text">
+                    <span class="channel-label">Mobile Number</span>
+                    <span class="channel-val">+91 9284712889</span>
+                  </div>
+                  <span class="channel-action"><i class="fa-solid fa-phone-volume"></i></span>
+                </a>
+
+                <!-- LinkedIn -->
+                <a href="https://www.linkedin.com/in/sampada-bandre-28257431a" target="_blank" rel="noopener"
+                  class="contact-channel-card">
+                  <div class="channel-icon-circle bg-blue"><i class="fa-brands fa-linkedin-in"></i></div>
+                  <div class="channel-text">
+                    <span class="channel-label">LinkedIn Profile</span>
+                    <span class="channel-val">linkedin.com/in/sampada-bandre-28257431a</span>
+                  </div>
+                  <span class="channel-action"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                </a>
+
+                <!-- GitHub -->
+                <a href="https://github.com/Sampadabandre" target="_blank" rel="noopener" class="contact-channel-card">
+                  <div class="channel-icon-circle bg-dark"><i class="fa-brands fa-github"></i></div>
+                  <div class="channel-text">
+                    <span class="channel-label">GitHub Repository</span>
+                    <span class="channel-val">github.com/Sampadabandre</span>
+                  </div>
+                  <span class="channel-action"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                </a>
+
+                <!-- Location -->
+                <div class="contact-channel-card location-only">
+                  <div class="channel-icon-circle bg-orange"><i class="fa-solid fa-location-dot"></i></div>
+                  <div class="channel-text">
+                    <span class="channel-label">Location</span>
+                    <span class="channel-val">Nagpur, Maharashtra, India</span>
+                  </div>
+                  <span class="channel-action"><i class="fa-solid fa-map-pin"></i></span>
+                </div>
+              </div>
+
+              <!-- Quick Resume CTA Box -->
+              <div class="resume-promo-box">
+                <div class="promo-text">
+                  <h4>Looking for a formal copy?</h4>
+                  <p>Download my comprehensive 2-page resume with coursework, metrics, and project links.</p>
+                </div>
+                <a href="assets/Sampada_Bandre_Resume.pdf" download="Sampada_Bandre_Resume.pdf"
+                  class="promo-download-btn">
+                  <i class="fa-solid fa-file-pdf"></i> Download CV (PDF)
+                </a>
+              </div>
+            </div>
+
+            <!-- Interactive Message Form -->
+            <div class="contact-form-panel">
+              <div class="form-header">
+                <h3 class="panel-heading"><i class="fa-solid fa-pen-fancy"></i> Send a Direct Note</h3>
+                <p class="panel-sub">Drop a quick message and I'll get back to you promptly!</p>
+              </div>
+
+              <form id="contactForm" class="desk-styled-form" onsubmit="handleFormSubmit(event)">
+                <div class="form-group">
+                  <label for="senderName"><i class="fa-solid fa-user"></i> Your Name *</label>
+                  <input type="text" id="senderName" name="name" required
+                    placeholder="e.g. Alex Johnson (Recruiter / Lead)" class="form-input">
+                </div>
+
+                <div class="form-group">
+                  <label for="senderEmail"><i class="fa-solid fa-at"></i> Your Email Address *</label>
+                  <input type="email" id="senderEmail" name="email" required placeholder="alex@company.com"
+                    class="form-input">
+                </div>
+
+                <div class="form-group">
+                  <label for="messageSubject"><i class="fa-solid fa-tag"></i> Subject</label>
+                  <input type="text" id="messageSubject" name="subject"
+                    placeholder="Internship Opportunity / AI Collaboration" class="form-input">
+                </div>
+
+                <div class="form-group">
+                  <label for="messageBody"><i class="fa-solid fa-comment-dots"></i> Your Message *</label>
+                  <textarea id="messageBody" name="message" rows="5" required
+                    placeholder="Hello Sampada, I saw your portfolio and wanted to discuss..."
+                    class="form-textarea"></textarea>
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" id="btnSubmitForm" class="submit-btn">
+                    <i class="fa-solid fa-paper-plane"></i> Send Message
+                  </button>
+                  <button type="button" class="copy-email-btn" onclick="copyEmailToClipboard()">
+                    <i class="fa-regular fa-copy"></i> Copy Email
+                  </button>
+                </div>
+
+                <div id="formStatusNotice" class="form-status-notice" style="display: none;"></div>
+              </form>
+            </div>
+
+          </div>
+        </section>
+
+      </div> <!-- /dossier-folder-body -->
+
+      <!-- Folder Footer Bar -->
+      <footer class="dossier-footer">
+        <div class="footer-left">
+          <span>&copy; 2026 Sampada Bandre. Handcrafted with passion & code.</span>
+        </div>
+        <div class="footer-center">
+          <span class="footer-star">★</span>
+          <span>Symbiosis Institute of Technology, Nagpur</span>
+          <span class="footer-star">★</span>
+        </div>
+        <div class="footer-right">
+          <button type="button" class="back-to-top-btn" id="btnBackToTop" title="Scroll back to top">
+            <span class="top-arrow-icon"><i class="fa-solid fa-arrow-up"></i></span>
+            <span class="top-label">Top</span>
+          </button>
+        </div>
+      </footer>
+
+    </div> <!-- /portfolio-dossier -->
+
+  </main> <!-- /desk-viewport -->
+
+  <!-- MODAL: High-Res Certificate Viewer -->
+  <div class="custom-modal-overlay" id="certModal" aria-hidden="true" role="dialog">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title-box">
+          <span class="modal-pill"><i class="fa-solid fa-certificate"></i> Verified Credential</span>
+          <h3 id="certModalTitle" class="modal-heading">Certificate Title</h3>
+        </div>
+        <button class="modal-close-btn" onclick="closeCertModal()" aria-label="Close Modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="cert-image-frame">
+          <img id="certModalImg" src="" alt="Certificate Preview" class="modal-cert-image">
+        </div>
+        <p id="certModalDesc" class="cert-modal-desc"></p>
+      </div>
+      <div class="modal-footer">
+        <a id="certModalDownloadLink" href="" download class="modal-action-btn primary">
+          <i class="fa-solid fa-download"></i> Download / View Original
+        </a>
+        <button class="modal-action-btn secondary" onclick="closeCertModal()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Official Patent Gazette PDF & Page Viewer -->
+  <div class="custom-modal-overlay" id="patentModal" aria-hidden="true" role="dialog">
+    <div class="modal-window patent-modal-window">
+      <div class="modal-header">
+        <div class="modal-title-box">
+          <span class="modal-pill"><i class="fa-solid fa-scale-balanced"></i> Government of India • The Patent
+            Office</span>
+          <h3 class="modal-heading">The Patent Office Journal No. 38/2026</h3>
+        </div>
+        <button class="modal-close-btn" onclick="closePatentModal()" aria-label="Close Modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- Page Switcher Tabs -->
+        <div class="patent-modal-tabs">
+          <button class="patent-tab-btn active" id="patentPage2Btn" onclick="switchPatentModalPage(2)">
+            <i class="fa-solid fa-file-lines"></i> Page 117339: Patent Application Publication (Sampada Bandre)
+          </button>
+          <button class="patent-tab-btn" id="patentPage1Btn" onclick="switchPatentModalPage(1)">
+            <i class="fa-solid fa-file-invoice"></i> Page 116657: Official Journal Title Page
+          </button>
+        </div>
+        <div class="cert-image-frame patent-doc-frame">
+          <img id="patentModalImg" src="assets/patent_gazette_page2.png" alt="Official Patent Journal Publication"
+            class="modal-cert-image">
+        </div>
+        <p class="cert-modal-desc">
+          Official publication in <strong>The Patent Office Journal</strong> (Issue No. 38/2026, Published 18/09/2026),
+          Government of India.
+          Application No. <strong>202621092295 A</strong> by Symbiosis International (Deemed University), Prof. Riddhi
+          Doshi, Arpita Waghmare, Sampada Bandre, and Lavanya Tiwade.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <a href="assets/patent_publication_gazette.pdf" target="_blank" rel="noopener" class="modal-action-btn primary">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Official PDF
+        </a>
+        <a href="assets/patent_publication_gazette.pdf"
+          download="The_Patent_Office_Journal_38_2026_Application_202621092295A.pdf" class="modal-action-btn primary"
+          style="background: #2563eb;">
+          <i class="fa-solid fa-download"></i> Download Full 2-Page PDF
+        </a>
+        <button class="modal-action-btn secondary" onclick="closePatentModal()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Photo Lightbox -->
+  <div class="custom-modal-overlay" id="lightboxModal" aria-hidden="true" role="dialog">
+    <div class="modal-window lightbox-window">
+      <div class="modal-header">
+        <div class="modal-title-box">
+          <span class="modal-pill"><i class="fa-solid fa-camera"></i> Academic Photo Showcase</span>
+          <h3 id="lightboxTitle" class="modal-heading">Photo Title</h3>
+        </div>
+        <button class="modal-close-btn" onclick="closeLightboxModal()" aria-label="Close Modal">&times;</button>
+      </div>
+      <div class="modal-body lightbox-body">
+        <div class="lightbox-img-frame">
+          <img id="lightboxImg" src="" alt="Photo Full View" class="lightbox-image">
+        </div>
+        <p id="lightboxCaption" class="lightbox-caption"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-action-btn secondary" onclick="closeLightboxModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Project Deep Dive -->
+  <div class="custom-modal-overlay" id="projectModal" aria-hidden="true" role="dialog">
+    <div class="modal-window project-window">
+      <div class="modal-header">
+        <div class="modal-title-box">
+          <span class="modal-pill" id="projectModalPill"><i class="fa-solid fa-rocket"></i> Project Deep Dive</span>
+          <h3 id="projectModalTitle" class="modal-heading">Project Title</h3>
+        </div>
+        <button class="modal-close-btn" onclick="closeProjectModal()" aria-label="Close Modal">&times;</button>
+      </div>
+      <div class="modal-body" id="projectModalBody">
+        <!-- Injected via JavaScript -->
+      </div>
+      <div class="modal-footer">
+        <a id="projectModalGithubBtn" href="https://github.com/Sampadabandre" target="_blank" rel="noopener"
+          class="modal-action-btn primary">
+          <i class="fa-brands fa-github"></i> Open Repository
+        </a>
+        <button class="modal-action-btn secondary" onclick="closeProjectModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Back To Top Button (Appears on Scroll) -->
+  <button id="floatingBackToTop" class="floating-top-btn" title="Back to top" aria-label="Back to top">
+    <span class="top-arrow-icon"><i class="fa-solid fa-arrow-up"></i></span>
+    <span class="floating-top-label">Top</span>
+  </button>
+
+  <!-- Floating Toast Notification -->
+  <div id="toastNotification" class="toast-popup" role="status" aria-live="polite"></div>
+
+  <!-- Main JavaScript Logic -->
+  <script src="script.js"></script>
+</body>
+
+</html>
