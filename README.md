@@ -61,7 +61,7 @@ Designed with an editorial **Flatlay Desk Workspace & Manila Folder Dossier** ae
    - Includes high-resolution official Gazette document viewer & download button.
 7. 🏆 **Achievements & Contributions**:
    - IJCDS Journal publication milestone.
-   - Coordinator — Smart Tech Club (IoT & Robotics) at SIT Nagpur.
+   - Co-Coordinator — Smart Tech Club (IoT & Robotics) at SIT Nagpur.
    - Genathon 3.0 at TantraFiesta'25 (IIIT Nagpur) as Team Rescue Coders.
    - Global Immersion Program at AIT Thailand.
 7. 📜 **Verified Certificates Gallery**:

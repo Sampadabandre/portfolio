@@ -10,6 +10,7 @@ const state = {
   soundEnabled: true,
   currentMode: 'desk', // 'desk' | 'scroll'
   theme: 'cozy', // 'cozy' | 'night'
+  focusMode: false,
   audioContext: null
 };
 
@@ -307,6 +308,108 @@ function playCardSnapSound() {
 }
 
 /**
+ * Authentic Coffee Sip Audio (Web Audio API Synthesis)
+ * Realistic liquid sip air envelope + warm resonant ceramic mug clink
+ */
+function playCoffeeSipSound() {
+  if (!state.soundEnabled) return;
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    if (!state.audioContext) state.audioContext = new AudioCtx();
+    if (state.audioContext.state === 'suspended') {
+      state.audioContext.resume().catch(() => {});
+    }
+    const ctx = state.audioContext;
+    const now = ctx.currentTime;
+
+    // 1. Soft liquid sip sound (shaped noise burst)
+    const bufferSize = Math.floor(ctx.sampleRate * 0.12);
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.sin((i / bufferSize) * Math.PI);
+    }
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(2200, now);
+    filter.frequency.exponentialRampToValueAtTime(1400, now + 0.11);
+    filter.Q.setValueAtTime(3.2, now);
+
+    const noiseGain = ctx.createGain();
+    noiseGain.gain.setValueAtTime(0.12, now);
+    noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+
+    noise.connect(filter);
+    filter.connect(noiseGain);
+    noiseGain.connect(ctx.destination);
+    noise.start(now);
+
+    // 2. Ceramic cup subtle warm tone (resonant mug settling ping)
+    const cupOsc = ctx.createOscillator();
+    const cupGain = ctx.createGain();
+    cupOsc.type = 'sine';
+    cupOsc.frequency.setValueAtTime(1150, now + 0.08);
+    cupOsc.frequency.exponentialRampToValueAtTime(840, now + 0.22);
+
+    cupGain.gain.setValueAtTime(0.14, now + 0.08);
+    cupGain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+
+    cupOsc.connect(cupGain);
+    cupGain.connect(ctx.destination);
+    cupOsc.start(now + 0.08);
+    cupOsc.stop(now + 0.24);
+  } catch (err) {}
+}
+
+/**
+ * Optical Focus Adjustment Chime (Web Audio API Synthesis)
+ * Crisp optic glass focus ping with harmonic resolution
+ */
+function playGlassesFocusSound(isActive) {
+  if (!state.soundEnabled) return;
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    if (!state.audioContext) state.audioContext = new AudioCtx();
+    if (state.audioContext.state === 'suspended') {
+      state.audioContext.resume().catch(() => {});
+    }
+    const ctx = state.audioContext;
+    const now = ctx.currentTime;
+
+    const f1 = isActive ? 1760 : 1320;
+    const f2 = isActive ? 2640 : 880;
+
+    const osc1 = ctx.createOscillator();
+    const gain1 = ctx.createGain();
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(f1, now);
+    gain1.gain.setValueAtTime(0.15, now);
+    gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+
+    osc1.connect(gain1);
+    gain1.connect(ctx.destination);
+    osc1.start(now);
+    osc1.stop(now + 0.22);
+
+    const osc2 = ctx.createOscillator();
+    const gain2 = ctx.createGain();
+    osc2.type = 'triangle';
+    osc2.frequency.setValueAtTime(f2, now + 0.04);
+    gain2.gain.setValueAtTime(0.1, now + 0.04);
+    gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+
+    osc2.connect(gain2);
+    gain2.connect(ctx.destination);
+    osc2.start(now + 0.04);
+    osc2.stop(now + 0.27);
+  } catch (err) {}
+}
+
 /**
  * Mechanical Keyboard Typing Sound (Disabled per user request)
  */
@@ -752,35 +855,236 @@ function initSkillsFilter() {
 }
 
 /**
+ * Curated Collection of AI, Engineering & Life Inspiration Quotes
+ */
+const INSPIRATION_QUOTES = [
+  {
+    quote: "The best way to predict the future is to invent it.",
+    author: "Alan Kay — Computing Pioneer"
+  },
+  {
+    quote: "Artificial intelligence is not a substitute for human intelligence; it is a tool to amplify human ingenuity.",
+    author: "AI Research Principle"
+  },
+  {
+    quote: "The question of whether machines can think is like the question of whether submarines can swim.",
+    author: "Edsger W. Dijkstra — Computer Science Pioneer"
+  },
+  {
+    quote: "Code is like humor. When you have to explain it, it’s bad.",
+    author: "Cory House — Software Architect"
+  },
+  {
+    quote: "Machine learning is not just about algorithms; it’s about giving machines the curiosity to learn from the world.",
+    author: "Sampada's Engineering Journal"
+  },
+  {
+    quote: "In the middle of difficulty lies opportunity. Keep debugging, breakthroughs are near.",
+    author: "Albert Einstein"
+  },
+  {
+    quote: "Simplicity is prerequisite for reliability.",
+    author: "Edsger W. Dijkstra"
+  },
+  {
+    quote: "Any sufficiently advanced technology is indistinguishable from magic.",
+    author: "Arthur C. Clarke"
+  },
+  {
+    quote: "Curiosity is the engine of achievement. Never stop experimenting with models, algorithms, and ideas.",
+    author: "Ken Robinson"
+  },
+  {
+    quote: "A mind that makes things: Not just learning technology, but building something meaningful with it.",
+    author: "Sampada Bandre — AI & ML Engineer"
+  },
+  {
+    quote: "Small daily steps in training, tuning, and problem solving lead to giant leaps in innovation.",
+    author: "Tech Engineering Axiom"
+  },
+  {
+    quote: "Stay hungry, stay curious, and always keep an open mind for discovery.",
+    author: "Steve Jobs"
+  }
+];
+
+let currentInspirationIndex = -1;
+
+/**
+ * Pours and displays a fresh sip of inspiration
+ */
+function showNextInspiration() {
+  const popup = document.getElementById('inspirationPopup');
+  const quoteEl = document.getElementById('inspirationQuoteText');
+  const authorEl = document.getElementById('inspirationAuthor');
+  const cup = document.getElementById('coffeeCup');
+  const steam = document.getElementById('steamContainer');
+
+  let nextIndex;
+  do {
+    nextIndex = Math.floor(Math.random() * INSPIRATION_QUOTES.length);
+  } while (nextIndex === currentInspirationIndex && INSPIRATION_QUOTES.length > 1);
+  currentInspirationIndex = nextIndex;
+
+  const item = INSPIRATION_QUOTES[currentInspirationIndex];
+
+  // Cup wobble sipping animation
+  if (cup) {
+    cup.classList.remove('sipping');
+    void cup.offsetWidth; // Trigger DOM reflow
+    cup.classList.add('sipping');
+  }
+
+  // Steam puff burst
+  if (steam) {
+    steam.style.opacity = '1';
+    steam.style.transform = 'translateX(-50%) translateY(-18px) scale(1.35)';
+    setTimeout(() => {
+      steam.style.opacity = '';
+      steam.style.transform = '';
+    }, 1800);
+  }
+
+  // Sound effect
+  playCoffeeSipSound();
+
+  // Populate popup card with gentle fade
+  if (quoteEl && authorEl) {
+    quoteEl.style.opacity = '0';
+    setTimeout(() => {
+      quoteEl.textContent = item.quote;
+      authorEl.textContent = `— ${item.author}`;
+      quoteEl.style.opacity = '1';
+    }, 120);
+  }
+
+  if (popup) {
+    popup.classList.add('show');
+    popup.setAttribute('aria-hidden', 'false');
+  }
+
+  showToast('☕ Fresh sip of inspiration poured!');
+}
+
+function hideInspiration() {
+  const popup = document.getElementById('inspirationPopup');
+  if (popup && popup.classList.contains('show')) {
+    popup.classList.remove('show');
+    popup.setAttribute('aria-hidden', 'true');
+    playPaperSound();
+  }
+}
+
+/**
+ * Toggles Deep Focus Reading Mode
+ */
+function toggleFocusMode() {
+  state.focusMode = !state.focusMode;
+  const isFocus = state.focusMode;
+  const body = document.body;
+  const hud = document.getElementById('focusModeHud');
+  const glassesPill = document.getElementById('glassesHintPill');
+
+  if (isFocus) {
+    body.classList.add('focus-mode-active');
+    if (hud) hud.setAttribute('aria-hidden', 'false');
+    if (glassesPill) {
+      glassesPill.innerHTML = '<i class="fa-solid fa-glasses"></i> Exit Focus Mode';
+    }
+    playGlassesFocusSound(true);
+    showToast('👓 Focus Mode Activated: Peripheral distractions dimmed for deep reading.');
+  } else {
+    body.classList.remove('focus-mode-active');
+    if (hud) hud.setAttribute('aria-hidden', 'true');
+    if (glassesPill) {
+      glassesPill.innerHTML = '<i class="fa-solid fa-glasses"></i> Click for Focus Mode';
+    }
+    playGlassesFocusSound(false);
+    showToast('👓 Focus Mode Deactivated: Restored full desk view.');
+  }
+}
+
+/**
  * Interactive Desk Easter Eggs
  */
 function initDeskEasterEggs() {
-  // Coffee cup click
+  // Coffee cup click & keypress
   const coffeeCup = document.getElementById('coffeeCup');
   if (coffeeCup) {
-    coffeeCup.addEventListener('click', () => {
-      playPaperSound();
-      showToast('☕ Hot hazelnut latte sipped! Machine learning energy refreshed.');
-      const steam = document.getElementById('steamContainer');
-      if (steam) {
-        steam.style.opacity = '1';
-        steam.style.transform = 'translateX(-50%) translateY(-15px) scale(1.3)';
-        setTimeout(() => {
-          steam.style.opacity = '';
-          steam.style.transform = '';
-        }, 1500);
+    coffeeCup.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showNextInspiration();
+    });
+
+    coffeeCup.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        showNextInspiration();
       }
     });
   }
 
-  // Glasses click
+  // Another sip button inside popup
+  const btnAnotherSip = document.getElementById('btnAnotherSip');
+  if (btnAnotherSip) {
+    btnAnotherSip.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showNextInspiration();
+    });
+  }
+
+  // Close inspiration button
+  const btnInspireClose = document.getElementById('btnInspireClose');
+  if (btnInspireClose) {
+    btnInspireClose.addEventListener('click', (e) => {
+      e.stopPropagation();
+      hideInspiration();
+    });
+  }
+
+  // Glasses click & keypress
   const glasses = document.getElementById('glassesElement');
   if (glasses) {
     glasses.addEventListener('click', () => {
-      playPaperSound();
-      showToast('👓 Designer glasses adjusted: High attention to detail unlocked.');
+      toggleFocusMode();
+    });
+
+    glasses.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleFocusMode();
+      }
     });
   }
+
+  // Exit Focus Mode button in HUD
+  const btnExitFocusMode = document.getElementById('btnExitFocusMode');
+  if (btnExitFocusMode) {
+    btnExitFocusMode.addEventListener('click', () => {
+      toggleFocusMode();
+    });
+  }
+
+  // Global keydown: Escape key dismisses focus mode and inspiration popup
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (state.focusMode) {
+        toggleFocusMode();
+      }
+      hideInspiration();
+    }
+  });
+
+  // Global click: dismiss inspiration popup if clicking outside
+  document.addEventListener('click', (e) => {
+    const popup = document.getElementById('inspirationPopup');
+    const coffeeCluster = document.getElementById('coffeeCluster');
+    if (popup && popup.classList.contains('show')) {
+      if (coffeeCluster && !coffeeCluster.contains(e.target)) {
+        hideInspiration();
+      }
+    }
+  });
 
   // Student ID card 3D flip & interactive feedback
   const idBadge = document.getElementById('studentIdBadge');

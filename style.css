@@ -812,6 +812,353 @@ body.theme-night .steam-wisp {
 .temple.right-temple { right: -32px; transform: rotate(35deg); }
 
 /* --------------------------------------------------------------------------
+   Interactive Desk Accessories Hover Hints & Props Functionality
+   -------------------------------------------------------------------------- */
+.prop-hint-pill {
+  position: absolute;
+  top: -32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: var(--text-primary);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: all var(--transition-bounce);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+body.theme-night .prop-hint-pill {
+  background: #fdfbf7;
+  color: #1e1b19;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+
+.coffee-cup:hover .prop-hint-pill,
+.coffee-cup:focus-visible .prop-hint-pill,
+.designer-glasses:hover .prop-hint-pill,
+.designer-glasses:focus-visible .prop-hint-pill {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Coffee Cup Sip Wobble Animation */
+@keyframes coffeeSipWobble {
+  0% { transform: rotate(5deg) scale(1); }
+  25% { transform: rotate(18deg) scale(1.09) translateY(-6px); }
+  50% { transform: rotate(-4deg) scale(1.05) translateY(-2px); }
+  75% { transform: rotate(10deg) scale(1.02); }
+  100% { transform: rotate(5deg) scale(1); }
+}
+
+.coffee-cup.sipping {
+  animation: coffeeSipWobble 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Fresh Sip of Inspiration Floating Popup Card
+   -------------------------------------------------------------------------- */
+.inspiration-card-popup {
+  position: absolute;
+  bottom: 125px;
+  left: 10px;
+  width: 320px;
+  max-width: calc(100vw - 40px);
+  background: #fffdf9;
+  border: 1.5px solid #dfd6c8;
+  border-radius: 16px;
+  padding: 1.1rem 1.25rem 1rem;
+  box-shadow: 0 18px 45px rgba(60, 42, 28, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.7);
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(15px) scale(0.95);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: var(--font-sans);
+}
+
+body.theme-night .inspiration-card-popup {
+  background: #242733;
+  border-color: #3e4356;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.inspiration-card-popup.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.inspiration-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding-bottom: 0.45rem;
+}
+
+body.theme-night .inspiration-card-header {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.inspiration-card-title {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--accent-terracotta);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.inspiration-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: 3px 6px;
+  border-radius: 6px;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inspiration-close-btn:hover {
+  color: var(--text-primary);
+  background: rgba(0, 0, 0, 0.06);
+}
+
+body.theme-night .inspiration-close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.inspiration-card-body {
+  position: relative;
+  padding: 0.2rem 0 0.5rem;
+}
+
+.inspiration-quote-symbol {
+  font-family: Georgia, serif;
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--accent-terracotta);
+  opacity: 0.35;
+  margin-bottom: -0.7rem;
+}
+
+.inspiration-quote-text {
+  font-size: 0.88rem;
+  line-height: 1.48;
+  color: var(--text-primary);
+  font-style: italic;
+  font-weight: 500;
+  margin-bottom: 0.45rem;
+  transition: opacity 0.2s ease;
+}
+
+.inspiration-quote-author {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--accent-terracotta);
+  text-align: right;
+  letter-spacing: 0.02em;
+}
+
+.inspiration-card-footer {
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.inspiration-another-btn {
+  background: linear-gradient(135deg, #c86446, #b04e33);
+  color: #ffffff;
+  border: none;
+  padding: 0.42rem 0.95rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 3px 10px rgba(200, 100, 70, 0.28);
+  transition: all var(--transition-fast);
+}
+
+.inspiration-another-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(200, 100, 70, 0.38);
+  background: linear-gradient(135deg, #d87152, #bd5438);
+}
+
+.inspiration-another-btn:active {
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   Focus Mode HUD & Immersive Deep-Focus Styling
+   -------------------------------------------------------------------------- */
+.focus-mode-hud {
+  position: fixed;
+  top: 74px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50px);
+  z-index: 1500;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.focus-mode-active .focus-mode-hud {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.focus-hud-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1.1rem;
+  background: #1e1b19;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4), 0 0 25px rgba(200, 100, 70, 0.25);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+body.theme-night .focus-hud-container {
+  background: #1b1e2a;
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.focus-hud-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 700;
+  color: #fae1e6;
+}
+
+.focus-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+  animation: pulseGreen 1.8s infinite;
+}
+
+@keyframes pulseGreen {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.35); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.focus-hud-divider {
+  opacity: 0.35;
+}
+
+.focus-hud-tip {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.78rem;
+}
+
+.focus-hud-exit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  padding: 0.26rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.focus-hud-exit-btn:hover {
+  background: #ef4444;
+  border-color: #ef4444;
+}
+
+.focus-hud-exit-btn kbd {
+  background: rgba(0, 0, 0, 0.45);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+}
+
+/* Page Distraction Dimming & Spotlight in Focus Mode */
+body.focus-mode-active .top-desk-bar {
+  border-bottom-color: rgba(0, 0, 0, 0.22);
+}
+
+body.focus-mode-active .laptop-keyboard,
+body.focus-mode-active .washi-tape-strip,
+body.focus-mode-active .push-pin,
+body.focus-mode-active .folded-newspaper {
+  opacity: 0.14 !important;
+  filter: blur(2px) grayscale(50%) !important;
+  pointer-events: none !important;
+  transition: all 0.45s ease;
+}
+
+body.focus-mode-active .portfolio-dossier {
+  box-shadow: 0 0 0 100vmax rgba(18, 14, 12, 0.42), 0 25px 70px rgba(0, 0, 0, 0.45);
+  transform: translateY(-3px);
+  transition: all 0.45s ease;
+}
+
+body.theme-night.focus-mode-active .portfolio-dossier {
+  box-shadow: 0 0 0 100vmax rgba(5, 7, 12, 0.72), 0 25px 70px rgba(0, 0, 0, 0.68);
+}
+
+body.focus-mode-active .designer-glasses {
+  filter: drop-shadow(0 0 14px rgba(200, 100, 70, 0.85));
+  transform: rotate(-8deg) scale(1.08);
+}
+
+body.focus-mode-active .designer-glasses .lens {
+  box-shadow: 0 0 20px rgba(120, 200, 255, 0.65), inset 0 0 14px rgba(255, 255, 255, 0.8);
+  border-color: #5c3724;
+}
+
+body.focus-mode-active .sticky-note {
+  opacity: 0.88;
+}
+
+@media (max-width: 600px) {
+  .focus-hud-tip,
+  .focus-hud-divider {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
    6. The Central Hero Manila Dossier
    -------------------------------------------------------------------------- */
 .portfolio-dossier {

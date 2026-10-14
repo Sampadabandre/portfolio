@@ -78,6 +78,22 @@
     </div>
   </header>
 
+  <!-- Floating Focus Mode HUD (Triggered when glasses are clicked) -->
+  <div class="focus-mode-hud" id="focusModeHud" aria-hidden="true" role="status">
+    <div class="focus-hud-container">
+      <div class="focus-hud-badge">
+        <span class="focus-pulse-dot"></span>
+        <i class="fa-solid fa-glasses"></i>
+        <span>Focus Mode Active</span>
+      </div>
+      <span class="focus-hud-divider">|</span>
+      <span class="focus-hud-tip">High attention to detail • Distractions dimmed</span>
+      <button type="button" class="focus-hud-exit-btn" id="btnExitFocusMode" title="Exit Focus Mode (or press Esc)">
+        <i class="fa-solid fa-xmark"></i> <span>Exit Focus</span> <kbd>Esc</kbd>
+      </button>
+    </div>
+  </div>
+
   <!-- Main Flatlay Desk Workspace -->
   <main class="desk-viewport" id="deskViewport">
 
@@ -164,7 +180,11 @@
       </div>
 
       <!-- Ceramic Coffee Mug with Latte Art -->
-      <div class="coffee-cup" id="coffeeCup" title="Click for a fresh sip of inspiration!">
+      <div class="coffee-cup" id="coffeeCup" role="button" tabindex="0" title="Click for a fresh sip of inspiration!" aria-label="Coffee cup: Click for a fresh sip of inspiration">
+        <!-- Floating tactile hover pill -->
+        <div class="prop-hint-pill coffee-hint-pill" id="coffeeHintPill" aria-hidden="true">
+          <i class="fa-solid fa-mug-hot"></i> Fresh Sip of Inspiration
+        </div>
         <div class="cup-rim">
           <div class="coffee-liquid">
             <div class="latte-art">
@@ -202,10 +222,36 @@
           </svg>
         </div>
       </div>
+
+      <!-- Interactive Sip of Inspiration Card Popup -->
+      <div class="inspiration-card-popup" id="inspirationPopup" aria-hidden="true" role="dialog" aria-labelledby="inspirationHeading">
+        <div class="inspiration-card-header">
+          <span class="inspiration-card-title" id="inspirationHeading">
+            <i class="fa-solid fa-mug-hot"></i> Fresh Sip of Inspiration
+          </span>
+          <button type="button" class="inspiration-close-btn" id="btnInspireClose" title="Close Inspiration" aria-label="Close Inspiration">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="inspiration-card-body">
+          <div class="inspiration-quote-symbol">“</div>
+          <p class="inspiration-quote-text" id="inspirationQuoteText">Loading inspiration...</p>
+          <div class="inspiration-quote-author" id="inspirationAuthor">— Sampada Bandre</div>
+        </div>
+        <div class="inspiration-card-footer">
+          <button type="button" class="inspiration-another-btn" id="btnAnotherSip" title="Pour another inspirational quote">
+            <i class="fa-solid fa-rotate"></i> Another Sip ☕
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- DESK ACCESSORY: Bottom-Right Tortoiseshell Eyeglasses -->
-    <div class="desk-item designer-glasses" id="glassesElement" title="Click glasses for Focus Mode!">
+    <div class="desk-item designer-glasses" id="glassesElement" role="button" tabindex="0" title="Click glasses for Focus Mode!" aria-label="Designer Glasses: Click for Focus Mode">
+      <!-- Floating tactile hover pill -->
+      <div class="prop-hint-pill glasses-hint-pill" id="glassesHintPill" aria-hidden="true">
+        <i class="fa-solid fa-glasses"></i> Click for Focus Mode
+      </div>
       <div class="glasses-frame">
         <div class="lens left-lens">
           <div class="lens-glare"></div>
@@ -432,7 +478,7 @@
                   Sampada Bandre
                 </h1>
                 <p class="dossier-subtitle">
-                  AI & Machine Learning Undergraduate • Researcher • Club Coordinator
+                  AI & Machine Learning Undergraduate • Researcher • Club Co-Coordinator
                 </p>
               </div>
 
@@ -500,7 +546,7 @@
                 </div>
                 <div class="polaroid-caption">
                   <h4>Sampada Bandre</h4>
-                  <p class="polaroid-desc">B.Tech CSE (AI & ML) • Smart Tech Club Coordinator</p>
+                  <p class="polaroid-desc">B.Tech CSE (AI & ML) • Smart Tech Club Co-Coordinator</p>
                   <div class="polaroid-links">
                     <a href="https://github.com/Sampadabandre" target="_blank" rel="noopener" title="GitHub Profile"><i
                         class="fa-brands fa-github"></i></a>
@@ -567,7 +613,7 @@
                 <div class="timeline-body">
                   <p><strong>Specialization:</strong> Artificial Intelligence & Machine Learning</p>
                   <p>Engaged in advanced AI coursework, departmental research on neurodegenerative disease
-                    classification, hands-on IoT laboratory projects, and serving as Coordinator for the university
+                    classification, hands-on IoT laboratory projects, and serving as Co-Coordinator for the university
                     Smart Tech Club.</p>
                   <div class="coursework-box">
                     <div class="coursework-title">Key Academic Coursework:</div>
@@ -1419,15 +1465,15 @@
               </div>
             </div>
 
-            <!-- Achievement 2: Smart Tech Club Coordinator -->
+            <!-- Achievement 2: Smart Tech Club Co-Coordinator -->
             <div class="achievement-card blue">
               <div class="ach-icon-wrapper"><i class="fa-solid fa-users-gear"></i></div>
               <div class="ach-content">
                 <div class="ach-type">Leadership & Mentorship</div>
-                <h3 class="ach-title">Coordinator — Smart Tech Club (IoT & Robotics)</h3>
+                <h3 class="ach-title">Co-Coordinator — Smart Tech Club (IoT & Robotics)</h3>
                 <h4 class="ach-sub">Symbiosis Institute of Technology, Nagpur</h4>
                 <p class="ach-desc">
-                  Coordinate departmental technical activities, conduct hands-on interactive workshops introducing
+                  Co-coordinate departmental technical activities, conduct hands-on interactive workshops introducing
                   engineering peers to IoT architectures, Arduino microcontrollers, hardware sensors, LED matrices, and
                   robotics paradigms.
                 </p>
@@ -1687,7 +1733,7 @@
 
             <!-- Photo 2: IoT Lab Team -->
             <div class="gallery-card"
-              onclick="openImageLightbox('assets/gallery_iot_lab_team.jpg', 'Smart Tech Club IoT & Robotics Lab Team', 'Club coordinators and student engineers gathered around the IoT workbench at SIT Nagpur.')">
+              onclick="openImageLightbox('assets/gallery_iot_lab_team.jpg', 'Smart Tech Club IoT & Robotics Lab Team', 'Club co-coordinators and student engineers gathered around the IoT workbench at SIT Nagpur.')">
               <div class="gallery-thumb-container">
                 <img src="assets/gallery_iot_lab_team.jpg" alt="Smart Tech Club IoT Lab Team" loading="lazy">
                 <div class="gallery-expand-hint"><i class="fa-solid fa-expand"></i></div>
