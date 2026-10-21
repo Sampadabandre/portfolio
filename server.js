@@ -113,16 +113,27 @@ const server = http.createServer(async (req, res) => {
         // Get Geo info (handles local fallback smartly)
         const geo = await getGeoForIP(rawIp);
 
+        let finalCity = body.city || geo.city;
+        const lat = parseFloat(body.latitude || geo.latitude);
+        const lon = parseFloat(body.longitude || geo.longitude);
+
+        // Accurate GPS coordinate match for Nagpur region (20.5 - 21.8 lat, 78.5 - 79.8 lon)
+        if (lat >= 20.5 && lat <= 21.8 && lon >= 78.5 && lon <= 79.8) {
+          finalCity = 'Nagpur';
+        } else if (finalCity === 'Pune' && !body.latitude) {
+          finalCity = 'Pune (ISP Gateway)';
+        }
+
         const newVisit = {
           id: 'v_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
           created_at: new Date().toISOString(),
           ip: geo.ip,
-          city: body.city || geo.city,
+          city: finalCity,
           region: body.region || geo.region,
           country: body.country || geo.country,
           country_code: (body.countryCode || geo.country_code).toUpperCase(),
-          latitude: body.latitude || geo.latitude,
-          longitude: body.longitude || geo.longitude,
+          latitude: lat || null,
+          longitude: lon || null,
           device: body.device || 'Desktop',
           browser: body.browser || 'Chrome',
           os: body.os || 'Windows 11',

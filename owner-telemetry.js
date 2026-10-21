@@ -868,8 +868,8 @@ function loadInlineDemoData() {
 // -----------------------------------------------------------------------------
 function getCountryFlagEmoji(cc) {
   if (!cc || cc.length !== 2 || cc === 'XX') return '🌐';
-  const cps = cc.toUpperCase().split('').map(c => 127397 + c.charCodeAt(0));
-  return String.fromCodePoint(...cps);
+  const code = cc.toLowerCase();
+  return `<img src="https://flagcdn.com/20x15/${code}.png" class="owner-flag-img" alt="${cc.toUpperCase()}" style="vertical-align: middle; border-radius: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.15); display: inline-block;">`;
 }
 
 function formatRelTime(dateStr) {
@@ -962,14 +962,31 @@ function escapeHtmlSafe(str) {
 // 11. TEST & LOG CURRENT VISIT DIRECTLY
 // -----------------------------------------------------------------------------
 async function logTestVisitNow() {
-  showPortfolioToast('Logging real visit telemetry from your browser...');
+  showPortfolioToast('Detecting location & logging telemetry...');
   try {
+    let lat = null;
+    let lon = null;
+
+    if (navigator.geolocation) {
+      try {
+        const pos = await new Promise((resolve) => {
+          navigator.geolocation.getCurrentPosition(resolve, () => resolve(null), { timeout: 3500 });
+        });
+        if (pos && pos.coords) {
+          lat = pos.coords.latitude;
+          lon = pos.coords.longitude;
+        }
+      } catch {}
+    }
+
     const meta = {
       isTest: true,
       screen: `${window.screen.width}x${window.screen.height}`,
       page: window.location.pathname || '/',
       referrer: 'Direct (Owner Test Visit)',
-      userAgent: navigator.userAgent
+      userAgent: navigator.userAgent,
+      latitude: lat,
+      longitude: lon
     };
 
     const res = await fetch('/api/track', {
@@ -979,7 +996,6 @@ async function logTestVisitNow() {
     });
 
     if (res.ok) {
-      const data = await res.json();
       showPortfolioToast('✅ Live visit captured! Updating table...');
       setTimeout(() => refreshInlineAnalytics(true), 600);
     } else {
