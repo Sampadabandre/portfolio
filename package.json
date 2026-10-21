@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Sampada Bandre - AI & ML Engineer Portfolio & Telemetry Console",
   "scripts": {
-    "start": "npx -y serve . -l 3000",
-    "dev": "npx -y serve . -l 3000"
+    "start": "node server.js",
+    "dev": "node server.js"
   },
   "keywords": [
     "portfolio",

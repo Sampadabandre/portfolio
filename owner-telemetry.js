@@ -530,9 +530,15 @@ function renderOwnerTableRows(visits) {
   if (!visits || visits.length === 0) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="8" class="owner-empty-hint">
-          <i class="fa-solid fa-radar" style="font-size:1.4rem;margin-bottom:0.4rem;display:block;opacity:0.6;"></i>
-          No matching visitor logs found.
+        <td colspan="8" class="owner-empty-hint" style="padding: 2.5rem 1rem; text-align: center;">
+          <i class="fa-solid fa-radar" style="font-size:2rem;margin-bottom:0.8rem;display:block;color:var(--accent-gold);"></i>
+          <strong style="color:var(--text-primary);display:block;margin-bottom:0.4rem;font-size:1rem;">No Visitor Records Yet</strong>
+          <span style="display:block;max-width:440px;margin:0 auto 1.2rem;color:var(--text-secondary);font-size:0.86rem;line-height:1.5;">
+            By default, your own device is excluded so view counts stay accurate. Click the button below to send a live test visit from your browser and see your real IP & Location in this table!
+          </span>
+          <button type="button" class="owner-action-button" onclick="logTestVisitNow()" style="background:var(--accent-gold);color:#fff;border:none;padding:0.6rem 1.3rem;font-weight:600;border-radius:8px;box-shadow:var(--shadow-sm);cursor:pointer;">
+            <i class="fa-solid fa-flask"></i> Log My Real Visit Now
+          </button>
         </td>
       </tr>
     `;
@@ -951,3 +957,37 @@ function escapeHtmlSafe(str) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
+
+// -----------------------------------------------------------------------------
+// 11. TEST & LOG CURRENT VISIT DIRECTLY
+// -----------------------------------------------------------------------------
+async function logTestVisitNow() {
+  showPortfolioToast('Logging real visit telemetry from your browser...');
+  try {
+    const meta = {
+      isTest: true,
+      screen: `${window.screen.width}x${window.screen.height}`,
+      page: window.location.pathname || '/',
+      referrer: 'Direct (Owner Test Visit)',
+      userAgent: navigator.userAgent
+    };
+
+    const res = await fetch('/api/track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(meta)
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      showPortfolioToast('✅ Live visit captured! Updating table...');
+      setTimeout(() => refreshInlineAnalytics(true), 600);
+    } else {
+      showPortfolioToast('Server error recording visit.');
+    }
+  } catch (err) {
+    console.error('Test visit error:', err);
+    showPortfolioToast('Could not reach /api/track: ' + err.message);
+  }
+}
+
