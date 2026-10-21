@@ -410,6 +410,10 @@
               <i class="fa-solid fa-paper-plane"></i>
               <span>Contact</span>
             </button>
+            <button class="dossier-tab" data-target="section-owner" role="tab" aria-selected="false">
+              <i class="fa-solid fa-user-shield"></i>
+              <span>Owner Portal</span>
+            </button>
           </div>
 
           <!-- GROUP 2: Seamless Infinite Loop Clones -->
@@ -453,6 +457,10 @@
             <button class="dossier-tab" data-target="section-contact" role="tab" aria-selected="false" tabindex="-1">
               <i class="fa-solid fa-paper-plane"></i>
               <span>Contact</span>
+            </button>
+            <button class="dossier-tab" data-target="section-owner" role="tab" aria-selected="false" tabindex="-1">
+              <i class="fa-solid fa-user-shield"></i>
+              <span>Owner Portal</span>
             </button>
           </div>
         </div>
@@ -1929,12 +1937,250 @@
           </div>
         </section>
 
+        <!-- ==============================================
+             SECTION 10: OWNER TELEMETRY & VISITOR INSIGHTS
+             ============================================== -->
+        <section id="section-owner" class="dossier-section" role="tabpanel">
+          <div class="section-badge-header">
+            <span class="folder-doc-label">DOCUMENT NO. SB-2026/10</span>
+            <span class="folder-doc-cat"><i class="fa-solid fa-lock"></i> RESTRICTED • OWNER ACCESS ONLY</span>
+          </div>
+
+          <div class="section-intro">
+            <h2 class="section-title"><i class="fa-solid fa-shield-halved"></i> Owner Portal & Visitor Telemetry</h2>
+            <p class="section-lead">Private analytics command center for tracking audience reach, real-time profile visits, visitor IP addresses, and geographic origins.</p>
+          </div>
+
+          <!-- A. LOCKED STATE (Displayed before authentication) -->
+          <div id="ownerLockedContainer" class="owner-locked-card reveal-item">
+            <div class="owner-seal-badge">
+              <i class="fa-solid fa-lock"></i>
+            </div>
+            <h3 class="owner-locked-title">Restricted Access: Portfolio Owner Only</h3>
+            <p class="owner-locked-desc">
+              This dossier contains confidential visitor logs, IP telemetry, and access records. 
+              Please authenticate as <strong>Sampada</strong> to unlock this section.
+            </p>
+
+            <form id="ownerInlineLoginForm" class="owner-auth-form" onsubmit="handleInlineOwnerLogin(event)">
+              <div class="owner-input-wrapper">
+                <i class="fa-solid fa-key owner-input-icon"></i>
+                <input type="password" id="ownerInlinePassword" class="owner-password-input" placeholder="Enter master admin password..." required autocomplete="current-password">
+                <button type="button" class="owner-eye-toggle" onclick="toggleInlinePasswordVisibility()" title="Show/Hide Password">
+                  <i class="fa-regular fa-eye" id="ownerInlineEyeIcon"></i>
+                </button>
+              </div>
+
+              <div class="owner-auth-options">
+                <label class="owner-remember-checkbox">
+                  <input type="checkbox" id="ownerInlineRemember" checked>
+                  <span class="owner-check-box"></span>
+                  <span>Remember me on this browser</span>
+                </label>
+              </div>
+
+              <button type="submit" class="owner-login-submit-btn" id="ownerInlineLoginBtn">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Unlock Private Dossier</span>
+              </button>
+
+              <div id="ownerInlineAlert" class="owner-auth-alert" style="display: none;"></div>
+            </form>
+
+            <div class="owner-quick-options">
+              <button type="button" class="owner-secondary-link" onclick="activateInlineDemoMode()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Preview Demo Telemetry
+              </button>
+            </div>
+          </div>
+
+          <!-- B. UNLOCKED STATE (Displayed after authentication) -->
+          <div id="ownerUnlockedContainer" class="owner-dashboard-container" style="display: none;">
+            <!-- Control bar -->
+            <div class="owner-dash-toolbar">
+              <div class="owner-toolbar-left">
+                <span class="owner-status-pill">
+                  <span class="owner-live-dot"></span>
+                  <span>Telemetry Live</span>
+                </span>
+                <label class="owner-switch-container" title="When active, your own visits from this browser will not be counted.">
+                  <input type="checkbox" id="ownerInlineIgnoreSwitch" onchange="toggleInlineOwnerIgnore(this.checked)">
+                  <span class="owner-slider"></span>
+                  <span class="owner-switch-label"><i class="fa-solid fa-user-shield"></i> Exclude My Visits</span>
+                </label>
+              </div>
+
+              <div class="owner-toolbar-right">
+                <button type="button" class="owner-action-button" onclick="refreshInlineAnalytics(true)" id="ownerRefreshBtn" title="Refresh Live Visitor Logs">
+                  <i class="fa-solid fa-rotate" id="ownerRefreshIcon"></i>
+                  <span>Refresh</span>
+                </button>
+                <button type="button" class="owner-action-button" onclick="exportInlineVisitsToCSV()" title="Export Logs to CSV">
+                  <i class="fa-solid fa-file-csv"></i>
+                  <span>Export CSV</span>
+                </button>
+                <button type="button" class="owner-action-button danger" onclick="handleInlineOwnerLogout()" title="Lock this section">
+                  <i class="fa-solid fa-lock"></i>
+                  <span>Lock Dossier</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Demo Notice Banner -->
+            <div id="ownerInlineDemoNotice" class="owner-demo-notice" style="display: none;">
+              <i class="fa-solid fa-circle-info"></i>
+              <span><strong>Preview Mode:</strong> Displaying simulated visitor telemetry data. Connect Supabase to stream real-world visitors.</span>
+            </div>
+
+            <!-- KPI Metric Cards Grid -->
+            <div class="owner-kpi-grid">
+              <!-- KPI 1 -->
+              <div class="owner-kpi-card kpi-paper-gold">
+                <div class="owner-kpi-icon"><i class="fa-solid fa-eye"></i></div>
+                <div class="owner-kpi-info">
+                  <span class="owner-kpi-label">Total Profile Views</span>
+                  <span class="owner-kpi-val" id="ownerKpiTotalViews">0</span>
+                  <span class="owner-kpi-sub">All-time count</span>
+                </div>
+              </div>
+
+              <!-- KPI 2 -->
+              <div class="owner-kpi-card kpi-paper-forest">
+                <div class="owner-kpi-icon"><i class="fa-solid fa-users"></i></div>
+                <div class="owner-kpi-info">
+                  <span class="owner-kpi-label">Unique Visitors</span>
+                  <span class="owner-kpi-val" id="ownerKpiUnique">0</span>
+                  <span class="owner-kpi-sub">Distinct human IPs</span>
+                </div>
+              </div>
+
+              <!-- KPI 3 -->
+              <div class="owner-kpi-card kpi-paper-terracotta">
+                <div class="owner-kpi-icon"><i class="fa-solid fa-bolt"></i></div>
+                <div class="owner-kpi-info">
+                  <span class="owner-kpi-label">Last 24 Hours</span>
+                  <span class="owner-kpi-val" id="ownerKpiToday">0</span>
+                  <span class="owner-kpi-sub" id="ownerKpiWeekSub">0 this week</span>
+                </div>
+              </div>
+
+              <!-- KPI 4 -->
+              <div class="owner-kpi-card kpi-paper-navy">
+                <div class="owner-kpi-icon"><i class="fa-solid fa-earth-americas"></i></div>
+                <div class="owner-kpi-info">
+                  <span class="owner-kpi-label">Top Location</span>
+                  <div class="owner-top-loc-row">
+                    <span class="owner-top-flag" id="ownerKpiTopFlag">🌐</span>
+                    <span class="owner-top-country" id="ownerKpiTopCountry">Detecting...</span>
+                  </div>
+                  <span class="owner-kpi-sub" id="ownerKpiTopSub">Audience center</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Visual Analytics Grid (Geographic & Tech Breakdown) -->
+            <div class="owner-analytics-grid">
+              <!-- Countries -->
+              <div class="owner-panel-box">
+                <div class="owner-panel-header">
+                  <div class="owner-panel-title">
+                    <i class="fa-solid fa-globe"></i>
+                    <h4>Geographic Visitor Distribution</h4>
+                  </div>
+                  <span class="owner-counter-badge" id="ownerCountryBadge">0 Countries</span>
+                </div>
+                <div class="owner-country-list" id="ownerCountryListContainer">
+                  <div class="owner-empty-hint">No country records yet</div>
+                </div>
+              </div>
+
+              <!-- Technology & Traffic -->
+              <div class="owner-panel-box">
+                <div class="owner-panel-header">
+                  <div class="owner-panel-title">
+                    <i class="fa-solid fa-laptop-code"></i>
+                    <h4>Visitor Hardware & Traffic Sources</h4>
+                  </div>
+                </div>
+                <div class="owner-tech-stack">
+                  <div class="owner-tech-row">
+                    <span class="owner-tech-label">Devices:</span>
+                    <div class="owner-device-tags" id="ownerDeviceTagsContainer">
+                      <!-- Rendered dynamically -->
+                    </div>
+                  </div>
+                  <div class="owner-tech-row">
+                    <span class="owner-tech-label">Browsers:</span>
+                    <div class="owner-chips-group" id="ownerBrowserChipsContainer">
+                      <!-- Rendered dynamically -->
+                    </div>
+                  </div>
+                  <div class="owner-tech-row">
+                    <span class="owner-tech-label">Referrals:</span>
+                    <div class="owner-chips-group" id="ownerReferrerChipsContainer">
+                      <!-- Rendered dynamically -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Visitor Logs Table -->
+            <div class="owner-table-box">
+              <div class="owner-table-header">
+                <div class="owner-table-title-group">
+                  <i class="fa-solid fa-list-check"></i>
+                  <h4>Live Telemetry Log (IP & Location Stream)</h4>
+                  <span class="owner-counter-badge" id="ownerTableCount">0 visitors</span>
+                </div>
+
+                <div class="owner-table-controls">
+                  <div class="owner-search-input-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="ownerTableSearch" placeholder="Filter by IP, City, Country, OS, Browser..." oninput="handleOwnerTableSearch(this.value)">
+                  </div>
+
+                  <div class="owner-filter-pills">
+                    <button type="button" class="owner-pill-btn active" data-filter="all" onclick="setOwnerTimeframe('all', this)">All</button>
+                    <button type="button" class="owner-pill-btn" data-filter="today" onclick="setOwnerTimeframe('today', this)">Today</button>
+                    <button type="button" class="owner-pill-btn" data-filter="week" onclick="setOwnerTimeframe('week', this)">7 Days</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="owner-table-scroll-wrapper">
+                <table class="owner-telemetry-table">
+                  <thead>
+                    <tr>
+                      <th>Status</th>
+                      <th>Time</th>
+                      <th>IP Address</th>
+                      <th>Location</th>
+                      <th>Device & OS</th>
+                      <th>Browser</th>
+                      <th>Origin</th>
+                      <th style="text-align: right;">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ownerTelemetryTableBody">
+                    <tr>
+                      <td colspan="8" class="owner-empty-hint">Loading visitor records...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
       </div> <!-- /dossier-folder-body -->
 
       <!-- Folder Footer Bar -->
       <footer class="dossier-footer">
         <div class="footer-left">
           <span>&copy; 2026 Sampada Bandre. Handcrafted with passion & code.</span>
+          <a href="#section-owner" onclick="switchSection('section-owner'); return false;" class="owner-console-link" title="Open Owner Portal (Ctrl+Shift+A)" aria-label="Owner Analytics Console" style="color: inherit; opacity: 0.35; margin-left: 8px; text-decoration: none; transition: opacity 0.2s;"><i class="fa-solid fa-shield-halved"></i></a>
         </div>
         <div class="footer-center">
           <span class="footer-star">★</span>
@@ -2073,6 +2319,28 @@
     </div>
   </div>
 
+  <!-- MODAL: Visitor Telemetry Deep Dive -->
+  <div class="custom-modal-overlay" id="telemetryDetailModal" aria-hidden="true" role="dialog" style="display: none;">
+    <div class="modal-window telemetry-modal-window">
+      <div class="modal-header">
+        <div class="modal-title-box">
+          <span class="modal-pill" style="background: rgba(197, 155, 39, 0.15); color: var(--accent-gold);"><i class="fa-solid fa-fingerprint"></i> Visitor Telemetry Deep Dive</span>
+          <h3 id="telemetryModalTitle" class="modal-heading">Visitor Inspection</h3>
+        </div>
+        <button class="modal-close-btn" onclick="closeTelemetryModal()" aria-label="Close Modal">&times;</button>
+      </div>
+      <div class="modal-body" id="telemetryModalBody">
+        <!-- Injected via JavaScript -->
+      </div>
+      <div class="modal-footer">
+        <a id="telemetryMapsBtn" href="#" target="_blank" rel="noopener" class="modal-action-btn primary" style="background: #2563eb;">
+          <i class="fa-solid fa-location-crosshairs"></i> Open Coordinates in Google Maps
+        </a>
+        <button class="modal-action-btn secondary" onclick="closeTelemetryModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Floating Back To Top Button (Appears on Scroll) -->
   <button id="floatingBackToTop" class="floating-top-btn" title="Back to top" aria-label="Back to top">
     <span class="top-arrow-icon"><i class="fa-solid fa-arrow-up"></i></span>
@@ -2081,6 +2349,12 @@
 
   <!-- Floating Toast Notification -->
   <div id="toastNotification" class="toast-popup" role="status" aria-live="polite"></div>
+
+  <!-- Visitor Telemetry Tracker -->
+  <script defer src="tracker.js"></script>
+
+  <!-- Owner Telemetry Engine -->
+  <script src="owner-telemetry.js"></script>
 
   <!-- Main JavaScript Logic -->
   <script src="script.js"></script>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Owner Analytics & Visitor Telemetry | Sampada Bandre</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Admin Stylesheet -->
+  <link rel="stylesheet" href="admin.css">
+</head>
+
+<body class="admin-body">
+  <!-- Glowing Background Orbs -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <!-- ========================================================== -->
+  <!-- 1. LOGIN / LOCK SCREEN (Visible when not authenticated) -->
+  <!-- ========================================================== -->
+  <section class="auth-wrapper" id="authSection">
+    <div class="auth-card">
+      <div class="auth-shield-icon">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <h1 class="auth-title">Owner Security Gate</h1>
+      <p class="auth-desc">
+        Access restricted to <strong>Sampada Bandre</strong>. Enter master administrative credentials to decrypt
+        and review visitor analytics, IP logs, and geographic telemetry.
+      </p>
+
+      <form id="loginForm" class="auth-form" onsubmit="handleAdminLogin(event)">
+        <div class="input-field-group">
+          <label for="adminPasswordInput" class="field-label">Master Admin Password</label>
+          <div class="password-input-box">
+            <i class="fa-solid fa-key input-icon"></i>
+            <input type="password" id="adminPasswordInput" class="custom-input" placeholder="Enter admin password..."
+              required autocomplete="current-password" autofocus>
+            <button type="button" class="eye-toggle-btn" onclick="togglePasswordVisibility()"
+              title="Show/Hide Password">
+              <i class="fa-regular fa-eye" id="passwordEyeIcon"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="auth-options-row">
+          <label class="custom-checkbox">
+            <input type="checkbox" id="rememberMeCheckbox" checked>
+            <span class="checkmark"></span>
+            <span>Remember session on this device</span>
+          </label>
+        </div>
+
+        <button type="submit" class="submit-auth-btn" id="loginBtn">
+          <span>Unlock Analytics Console</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+        <div id="authAlert" class="auth-alert" style="display: none;"></div>
+      </form>
+
+      <!-- Advanced / Direct Supabase Config Modal Trigger -->
+      <div class="auth-footer-options">
+        <button type="button" class="text-link-btn" onclick="toggleDatabaseConfigModal()">
+          <i class="fa-solid fa-gear"></i> Direct Database Configuration
+        </button>
+        <span class="divider-dot">•</span>
+        <button type="button" class="text-link-btn" onclick="activateDemoMode()">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Preview Demo Data
+        </button>
+      </div>
+
+      <div class="auth-back-link">
+        <a href="index.html" class="back-home-link">
+          <i class="fa-solid fa-arrow-left"></i> Return to Portfolio
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================== -->
+  <!-- 2. MAIN ADMIN DASHBOARD (Visible when authenticated) -->
+  <!-- ========================================================== -->
+  <div class="dashboard-wrapper" id="dashboardSection" style="display: none;">
+    <!-- Top Bar -->
+    <header class="dash-navbar">
+      <div class="nav-brand">
+        <div class="brand-badge">
+          <i class="fa-solid fa-satellite-dish"></i>
+        </div>
+        <div class="brand-text">
+          <h2 class="brand-name">Sampada's Telemetry Console</h2>
+          <div class="brand-status">
+            <span class="live-pulse"></span>
+            <span class="status-label">Monitoring Active</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-controls">
+        <!-- Owner Ignore Toggle -->
+        <div class="owner-filter-toggle"
+          title="When enabled, your own visits from this browser will NOT be tracked or counted in stats.">
+          <label class="switch">
+            <input type="checkbox" id="ownerIgnoreSwitch" onchange="toggleOwnerIgnore(this.checked)">
+            <span class="slider round"></span>
+          </label>
+          <span class="toggle-label"><i class="fa-solid fa-user-shield"></i> Exclude My Visits</span>
+        </div>
+
+        <!-- Action Buttons -->
+        <button class="nav-action-btn" onclick="refreshAnalytics(true)" id="btnRefresh" title="Refresh Telemetry Data">
+          <i class="fa-solid fa-rotate" id="refreshIcon"></i>
+          <span>Refresh</span>
+        </button>
+
+        <button class="nav-action-btn" onclick="exportVisitsToCSV()" title="Download Full Log as CSV">
+          <i class="fa-solid fa-file-csv"></i>
+          <span>Export CSV</span>
+        </button>
+
+        <button class="nav-action-btn" onclick="toggleDatabaseConfigModal()" title="Database & Credentials Settings">
+          <i class="fa-solid fa-sliders"></i>
+          <span>Settings</span>
+        </button>
+
+        <button class="nav-action-btn danger" onclick="handleLogout()" title="Lock Dashboard & Logout">
+          <i class="fa-solid fa-lock"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="dash-content">
+      <!-- Demo Mode Banner (only shows if in preview demo mode) -->
+      <div id="demoBanner" class="demo-banner" style="display: none;">
+        <i class="fa-solid fa-circle-info"></i>
+        <span><strong>Preview Mode:</strong> Displaying realistic simulated visitor telemetry. Connect your Supabase database in Settings to stream live portfolio visitors!</span>
+        <button class="demo-dismiss-btn" onclick="toggleDatabaseConfigModal()">Setup Supabase</button>
+      </div>
+
+      <!-- KPI METRIC CARDS -->
+      <section class="kpi-grid">
+        <!-- Card 1: Total Views -->
+        <div class="kpi-card card-cyan">
+          <div class="kpi-header">
+            <span class="kpi-title">Total Profile Views</span>
+            <div class="kpi-icon-pill"><i class="fa-solid fa-eye"></i></div>
+          </div>
+          <div class="kpi-value-row">
+            <span class="kpi-number" id="metricTotalViews">0</span>
+            <span class="kpi-subtag">All-time</span>
+          </div>
+          <div class="kpi-footer">
+            <span class="kpi-caption"><i class="fa-solid fa-chart-line"></i> Total visits recorded</span>
+          </div>
+        </div>
+
+        <!-- Card 2: Unique Visitors -->
+        <div class="kpi-card card-purple">
+          <div class="kpi-header">
+            <span class="kpi-title">Unique Visitors</span>
+            <div class="kpi-icon-pill"><i class="fa-solid fa-users"></i></div>
+          </div>
+          <div class="kpi-value-row">
+            <span class="kpi-number" id="metricUniqueVisitors">0</span>
+            <span class="kpi-subtag">Unique IPs</span>
+          </div>
+          <div class="kpi-footer">
+            <span class="kpi-caption"><i class="fa-solid fa-fingerprint"></i> Distinct human audiences</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Today's Views -->
+        <div class="kpi-card card-green">
+          <div class="kpi-header">
+            <span class="kpi-title">Last 24 Hours</span>
+            <div class="kpi-icon-pill"><i class="fa-solid fa-bolt"></i></div>
+          </div>
+          <div class="kpi-value-row">
+            <span class="kpi-number" id="metricTodayViews">0</span>
+            <span class="kpi-subtag" id="metricWeekViews">0 this week</span>
+          </div>
+          <div class="kpi-footer">
+            <span class="kpi-caption"><i class="fa-solid fa-clock-rotate-left"></i> Recent momentum</span>
+          </div>
+        </div>
+
+        <!-- Card 4: Top Country / City -->
+        <div class="kpi-card card-gold">
+          <div class="kpi-header">
+            <span class="kpi-title">Top Location</span>
+            <div class="kpi-icon-pill"><i class="fa-solid fa-earth-americas"></i></div>
+          </div>
+          <div class="kpi-value-row">
+            <div class="kpi-location-box">
+              <span class="location-flag" id="metricTopFlag">🌐</span>
+              <span class="location-name" id="metricTopCountry">Detecting...</span>
+            </div>
+          </div>
+          <div class="kpi-footer">
+            <span class="kpi-caption" id="metricTopCity">Primary audience hub</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- VISUAL ANALYTICS ROW -->
+      <section class="analytics-panels-row">
+        <!-- Panel 1: Country Breakdown -->
+        <div class="panel-card country-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <i class="fa-solid fa-globe"></i>
+              <h3>Geographic Distribution</h3>
+            </div>
+            <span class="panel-badge" id="countryCountBadge">0 Countries</span>
+          </div>
+          <div class="panel-body">
+            <div class="country-list" id="countryStatsList">
+              <div class="empty-state">No country records yet</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2: Device & Browser Distribution -->
+        <div class="panel-card tech-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <i class="fa-solid fa-laptop-code"></i>
+              <h3>Visitor Tech & Sources</h3>
+            </div>
+          </div>
+          <div class="panel-body tech-body">
+            <!-- Devices -->
+            <div class="tech-subgroup">
+              <span class="subgroup-title">Device Types</span>
+              <div class="device-bars" id="deviceBarsContainer">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+
+            <!-- Top Browsers -->
+            <div class="tech-subgroup">
+              <span class="subgroup-title">Browsers</span>
+              <div class="browser-chips" id="browserChipsContainer">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+
+            <!-- Referrers -->
+            <div class="tech-subgroup">
+              <span class="subgroup-title">Traffic Origins</span>
+              <div class="referrer-chips" id="referrerChipsContainer">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VISITOR TELEMETRY TABLE SECTION -->
+      <section class="telemetry-table-section">
+        <div class="table-card">
+          <!-- Table Toolbar -->
+          <div class="table-toolbar">
+            <div class="toolbar-left">
+              <h3 class="table-title">
+                <i class="fa-solid fa-list-check"></i> Real-Time Visitor Telemetry Log
+              </h3>
+              <span class="table-counter" id="tableFilterCount">Showing 0 visitors</span>
+            </div>
+
+            <div class="toolbar-right">
+              <!-- Search Bar -->
+              <div class="table-search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="tableSearchInput" placeholder="Filter by IP, City, Country, OS, Browser..."
+                  oninput="handleTableSearch(this.value)">
+                <button type="button" class="clear-search-btn" id="clearSearchBtn" onclick="clearTableSearch()"
+                  style="display: none;">
+                  &times;
+                </button>
+              </div>
+
+              <!-- Timeframe Filters -->
+              <div class="timeframe-filter-group">
+                <button class="filter-btn active" data-filter="all" onclick="setTimeframeFilter('all', this)">All
+                  Time</button>
+                <button class="filter-btn" data-filter="today"
+                  onclick="setTimeframeFilter('today', this)">Today</button>
+                <button class="filter-btn" data-filter="week" onclick="setTimeframeFilter('week', this)">7 Days</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Table Wrapper -->
+          <div class="table-responsive">
+            <table class="telemetry-table" id="telemetryTable">
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  <th>Timestamp</th>
+                  <th>IP Address</th>
+                  <th>Location (City, Country)</th>
+                  <th>Device & OS</th>
+                  <th>Browser</th>
+                  <th>Traffic Source</th>
+                  <th style="text-align: right;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="telemetryTableBody">
+                <tr>
+                  <td colspan="8" class="table-loading">
+                    <div class="loader-spinner"></div>
+                    <span>Decrypting telemetry records...</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ========================================================== -->
+  <!-- 3. MODAL: DEEP VISITOR INSPECTOR -->
+  <!-- ========================================================== -->
+  <div class="modal-overlay" id="inspectorModal" style="display: none;">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <i class="fa-solid fa-fingerprint"></i>
+          <h3>Visitor Telemetry Deep Dive</h3>
+        </div>
+        <button class="modal-close-btn" onclick="closeInspectorModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="inspectorModalBody">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-footer">
+        <a href="#" target="_blank" rel="noopener" id="inspectorMapsBtn" class="modal-btn primary">
+          <i class="fa-solid fa-location-crosshairs"></i> View Coordinates on Google Maps
+        </a>
+        <button class="modal-btn secondary" onclick="closeInspectorModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================== -->
+  <!-- 4. MODAL: DATABASE CONFIGURATION & KEYS -->
+  <!-- ========================================================== -->
+  <div class="modal-overlay" id="configModal" style="display: none;">
+    <div class="modal-box config-modal-box">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <i class="fa-solid fa-database"></i>
+          <h3>Supabase Database Configuration</h3>
+        </div>
+        <button class="modal-close-btn" onclick="toggleDatabaseConfigModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="config-lead">
+          Connect your free Supabase instance. Credentials saved here are kept <strong>locally on your personal browser
+            only</strong> or passed via the serverless API.
+        </p>
+
+        <div class="config-field">
+          <label class="field-label">Supabase Project URL</label>
+          <input type="url" id="cfgSupabaseUrl" class="custom-input"
+            placeholder="https://your-project-id.supabase.co">
+          <span class="field-hint">Found in Supabase: Project Settings -> API -> Project URL</span>
+        </div>
+
+        <div class="config-field">
+          <label class="field-label">Supabase Service Role Key (or Anon Key)</label>
+          <input type="password" id="cfgSupabaseKey" class="custom-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6...">
+          <span class="field-hint">Service Role Key is recommended for full analytics read access.</span>
+        </div>
+
+        <div class="config-field">
+          <label class="field-label">Admin Master Password</label>
+          <input type="password" id="cfgAdminPassword" class="custom-input"
+            placeholder="Set or verify your admin password">
+          <span class="field-hint">Default initially: <code>sampada@admin2026</code> (changeable in Vercel environment
+            variables).</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn primary" onclick="saveDatabaseConfig()">
+          <i class="fa-solid fa-floppy-disk"></i> Save & Connect
+        </button>
+        <button class="modal-btn secondary" onclick="toggleDatabaseConfigModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="adminToast" class="admin-toast"></div>
+
+  <!-- Admin JavaScript Engine -->
+  <script src="admin.js"></script>
+</body>
+
+</html>
