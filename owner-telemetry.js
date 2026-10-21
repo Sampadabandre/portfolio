@@ -129,7 +129,11 @@ async function verifyOwnerCredentials(password) {
 
     const data = await res.json().catch(() => ({}));
     if (res.status === 500 && data.message && data.message.includes('ADMIN_PASSWORD')) {
-      return { success: false, message: 'Vercel Setup Notice: ADMIN_PASSWORD is not set in Vercel environment variables.' };
+      const curHost = window.location.hostname;
+      return {
+        success: false,
+        message: `Vercel Setup Notice: ADMIN_PASSWORD is not configured for this Vercel deployment (${curHost}). If you configured environment variables on "portfolio-9iu2", please access your site at https://portfolio-9iu2.vercel.app/ or add ADMIN_PASSWORD to this project's Vercel Environment Variables.`
+      };
     }
 
     // In local development server fallback
@@ -232,6 +236,10 @@ async function refreshInlineAnalytics(isManual = false) {
     }
 
     const errData = await response.json().catch(() => ({}));
+    if (response.status === 500) {
+      renderEmptyOwnerTable(errData.message || 'Server Misconfigured: Please check Vercel environment variables.');
+      return;
+    }
     if (response.status === 503 || (errData.error && errData.error.includes('Missing'))) {
       renderEmptyOwnerTable('Database Not Connected: Add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to your Vercel Environment Variables.');
       return;

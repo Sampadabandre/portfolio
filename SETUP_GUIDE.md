@@ -54,7 +54,7 @@ For every page view, the system securely collects and presents:
    - **`service_role` Secret Key** (click "Reveal" to copy it; keep this secret, do not share)
 
 ### Step 3: Add Environment Variables in Vercel
-1. Go to your [Vercel Dashboard](https://vercel.com/dashboard) and select your deployed portfolio project (`portfolio-five-sand-53`).
+1. Go to your [Vercel Dashboard](https://vercel.com/dashboard) and select your active portfolio project (`portfolio-9iu2`).
 2. Go to **Settings** -> **Environment Variables**.
 3. Add the following 3 variables:
 
@@ -76,7 +76,7 @@ For every page view, the system securely collects and presents:
 
 ## 🔑 How to Open Your Owner Section
 
-1. Visit your live site: `https://portfolio-five-sand-53.vercel.app/`
+1. Visit your live site: `https://portfolio-9iu2.vercel.app/` (or your active Vercel domain).
 2. Open the Owner Section using any of these methods:
    - **Keyboard Shortcut**: Press **`Ctrl + Shift + A`** (or **`Cmd + Shift + A`** on Mac) from anywhere on your portfolio.
    - **Navigation Tab**: Click the secret lock icon in the footer or navigate to `#section-owner`.

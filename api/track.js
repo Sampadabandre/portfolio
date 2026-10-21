@@ -249,9 +249,25 @@ module.exports = async (req, res) => {
       user_agent: cleanStr(userAgent, 500, '')
     };
 
-    // 5. Supabase Credentials from Server Environment Variables ONLY
-    const supabaseUrl = process.env.SUPABASE_URL;
-    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
+    // 5. Supabase Credentials from Server Environment Variables ONLY (with alias & quote support)
+    let supabaseUrl = (
+      process.env.SUPABASE_URL ||
+      process.env.NEXT_PUBLIC_SUPABASE_URL ||
+      process.env.VITE_SUPABASE_URL ||
+      ''
+    ).trim().replace(/\/$/, '');
+
+    let supabaseKey = (
+      process.env.SUPABASE_SERVICE_ROLE_KEY ||
+      process.env.SUPABASE_SERVICE_KEY ||
+      process.env.SUPABASE_SECRET_KEY ||
+      process.env.SUPABASE_ANON_KEY ||
+      process.env.SUPABASE_KEY ||
+      ''
+    ).trim();
+
+    if (supabaseUrl.startsWith('"') && supabaseUrl.endsWith('"')) supabaseUrl = supabaseUrl.slice(1, -1).trim();
+    if (supabaseKey.startsWith('"') && supabaseKey.endsWith('"')) supabaseKey = supabaseKey.slice(1, -1).trim();
 
     if (!supabaseUrl || !supabaseKey) {
       // Do not block public visitors or log error in their browser console

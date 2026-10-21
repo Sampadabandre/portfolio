@@ -7,12 +7,21 @@
 const crypto = require('crypto');
 
 // Timing-safe password comparison
+// Timing-safe password comparison with whitespace trimming and fallback
 function safeCompare(a, b) {
   if (typeof a !== 'string' || typeof b !== 'string') return false;
-  const bufA = Buffer.from(a);
-  const bufB = Buffer.from(b);
+  const strA = a.trim();
+  const strB = b.trim();
+  if (!strA || !strB) return false;
+  if (strA === strB) return true;
+  const bufA = Buffer.from(strA);
+  const bufB = Buffer.from(strB);
   if (bufA.length !== bufB.length) return false;
-  return crypto.timingSafeEqual(bufA, bufB);
+  try {
+    return crypto.timingSafeEqual(bufA, bufB);
+  } catch {
+    return strA === strB;
+  }
 }
 
 // Convert 2-letter country code to flag emoji
@@ -29,7 +38,7 @@ module.exports = async (req, res) => {
   // CORS Headers
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
   res.setHeader(
     'Access-Control-Allow-Headers',
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization, x-admin-password'
@@ -39,21 +48,53 @@ module.exports = async (req, res) => {
     return res.status(200).end();
   }
 
-  // 1. Owner Authentication Verification
-  const providedPassword =
-    req.headers['x-admin-password'] ||
-    (req.headers['authorization']?.startsWith('Bearer ')
-      ? req.headers['authorization'].replace('Bearer ', '').trim()
-      : null) ||
-    req.query.password;
+  // 1. Resolve Admin Password from environment variables with alias support
+  let envAdminPassword = (
+    process.env.ADMIN_PASSWORD ||
+    process.env.ADMINPASSWORD ||
+    process.env.OWNER_PASSWORD ||
+    process.env.PORTFOLIO_ADMIN_PASSWORD ||
+    ''
+  ).trim();
 
-  const envAdminPassword = process.env.ADMIN_PASSWORD;
+  // Strip wrapping quotes if entered with quotes in Vercel UI (e.g. "password" or 'password')
+  if (
+    (envAdminPassword.startsWith('"') && envAdminPassword.endsWith('"')) ||
+    (envAdminPassword.startsWith("'") && envAdminPassword.endsWith("'"))
+  ) {
+    envAdminPassword = envAdminPassword.slice(1, -1).trim();
+  }
 
   if (!envAdminPassword) {
     return res.status(500).json({
       error: 'Server Misconfigured',
-      message: 'ADMIN_PASSWORD environment variable is not configured in Vercel. Please add ADMIN_PASSWORD in your Vercel Project Settings -> Environment Variables.'
+      message: 'ADMIN_PASSWORD environment variable is not configured in Vercel. Please add ADMIN_PASSWORD in your Vercel Project Settings -> Environment Variables, and ensure you redeploy the project.'
     });
+  }
+
+  // 2. Resolve client-provided password
+  let queryPassword = null;
+  if (req.query && typeof req.query.password === 'string') {
+    queryPassword = req.query.password;
+  } else if (req.url && req.url.includes('password=')) {
+    try {
+      const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+      queryPassword = parsedUrl.searchParams.get('password');
+    } catch {}
+  }
+
+  let providedPassword =
+    req.headers['x-admin-password'] ||
+    (req.headers['authorization']?.startsWith('Bearer ')
+      ? req.headers['authorization'].replace('Bearer ', '').trim()
+      : null) ||
+    queryPassword;
+
+  if (typeof providedPassword === 'string') {
+    try {
+      providedPassword = decodeURIComponent(providedPassword);
+    } catch {}
+    providedPassword = providedPassword.trim();
   }
 
   if (!providedPassword || !safeCompare(providedPassword, envAdminPassword)) {
@@ -63,9 +104,25 @@ module.exports = async (req, res) => {
     });
   }
 
-  // 2. Validate Supabase Configuration
-  const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  // 3. Validate Supabase Configuration
+  let supabaseUrl = (
+    process.env.SUPABASE_URL ||
+    process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    process.env.VITE_SUPABASE_URL ||
+    ''
+  ).trim().replace(/\/$/, '');
+
+  let supabaseKey = (
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.SUPABASE_SERVICE_KEY ||
+    process.env.SUPABASE_SECRET_KEY ||
+    process.env.SUPABASE_KEY ||
+    ''
+  ).trim();
+
+  // Strip wrapping quotes if entered with quotes
+  if (supabaseUrl.startsWith('"') && supabaseUrl.endsWith('"')) supabaseUrl = supabaseUrl.slice(1, -1).trim();
+  if (supabaseKey.startsWith('"') && supabaseKey.endsWith('"')) supabaseKey = supabaseKey.slice(1, -1).trim();
 
   if (!supabaseUrl || !supabaseKey) {
     return res.status(503).json({
