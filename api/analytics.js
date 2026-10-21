@@ -1,9 +1,21 @@
 /**
  * Vercel Serverless Function: /api/analytics
- * Owner-Only Protected Endpoint: Fetches visitor metrics, counts, IP addresses, and locations.
+ * Owner-Only Protected Endpoint: Fetches visitor metrics, IP logs, geo-intelligence, and page stats.
+ * Strictly enforces server-side authentication and secret isolation.
  */
 
-// Convert country code to flag emoji
+const crypto = require('crypto');
+
+// Timing-safe password comparison
+function safeCompare(a, b) {
+  if (typeof a !== 'string' || typeof b !== 'string') return false;
+  const bufA = Buffer.from(a);
+  const bufB = Buffer.from(b);
+  if (bufA.length !== bufB.length) return false;
+  return crypto.timingSafeEqual(bufA, bufB);
+}
+
+// Convert 2-letter country code to flag emoji
 function countryCodeToFlag(countryCode) {
   if (!countryCode || countryCode.length !== 2 || countryCode === 'XX') return '🌐';
   const codePoints = countryCode
@@ -17,17 +29,17 @@ module.exports = async (req, res) => {
   // CORS Headers
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST,DELETE');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
   res.setHeader(
     'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization, x-admin-password, x-supabase-url, x-supabase-key'
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization, x-admin-password'
   );
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
-  // 1. Owner Authentication Check
+  // 1. Owner Authentication Verification
   const providedPassword =
     req.headers['x-admin-password'] ||
     (req.headers['authorization']?.startsWith('Bearer ')
@@ -36,40 +48,35 @@ module.exports = async (req, res) => {
     req.query.password;
 
   const envAdminPassword = process.env.ADMIN_PASSWORD;
-  const envServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  // Header overrides (allows client dashboard to connect with custom credentials entered securely in dashboard)
-  const supabaseUrl = req.headers['x-supabase-url'] || process.env.SUPABASE_URL;
-  const supabaseKey = req.headers['x-supabase-key'] || process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
-
-  // Verify authentication:
-  // Must match ADMIN_PASSWORD, or if ADMIN_PASSWORD is set, must equal it;
-  // If user passes their valid Supabase Service Role Key as password/token, that also authenticates the owner.
-  const isAuthorized =
-    Boolean(providedPassword) &&
-    (
-      (envAdminPassword && providedPassword === envAdminPassword) ||
-      (envServiceKey && providedPassword === envServiceKey) ||
-      (providedPassword === 'sampada@admin2026') // Fallback default initial password if env var not set yet
-    );
-
-  if (!isAuthorized) {
-    return res.status(401).json({
-      error: 'Unauthorized: Owner access only.',
-      message: 'Invalid administrative password. Visitor data is strictly protected.'
+  if (!envAdminPassword) {
+    return res.status(500).json({
+      error: 'Server Misconfigured',
+      message: 'ADMIN_PASSWORD environment variable is not configured in Vercel. Please add ADMIN_PASSWORD in your Vercel Project Settings -> Environment Variables.'
     });
   }
 
+  if (!providedPassword || !safeCompare(providedPassword, envAdminPassword)) {
+    return res.status(401).json({
+      error: 'Unauthorized',
+      message: 'Invalid administrative password. Access restricted to portfolio owner only.'
+    });
+  }
+
+  // 2. Validate Supabase Configuration
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
   if (!supabaseUrl || !supabaseKey) {
-    return res.status(400).json({
-      error: 'Configuration Missing',
-      message: 'Supabase URL or Key not set. Please set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in Vercel environment variables or enter them in the Admin Settings.'
+    return res.status(503).json({
+      error: 'Database Credentials Missing',
+      message: 'SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be configured in Vercel Environment Variables. See supabase_schema.sql for database setup instructions.'
     });
   }
 
   try {
-    // 2. Fetch visitor records from Supabase
-    const limit = parseInt(req.query.limit || '500', 10);
+    // 3. Fetch visitor records from Supabase
+    const limit = Math.min(parseInt(req.query.limit || '1000', 10), 2000);
     const endpoint = `${supabaseUrl.replace(/\/$/, '')}/rest/v1/portfolio_visits?select=*&order=created_at.desc&limit=${limit}`;
 
     const response = await fetch(endpoint, {
@@ -78,26 +85,31 @@ module.exports = async (req, res) => {
         'Content-Type': 'application/json',
         'apikey': supabaseKey,
         'Authorization': `Bearer ${supabaseKey}`
-      }
+      },
+      signal: AbortSignal.timeout(8000)
     });
 
     if (!response.ok) {
       const errText = await response.text();
       return res.status(response.status).json({
         error: 'Database query failed',
+        message: 'Could not fetch records from Supabase. Ensure table "portfolio_visits" exists with correct schema.',
         details: errText
       });
     }
 
     const visits = await response.json();
 
-    // 3. Compute Analytics & Metrics
+    // 4. Compute Analytics & Telemetry Metrics
     const totalViews = visits.length;
-    const uniqueIps = new Set();
+    const uniqueVisitorsSet = new Set();
+    const uniqueIpsSet = new Set();
     const countryMap = {};
     const cityMap = {};
-    const deviceMap = { Desktop: 0, Mobile: 0, Tablet: 0, Other: 0 };
+    const pageMap = {};
+    const deviceMap = { Desktop: 0, Mobile: 0, Tablet: 0, Unknown: 0 };
     const browserMap = {};
+    const osMap = {};
     const referrerMap = {};
 
     const now = new Date();
@@ -106,15 +118,29 @@ module.exports = async (req, res) => {
 
     let todayViews = 0;
     let weekViews = 0;
+    let newVisitorsCount = 0;
+    let returningVisitorsCount = 0;
 
     visits.forEach((v) => {
-      // Unique IP tracking
-      if (v.ip) uniqueIps.add(v.ip);
+      // Unique tracking (visitor_id preferred, fallback to IP)
+      if (v.visitor_id) {
+        uniqueVisitorsSet.add(v.visitor_id);
+      } else if (v.ip) {
+        uniqueVisitorsSet.add(v.ip);
+      }
+      if (v.ip) uniqueIpsSet.add(v.ip);
+
+      if (v.is_new_visitor === true) newVisitorsCount++;
+      else if (v.is_new_visitor === false) returningVisitorsCount++;
 
       // Timeframe counts
       const visitDate = new Date(v.created_at);
       if (visitDate >= oneDayAgo) todayViews++;
       if (visitDate >= sevenDaysAgo) weekViews++;
+
+      // Page breakdown
+      const pageKey = v.page || '/';
+      pageMap[pageKey] = (pageMap[pageKey] || 0) + 1;
 
       // Country breakdown
       const cCode = (v.country_code || 'XX').toUpperCase();
@@ -130,14 +156,18 @@ module.exports = async (req, res) => {
         cityMap[cityKey] = (cityMap[cityKey] || 0) + 1;
       }
 
-      // Device breakdown
+      // Device category breakdown
       const dev = v.device || 'Desktop';
       if (deviceMap[dev] !== undefined) deviceMap[dev]++;
-      else deviceMap.Other++;
+      else deviceMap.Unknown++;
 
       // Browser breakdown
-      const br = v.browser || 'Other';
+      const br = v.browser || 'Unknown';
       browserMap[br] = (browserMap[br] || 0) + 1;
+
+      // OS breakdown
+      const os = v.os || 'Unknown';
+      osMap[os] = (osMap[os] || 0) + 1;
 
       // Referrer breakdown
       let ref = v.referrer || 'Direct';
@@ -152,31 +182,50 @@ module.exports = async (req, res) => {
       referrerMap[ref] = (referrerMap[ref] || 0) + 1;
     });
 
-    // Sort countries by visits descending
-    const countryStats = Object.values(countryMap).sort((a, b) => b.count - a.count);
-    const topCountry = countryStats.length > 0 ? countryStats[0] : { name: 'None yet', count: 0, flag: '🌐' };
+    // Sort Top Pages
+    const topPages = Object.entries(pageMap)
+      .map(([page, count]) => ({
+        page,
+        count,
+        percent: totalViews > 0 ? Math.round((count / totalViews) * 100) : 0
+      }))
+      .sort((a, b) => b.count - a.count);
 
-    // Sort cities by visits descending
+    // Sort Countries
+    const countryStats = Object.values(countryMap)
+      .map(c => ({
+        ...c,
+        percent: totalViews > 0 ? Math.round((c.count / totalViews) * 100) : 0
+      }))
+      .sort((a, b) => b.count - a.count);
+
+    const topCountry = countryStats.length > 0 ? countryStats[0] : { name: 'None yet', count: 0, flag: '🌐', percent: 0 };
+
+    // Sort Cities
     const cityStats = Object.entries(cityMap)
       .map(([name, count]) => ({ name, count }))
-      .sort((a, b) => b.count - a.count);
-    const topCity = cityStats.length > 0 ? cityStats[0] : { name: 'None yet', count: 0 };
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10);
 
     return res.status(200).json({
       success: true,
       data: {
         metrics: {
           totalViews,
-          uniqueVisitors: uniqueIps.size,
+          uniqueVisitors: uniqueVisitorsSet.size,
+          uniqueIps: uniqueIpsSet.size,
           todayViews,
           weekViews,
           topCountry,
-          topCity
+          newVisitorsCount,
+          returningVisitorsCount
         },
+        topPages,
         countryStats,
-        cityStats: cityStats.slice(0, 10),
+        cityStats,
         deviceStats: deviceMap,
         browserStats: browserMap,
+        osStats: osMap,
         referrerStats: referrerMap,
         recentVisits: visits
       }

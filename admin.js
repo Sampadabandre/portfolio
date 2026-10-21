@@ -110,38 +110,23 @@ async function handleAdminLogin(event) {
 async function testCredentials(password) {
   // Test against /api/analytics
   try {
-    const customUrl = localStorage.getItem(STORAGE_KEY_SUPABASE_URL) || '';
-    const customKey = localStorage.getItem(STORAGE_KEY_SUPABASE_KEY) || '';
-
     const res = await fetch('/api/analytics?limit=1', {
       headers: {
-        'x-admin-password': password,
-        'x-supabase-url': customUrl,
-        'x-supabase-key': customKey
+        'x-admin-password': password
       }
     });
 
     if (res.ok) return true;
     if (res.status === 401) return false;
 
-    // Fallback default password if API is not deployed yet locally
-    if (password === 'sampada@admin2026') return true;
-
-    // Direct Supabase test if custom URL is provided
-    if (customUrl && customKey) {
-      const sbRes = await fetch(`${customUrl.replace(/\/$/, '')}/rest/v1/portfolio_visits?select=id&limit=1`, {
-        headers: {
-          'apikey': customKey,
-          'Authorization': `Bearer ${customKey}`
-        }
-      });
-      return sbRes.ok;
+    // In local dev server, allow master password check
+    const data = await res.json().catch(() => ({}));
+    if (res.status === 503) {
+      return true; // Password was valid, but Supabase connection not yet configured
     }
 
     return false;
   } catch {
-    // If running in local offline environment without Vercel serverless function
-    if (password === 'sampada@admin2026') return true;
     return false;
   }
 }
@@ -204,15 +189,10 @@ async function refreshAnalytics(isManual = false) {
       return;
     }
 
-    const customUrl = localStorage.getItem(STORAGE_KEY_SUPABASE_URL) || '';
-    const customKey = localStorage.getItem(STORAGE_KEY_SUPABASE_KEY) || '';
-
     // Query /api/analytics
-    const response = await fetch('/api/analytics?limit=500', {
+    const response = await fetch('/api/analytics?limit=1000', {
       headers: {
-        'x-admin-password': adminState.authToken || '',
-        'x-supabase-url': customUrl,
-        'x-supabase-key': customKey
+        'x-admin-password': adminState.authToken || ''
       }
     });
 

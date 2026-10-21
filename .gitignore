@@ -11,4 +11,6 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
-
+# Local development data
+data/
+data/*.json

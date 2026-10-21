@@ -2086,9 +2086,9 @@
               </div>
             </div>
 
-            <!-- Visual Analytics Grid (Geographic & Tech Breakdown) -->
+            <!-- Visual Analytics Grid (Geographic, Top Pages & Tech Breakdown) -->
             <div class="owner-analytics-grid">
-              <!-- Countries -->
+              <!-- Panel 1: Countries -->
               <div class="owner-panel-box">
                 <div class="owner-panel-header">
                   <div class="owner-panel-title">
@@ -2102,7 +2102,21 @@
                 </div>
               </div>
 
-              <!-- Technology & Traffic -->
+              <!-- Panel 2: Top Visited Pages -->
+              <div class="owner-panel-box">
+                <div class="owner-panel-header">
+                  <div class="owner-panel-title">
+                    <i class="fa-solid fa-compass"></i>
+                    <h4>Top Visited Pages & Sections</h4>
+                  </div>
+                  <span class="owner-counter-badge" id="ownerPagesBadge">0 Pages</span>
+                </div>
+                <div class="owner-country-list" id="ownerTopPagesContainer">
+                  <div class="owner-empty-hint">No page records yet</div>
+                </div>
+              </div>
+
+              <!-- Panel 3: Technology & Traffic Sources -->
               <div class="owner-panel-box">
                 <div class="owner-panel-header">
                   <div class="owner-panel-title">
@@ -2133,37 +2147,82 @@
               </div>
             </div>
 
-            <!-- Visitor Logs Table -->
+            <!-- Visitor Logs Table Box -->
             <div class="owner-table-box">
               <div class="owner-table-header">
                 <div class="owner-table-title-group">
                   <i class="fa-solid fa-list-check"></i>
-                  <h4>Live Telemetry Log (IP & Location Stream)</h4>
+                  <h4>Live Telemetry Log (IP, Location & Session Stream)</h4>
                   <span class="owner-counter-badge" id="ownerTableCount">0 visitors</span>
                 </div>
 
                 <div class="owner-table-controls">
+                  <!-- Search bar -->
                   <div class="owner-search-input-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="ownerTableSearch" placeholder="Filter by IP, City, Country, OS, Browser..." oninput="handleOwnerTableSearch(this.value)">
+                    <input type="text" id="ownerTableSearch" placeholder="Search IP, City, Country, OS, Browser, Page..." oninput="handleOwnerTableSearch(this.value)">
                   </div>
 
+                  <!-- Date timeframe filter pills -->
                   <div class="owner-filter-pills">
                     <button type="button" class="owner-pill-btn active" data-filter="all" onclick="setOwnerTimeframe('all', this)">All</button>
                     <button type="button" class="owner-pill-btn" data-filter="today" onclick="setOwnerTimeframe('today', this)">Today</button>
                     <button type="button" class="owner-pill-btn" data-filter="week" onclick="setOwnerTimeframe('week', this)">7 Days</button>
+                    <button type="button" class="owner-pill-btn" data-filter="month" onclick="setOwnerTimeframe('month', this)">30 Days</button>
                   </div>
                 </div>
               </div>
 
+              <!-- Multi-Criteria Filter Dropdowns Bar -->
+              <div class="owner-filters-bar">
+                <div class="owner-filter-item">
+                  <label for="ownerFilterDevice" class="owner-filter-label"><i class="fa-solid fa-laptop"></i> Device:</label>
+                  <select id="ownerFilterDevice" class="owner-filter-select" onchange="applyOwnerTableFilters()">
+                    <option value="">All Devices</option>
+                    <option value="Desktop">Desktop</option>
+                    <option value="Mobile">Mobile</option>
+                    <option value="Tablet">Tablet</option>
+                  </select>
+                </div>
+
+                <div class="owner-filter-item">
+                  <label for="ownerFilterVisitorType" class="owner-filter-label"><i class="fa-solid fa-user-tag"></i> Visitor:</label>
+                  <select id="ownerFilterVisitorType" class="owner-filter-select" onchange="applyOwnerTableFilters()">
+                    <option value="">All Visitors</option>
+                    <option value="new">New Visitors</option>
+                    <option value="returning">Returning</option>
+                  </select>
+                </div>
+
+                <div class="owner-filter-item">
+                  <label for="ownerFilterCountry" class="owner-filter-label"><i class="fa-solid fa-globe"></i> Country:</label>
+                  <select id="ownerFilterCountry" class="owner-filter-select" onchange="applyOwnerTableFilters()">
+                    <option value="">All Countries</option>
+                  </select>
+                </div>
+
+                <div class="owner-filter-item">
+                  <label for="ownerFilterBrowser" class="owner-filter-label"><i class="fa-solid fa-window-restore"></i> Browser:</label>
+                  <select id="ownerFilterBrowser" class="owner-filter-select" onchange="applyOwnerTableFilters()">
+                    <option value="">All Browsers</option>
+                  </select>
+                </div>
+
+                <button type="button" class="owner-reset-filters-btn" id="ownerResetFiltersBtn" onclick="resetOwnerFilters()" title="Reset all search filters">
+                  <i class="fa-solid fa-rotate-left"></i> Reset
+                </button>
+              </div>
+
+              <!-- Telemetry Scroll Wrapper -->
               <div class="owner-table-scroll-wrapper">
                 <table class="owner-telemetry-table">
                   <thead>
                     <tr>
-                      <th>Status</th>
-                      <th>Time</th>
+                      <th>Type</th>
+                      <th>Time (Local)</th>
                       <th>IP Address</th>
                       <th>Location</th>
+                      <th>Page Visited</th>
                       <th>Device & OS</th>
                       <th>Browser</th>
                       <th>Origin</th>
@@ -2172,10 +2231,39 @@
                   </thead>
                   <tbody id="ownerTelemetryTableBody">
                     <tr>
-                      <td colspan="8" class="owner-empty-hint">Loading visitor records...</td>
+                      <td colspan="9" class="owner-empty-hint">Loading visitor records...</td>
                     </tr>
                   </tbody>
                 </table>
+              </div>
+
+              <!-- Pagination Toolbar -->
+              <div class="owner-pagination-bar">
+                <div class="owner-pagination-info" id="ownerPaginationInfo">
+                  Showing 0 - 0 of 0 visitors
+                </div>
+
+                <div class="owner-pagination-controls">
+                  <div class="owner-page-size-selector">
+                    <label for="ownerPageSizeSelect">Rows per page:</label>
+                    <select id="ownerPageSizeSelect" onchange="changeOwnerPageSize(this.value)">
+                      <option value="10">10</option>
+                      <option value="25" selected>25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                    </select>
+                  </div>
+
+                  <div class="owner-page-nav">
+                    <button type="button" class="owner-page-btn" id="ownerPrevPageBtn" onclick="navigateOwnerPage(-1)" disabled title="Previous page">
+                      <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <span class="owner-page-indicator" id="ownerPageIndicator">Page 1 of 1</span>
+                    <button type="button" class="owner-page-btn" id="ownerNextPageBtn" onclick="navigateOwnerPage(1)" disabled title="Next page">
+                      <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -2346,40 +2434,45 @@
         </a>
         <button class="modal-action-btn secondary" onclick="closeTelemetryModal()">Close</button>
       </div>
+    </div>
   </div>
 
-  <!-- MODAL: DATABASE CONFIGURATION & KEYS -->
+  <!-- MODAL: DATABASE & ENVIRONMENT CONFIGURATION -->
   <div class="custom-modal-overlay" id="configModal" aria-hidden="true" role="dialog" style="display: none;">
-    <div class="modal-window" style="max-width: 520px;">
+    <div class="modal-window" style="max-width: 580px;">
       <div class="modal-header">
         <div class="modal-title-box">
-          <span class="modal-pill" style="background: rgba(197, 155, 39, 0.15); color: var(--accent-gold);"><i class="fa-solid fa-database"></i> Cloud Database Setup</span>
-          <h3 class="modal-heading">Connect Supabase</h3>
+          <span class="modal-pill" style="background: rgba(45, 106, 79, 0.15); color: var(--accent-forest);"><i class="fa-solid fa-shield-halved"></i> Cloud Database & Security</span>
+          <h3 class="modal-heading">Database Setup Guide</h3>
         </div>
         <button class="modal-close-btn" onclick="toggleDatabaseConfigModal()" aria-label="Close Modal">&times;</button>
       </div>
       <div class="modal-body">
-        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.2rem; line-height: 1.5;">
-          To record real visitors permanently on your live Vercel site (<strong>portfolio-five-sand-53.vercel.app</strong>), enter your free Supabase credentials below.
+        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.1rem; line-height: 1.5;">
+          For maximum security, your Supabase service keys and admin password are stored strictly in <strong>Vercel Environment Variables</strong> (never exposed to public visitors).
         </p>
 
-        <div style="display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem;">
-          <label style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">Supabase Project URL</label>
-          <input type="url" id="cfgSupabaseUrl" class="owner-password-input" placeholder="https://your-project.supabase.co" style="padding: 0.65rem 1rem;">
-          <span style="font-size: 0.72rem; color: var(--text-muted);">Found in Supabase: Project Settings -> API -> Project URL</span>
+        <div style="background: rgba(0, 0, 0, 0.025); border: 1px solid var(--paper-border); border-radius: 8px; padding: 1rem; margin-bottom: 1.1rem;">
+          <h5 style="margin: 0 0 0.5rem; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted);"><i class="fa-solid fa-list-check"></i> Required Vercel Environment Variables</h5>
+          <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7; font-family: var(--font-mono);">
+            <li><strong style="color:var(--text-primary);">SUPABASE_URL</strong> = <span>https://xyzcompany.supabase.co</span></li>
+            <li><strong style="color:var(--text-primary);">SUPABASE_SERVICE_ROLE_KEY</strong> = <span>eyJhbGci... (service_role secret)</span></li>
+            <li><strong style="color:var(--text-primary);">ADMIN_PASSWORD</strong> = <span>Your private master password</span></li>
+          </ul>
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.2rem;">
-          <label style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">Supabase Service Role Key (or Anon Key)</label>
-          <input type="password" id="cfgSupabaseKey" class="owner-password-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6..." style="padding: 0.65rem 1rem;">
-          <span style="font-size: 0.72rem; color: var(--text-muted);">Found in Supabase: Project Settings -> API -> service_role secret</span>
+        <div style="display: flex; gap: 0.6rem; margin-bottom: 0.5rem;">
+          <button type="button" class="modal-action-btn primary" onclick="copySqlSchemaToClipboard()" style="flex: 1; justify-content: center;">
+            <i class="fa-solid fa-copy"></i> Copy Supabase SQL Schema
+          </button>
+          <button type="button" class="modal-action-btn secondary" onclick="testDatabaseConnection()" id="cfgTestBtn" style="flex: 1; justify-content: center;">
+            <i class="fa-solid fa-plug"></i> Test Connection
+          </button>
         </div>
+        <div id="cfgStatusNotice" style="display: none; font-size: 0.8rem; margin-top: 0.75rem; padding: 0.5rem 0.8rem; border-radius: 6px;"></div>
       </div>
       <div class="modal-footer">
-        <button class="modal-action-btn primary" onclick="saveDatabaseConfig()">
-          <i class="fa-solid fa-floppy-disk"></i> Save & Connect
-        </button>
-        <button class="modal-action-btn secondary" onclick="toggleDatabaseConfigModal()">Cancel</button>
+        <button class="modal-action-btn secondary" onclick="toggleDatabaseConfigModal()">Close</button>
       </div>
     </div>
   </div>

@@ -135,11 +135,16 @@ const server = http.createServer(async (req, res) => {
           latitude: lat || null,
           longitude: lon || null,
           device: body.device || 'Desktop',
+          device_model: body.deviceModel || 'Unknown',
           browser: body.browser || 'Chrome',
+          browser_version: body.browserVersion || 'Unknown',
           os: body.os || 'Windows 11',
           screen: body.screen || '1920x1080',
           page: body.page || '/',
           referrer: body.referrer || req.headers['referer'] || 'Direct',
+          session_id: body.sessionId || body.session_id || 'sess-local',
+          visitor_id: body.visitorId || body.visitor_id || 'vis-local',
+          is_new_visitor: body.isNewVisitor !== undefined ? Boolean(body.isNewVisitor) : true,
           user_agent: req.headers['user-agent'] || ''
         };
 
@@ -159,7 +164,7 @@ const server = http.createServer(async (req, res) => {
         if (visits.length > 500) visits = visits.slice(0, 500);
 
         fs.writeFileSync(VISITS_FILE, JSON.stringify(visits, null, 2), 'utf8');
-        console.log(`[Track] Visit logged: ${newVisit.ip} from ${newVisit.city}, ${newVisit.country} (${newVisit.device} - ${newVisit.browser})`);
+        console.log(`[Track] Visit logged: ${newVisit.ip} from ${newVisit.city}, ${newVisit.country} (${newVisit.device} - ${newVisit.browser}) - Page: ${newVisit.page}`);
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         return res.end(JSON.stringify({ success: true, message: 'Visit logged successfully', visit: newVisit }));
@@ -195,10 +200,14 @@ const server = http.createServer(async (req, res) => {
 
       // Compute aggregated metrics
       const totalViews = visits.length;
+      const uniqueVisitorsSet = new Set();
       const uniqueIps = new Set();
       const countryMap = {};
-      const deviceMap = { Desktop: 0, Mobile: 0, Tablet: 0, Other: 0 };
+      const cityMap = {};
+      const pageMap = {};
+      const deviceMap = { Desktop: 0, Mobile: 0, Tablet: 0, Unknown: 0 };
       const browserMap = {};
+      const osMap = {};
       const referrerMap = {};
 
       const now = new Date();
@@ -206,12 +215,24 @@ const server = http.createServer(async (req, res) => {
       const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
       let todayViews = 0;
       let weekViews = 0;
+      let newVisitorsCount = 0;
+      let returningVisitorsCount = 0;
 
       visits.forEach(v => {
+        if (v.visitor_id) uniqueVisitorsSet.add(v.visitor_id);
+        else if (v.ip) uniqueVisitorsSet.add(v.ip);
+
         if (v.ip) uniqueIps.add(v.ip);
+
+        if (v.is_new_visitor === true) newVisitorsCount++;
+        else if (v.is_new_visitor === false) returningVisitorsCount++;
+
         const vDate = new Date(v.created_at);
         if (vDate >= oneDayAgo) todayViews++;
         if (vDate >= sevenDaysAgo) weekViews++;
+
+        const p = v.page || '/';
+        pageMap[p] = (pageMap[p] || 0) + 1;
 
         const cCode = (v.country_code || 'IN').toUpperCase();
         const cName = v.country || 'India';
@@ -220,12 +241,20 @@ const server = http.createServer(async (req, res) => {
         }
         countryMap[cCode].count++;
 
+        if (v.city && v.city !== 'Unknown') {
+          const cityKey = `${v.city}, ${cName}`;
+          cityMap[cityKey] = (cityMap[cityKey] || 0) + 1;
+        }
+
         const dev = v.device || 'Desktop';
         if (deviceMap[dev] !== undefined) deviceMap[dev]++;
-        else deviceMap.Other++;
+        else deviceMap.Unknown++;
 
         const br = v.browser || 'Other';
         browserMap[br] = (browserMap[br] || 0) + 1;
+
+        const os = v.os || 'Unknown';
+        osMap[os] = (osMap[os] || 0) + 1;
 
         let ref = v.referrer || 'Direct';
         try {
@@ -237,19 +266,38 @@ const server = http.createServer(async (req, res) => {
       const countryStats = Object.values(countryMap).sort((a, b) => b.count - a.count);
       const topCountry = countryStats[0] || { name: 'India', count: totalViews, flag: '🇮🇳' };
 
+      const topPages = Object.entries(pageMap)
+        .map(([page, count]) => ({
+          page,
+          count,
+          percent: totalViews > 0 ? Math.round((count / totalViews) * 100) : 0
+        }))
+        .sort((a, b) => b.count - a.count);
+
+      const cityStats = Object.entries(cityMap)
+        .map(([name, count]) => ({ name, count }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 10);
+
       const responsePayload = {
         success: true,
         data: {
           metrics: {
             totalViews,
-            uniqueVisitors: uniqueIps.size,
+            uniqueVisitors: uniqueVisitorsSet.size,
+            uniqueIps: uniqueIps.size,
             todayViews,
             weekViews,
-            topCountry
+            topCountry,
+            newVisitorsCount,
+            returningVisitorsCount
           },
+          topPages,
           countryStats,
+          cityStats,
           deviceStats: deviceMap,
           browserStats: browserMap,
+          osStats: osMap,
           referrerStats: referrerMap,
           recentVisits: visits
         }
