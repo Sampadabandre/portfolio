@@ -68,6 +68,49 @@ document.addEventListener('DOMContentLoaded', () => {
       history.replaceState(null, '', window.location.pathname);
     } catch {}
   }
+
+  // Telemetry modal overlay outside-click listener
+  const telemetryModal = document.getElementById('telemetryDetailModal');
+  if (telemetryModal) {
+    telemetryModal.addEventListener('click', (e) => {
+      if (e.target === telemetryModal) {
+        closeTelemetryModal();
+      }
+    });
+  }
+
+  // Config modal overlay outside-click listener
+  const cfgModal = document.getElementById('configModal');
+  if (cfgModal) {
+    cfgModal.addEventListener('click', (e) => {
+      if (e.target === cfgModal) {
+        toggleDatabaseConfigModal(false);
+      }
+    });
+  }
+
+  // Delegated click listener for table inspect button
+  const tableBody = document.getElementById('ownerTelemetryTableBody');
+  if (tableBody) {
+    tableBody.addEventListener('click', (e) => {
+      const btn = e.target.closest('.owner-detail-btn');
+      if (btn) {
+        e.preventDefault();
+        const idx = btn.getAttribute('data-idx');
+        if (idx !== null && idx !== undefined) {
+          openTelemetryModal(parseInt(idx, 10));
+        }
+      }
+    });
+  }
+
+  // Close modals on Escape key
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeTelemetryModal();
+      toggleDatabaseConfigModal(false);
+    }
+  });
 });
 
 // -----------------------------------------------------------------------------
@@ -776,7 +819,7 @@ function renderOwnerTableRows(visits) {
           </span>
         </td>
         <td style="text-align: right;">
-          <button type="button" class="owner-detail-btn" onclick="openTelemetryModal(${globalIdx})" title="View full telemetry payload">
+          <button type="button" class="owner-detail-btn" onclick="openTelemetryModal(${globalIdx})" data-idx="${globalIdx}" title="View full telemetry payload">
             <i class="fa-solid fa-circle-info"></i>
             <span>Inspect</span>
           </button>
@@ -809,9 +852,27 @@ function renderEmptyOwnerTable(msg) {
 // -----------------------------------------------------------------------------
 // 8. INSPECTOR MODAL
 // -----------------------------------------------------------------------------
-function openTelemetryModal(index) {
-  const visit = ownerInlineState.filteredVisits[index];
-  if (!visit) return;
+function openTelemetryModal(indexOrId) {
+  let visit = null;
+  if (typeof indexOrId === 'number' || (typeof indexOrId === 'string' && /^\d+$/.test(indexOrId))) {
+    const idx = parseInt(indexOrId, 10);
+    visit = ownerInlineState.filteredVisits[idx] || ownerInlineState.allVisits[idx];
+  } else if (typeof indexOrId === 'string' && indexOrId) {
+    visit = ownerInlineState.filteredVisits.find(v => v.id === indexOrId) ||
+            ownerInlineState.allVisits.find(v => v.id === indexOrId);
+  }
+
+  if (!visit && ownerInlineState.filteredVisits && ownerInlineState.filteredVisits.length > 0) {
+    visit = ownerInlineState.filteredVisits[0];
+  }
+  if (!visit && ownerInlineState.allVisits && ownerInlineState.allVisits.length > 0) {
+    visit = ownerInlineState.allVisits[0];
+  }
+
+  if (!visit) {
+    showPortfolioToast('No visitor record found to inspect.');
+    return;
+  }
 
   const modal = document.getElementById('telemetryDetailModal');
   const body = document.getElementById('telemetryModalBody');
@@ -820,8 +881,8 @@ function openTelemetryModal(index) {
 
   const flag = getCountryFlagEmoji(visit.country_code);
   const createdDate = new Date(visit.created_at);
-  const localDateStr = createdDate.toLocaleString();
-  const utcDateStr = createdDate.toUTCString();
+  const localDateStr = isNaN(createdDate.getTime()) ? 'Unknown' : createdDate.toLocaleString();
+  const utcDateStr = isNaN(createdDate.getTime()) ? 'Unknown' : createdDate.toUTCString();
 
   const isNew = visit.is_new_visitor !== false;
   const visitorTypeLabel = isNew ? 'New Visitor (First Visit)' : 'Returning Visitor';
@@ -902,6 +963,8 @@ function openTelemetryModal(index) {
   }
 
   modal.style.display = 'flex';
+  void modal.offsetWidth;
+  modal.classList.add('open');
   modal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
 }
@@ -909,9 +972,14 @@ function openTelemetryModal(index) {
 function closeTelemetryModal() {
   const modal = document.getElementById('telemetryDetailModal');
   if (modal) {
-    modal.style.display = 'none';
+    modal.classList.remove('open');
     modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    setTimeout(() => {
+      if (!modal.classList.contains('open')) {
+        modal.style.display = 'none';
+      }
+    }, 250);
   }
 }
 
@@ -1364,14 +1432,29 @@ async function logTestVisitNow() {
 // -----------------------------------------------------------------------------
 // 13. DATABASE CONFIGURATION MODAL & HELPERS
 // -----------------------------------------------------------------------------
-function toggleDatabaseConfigModal() {
+function toggleDatabaseConfigModal(forceOpen) {
   const modal = document.getElementById('configModal');
   if (!modal) return;
-  const isHidden = modal.style.display === 'none' || !modal.style.display;
-  modal.style.display = isHidden ? 'flex' : 'none';
-  if (isHidden) {
+  const isCurrentlyOpen = modal.classList.contains('open');
+  const shouldOpen = typeof forceOpen === 'boolean' ? forceOpen : !isCurrentlyOpen;
+
+  if (shouldOpen) {
+    modal.style.display = 'flex';
+    void modal.offsetWidth;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
     const notice = document.getElementById('cfgStatusNotice');
     if (notice) notice.style.display = 'none';
+  } else {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      if (!modal.classList.contains('open')) {
+        modal.style.display = 'none';
+      }
+    }, 250);
   }
 }
 
@@ -1487,3 +1570,11 @@ async function testDatabaseConnection() {
     btn.innerHTML = '<i class="fa-solid fa-plug"></i> Test Connection';
   }
 }
+
+// Expose modal and utility handlers to global scope for HTML onclick attributes
+window.openTelemetryModal = openTelemetryModal;
+window.closeTelemetryModal = closeTelemetryModal;
+window.toggleDatabaseConfigModal = toggleDatabaseConfigModal;
+window.exportInlineVisitsToCSV = exportInlineVisitsToCSV;
+window.logTestVisitNow = logTestVisitNow;
+window.testDatabaseConnection = testDatabaseConnection;

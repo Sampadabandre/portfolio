@@ -6112,6 +6112,24 @@ body.theme-night .owner-telemetry-table tbody tr:hover {
 }
 
 /* 6. Modal Details */
+#telemetryDetailModal,
+#configModal {
+  z-index: 2200;
+}
+
+#telemetryDetailModal.open,
+#configModal.open {
+  display: flex !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+}
+
+#telemetryDetailModal.open .modal-window,
+#configModal.open .modal-window {
+  transform: translateY(0) scale(1) !important;
+}
+
 .telemetry-modal-window {
   max-width: 620px;
 }
