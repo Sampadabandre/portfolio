@@ -36,13 +36,11 @@ document.addEventListener('DOMContentLoaded', () => {
     revealUnlockedOwnerDossier();
   }
 
-  // If hash is #section-owner, activate section
+  // Ensure fresh site entry always opens on About Me section
   if (window.location.hash === '#section-owner') {
-    setTimeout(() => {
-      if (typeof window.switchSection === 'function') {
-        window.switchSection('section-owner');
-      }
-    }, 150);
+    try {
+      history.replaceState(null, '', window.location.pathname);
+    } catch {}
   }
 });
 
