@@ -20,6 +20,17 @@ const STORAGE_KEY_AUTH = 'portfolio_admin_auth';
 const STORAGE_KEY_SUPABASE_URL = 'portfolio_supabase_url';
 const STORAGE_KEY_SUPABASE_KEY = 'portfolio_supabase_key';
 const STORAGE_KEY_OWNER_IGNORE = 'portfolio_owner_mode';
+const CONFIGURED_VERCEL_BACKEND = 'https://portfolio-9iu2.vercel.app';
+
+function getAdminApiBase() {
+  if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+    return '';
+  }
+  if (typeof window !== 'undefined' && window.location.hostname.includes('portfolio-five-sand-53')) {
+    return CONFIGURED_VERCEL_BACKEND;
+  }
+  return '';
+}
 
 // -----------------------------------------------------------------------------
 // 1. INITIALIZATION & SESSION RESTORE
@@ -110,11 +121,26 @@ async function handleAdminLogin(event) {
 async function testCredentials(password) {
   // Test against /api/analytics
   try {
-    const res = await fetch('/api/analytics?limit=1', {
+    let baseUrl = getAdminApiBase();
+    let res = await fetch(`${baseUrl}/api/analytics?limit=1`, {
       headers: {
         'x-admin-password': password
       }
     });
+
+    if (res.status === 500 && baseUrl !== CONFIGURED_VERCEL_BACKEND) {
+      try {
+        const fallbackRes = await fetch(`${CONFIGURED_VERCEL_BACKEND}/api/analytics?limit=1`, {
+          headers: {
+            'x-admin-password': password
+          }
+        });
+        if (fallbackRes.ok || fallbackRes.status === 401) {
+          baseUrl = CONFIGURED_VERCEL_BACKEND;
+          res = fallbackRes;
+        }
+      } catch {}
+    }
 
     if (res.ok) return true;
     if (res.status === 401) return false;
@@ -190,7 +216,8 @@ async function refreshAnalytics(isManual = false) {
     }
 
     // Query /api/analytics
-    const response = await fetch('/api/analytics?limit=1000', {
+    const baseUrl = getAdminApiBase();
+    const response = await fetch(`${baseUrl}/api/analytics?limit=1000`, {
       headers: {
         'x-admin-password': adminState.authToken || ''
       }

@@ -18,12 +18,33 @@ const ownerInlineState = {
   filterBrowser: '',
   currentPage: 1,
   pageSize: 25,
-  refreshInterval: null
+  refreshInterval: null,
+  apiBaseUrl: null
 };
 
 // Storage Keys
 const OWNER_STORAGE_AUTH = 'portfolio_admin_auth';
 const OWNER_STORAGE_IGNORE = 'portfolio_owner_mode';
+const CONFIGURED_VERCEL_BACKEND = 'https://portfolio-9iu2.vercel.app';
+
+// Helper: Determine the active API base URL
+function getOwnerApiBase() {
+  if (ownerInlineState.apiBaseUrl) return ownerInlineState.apiBaseUrl;
+  const saved = localStorage.getItem('portfolio_api_base');
+  if (saved) {
+    ownerInlineState.apiBaseUrl = saved;
+    return saved;
+  }
+  // Local environment uses relative endpoints
+  if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+    return '';
+  }
+  // If running on portfolio-five-sand-53 (where env vars are not set), seamlessly route to the configured backend
+  if (typeof window !== 'undefined' && window.location.hostname.includes('portfolio-five-sand-53')) {
+    return CONFIGURED_VERCEL_BACKEND;
+  }
+  return '';
+}
 
 // -----------------------------------------------------------------------------
 // 1. INITIALIZATION ON DOM READY
@@ -113,11 +134,29 @@ async function handleInlineOwnerLogin(event) {
 
 async function verifyOwnerCredentials(password) {
   try {
-    const res = await fetch('/api/analytics?limit=1', {
+    let baseUrl = getOwnerApiBase();
+    let res = await fetch(`${baseUrl}/api/analytics?limit=1`, {
       headers: {
         'x-admin-password': password
       }
     });
+
+    // If current deployment returns 500 (misconfigured/missing env vars), fallback to configured backend
+    if (res.status === 500 && baseUrl !== CONFIGURED_VERCEL_BACKEND) {
+      try {
+        const fallbackRes = await fetch(`${CONFIGURED_VERCEL_BACKEND}/api/analytics?limit=1`, {
+          headers: {
+            'x-admin-password': password
+          }
+        });
+        if (fallbackRes.ok || fallbackRes.status === 401) {
+          baseUrl = CONFIGURED_VERCEL_BACKEND;
+          ownerInlineState.apiBaseUrl = baseUrl;
+          localStorage.setItem('portfolio_api_base', baseUrl);
+          res = fallbackRes;
+        }
+      } catch {}
+    }
 
     if (res.ok) {
       return { success: true };
@@ -132,11 +171,11 @@ async function verifyOwnerCredentials(password) {
       const curHost = window.location.hostname;
       return {
         success: false,
-        message: `Vercel Setup Notice: ADMIN_PASSWORD is not configured for this Vercel deployment (${curHost}). If you configured environment variables on "portfolio-9iu2", please access your site at https://portfolio-9iu2.vercel.app/ or add ADMIN_PASSWORD to this project's Vercel Environment Variables.`
+        message: `Vercel Setup Notice: ADMIN_PASSWORD is not configured for this Vercel deployment (${curHost}). Please add ADMIN_PASSWORD in your Vercel Project Settings -> Environment Variables.`
       };
     }
 
-    // In local development server fallback
+    // In local development server fallback or Supabase not yet connected
     if (res.status === 503) {
       return { success: true };
     }
@@ -214,7 +253,8 @@ async function refreshInlineAnalytics(isManual = false) {
       return;
     }
 
-    const response = await fetch('/api/analytics?limit=1000', {
+    const baseUrl = getOwnerApiBase();
+    const response = await fetch(`${baseUrl}/api/analytics?limit=1000`, {
       headers: {
         'x-admin-password': ownerInlineState.authToken || ''
       }
@@ -1302,7 +1342,8 @@ async function logTestVisitNow() {
       userAgent: navigator.userAgent
     };
 
-    const res = await fetch('/api/track', {
+    const baseUrl = getOwnerApiBase();
+    const res = await fetch(`${baseUrl}/api/track`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(meta)
@@ -1413,7 +1454,8 @@ async function testDatabaseConnection() {
   notice.style.display = 'none';
 
   try {
-    const res = await fetch('/api/analytics?limit=1', {
+    const baseUrl = getOwnerApiBase();
+    const res = await fetch(`${baseUrl}/api/analytics?limit=1`, {
       headers: {
         'x-admin-password': ownerInlineState.authToken || ''
       }

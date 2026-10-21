@@ -110,11 +110,21 @@
   }
 
   // 6. Send Tracking Beacon Non-Blockingly
+  const CONFIGURED_VERCEL_BACKEND = 'https://portfolio-9iu2.vercel.app';
+
+  function getTrackEndpoint() {
+    if (typeof window !== 'undefined' && window.location.hostname.includes('portfolio-five-sand-53')) {
+      return `${CONFIGURED_VERCEL_BACKEND}/api/track`;
+    }
+    return '/api/track';
+  }
+
   function dispatchBeacon() {
     try {
       const payload = getClientMeta();
+      const endpoint = getTrackEndpoint();
 
-      fetch('/api/track', {
+      fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -127,6 +137,14 @@
             try {
               sessionStorage.setItem(DEDUP_KEY, String(Date.now()));
             } catch {}
+          } else if (res.status === 500 && endpoint !== `${CONFIGURED_VERCEL_BACKEND}/api/track`) {
+            // If local deployment has no env vars configured, fallback to configured backend
+            fetch(`${CONFIGURED_VERCEL_BACKEND}/api/track`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload),
+              keepalive: true
+            }).catch(() => {});
           }
         })
         .catch(() => {
