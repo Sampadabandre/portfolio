@@ -73,6 +73,12 @@
   function dispatchBeacon() {
     const clientMeta = getClientMeta();
 
+    // Attach custom saved Supabase credentials if available
+    const customUrl = localStorage.getItem('portfolio_supabase_url');
+    const customKey = localStorage.getItem('portfolio_supabase_key') || localStorage.getItem('portfolio_supabase_anon_key');
+    if (customUrl) clientMeta.supabaseUrl = customUrl;
+    if (customKey) clientMeta.supabaseKey = customKey;
+
     // Primary: Send to /api/track (Vercel serverless handles IP & Geo automatically)
     fetch('/api/track', {
       method: 'POST',

@@ -1007,3 +1007,37 @@ async function logTestVisitNow() {
   }
 }
 
+// -----------------------------------------------------------------------------
+// 12. DATABASE CONFIGURATION MODAL
+// -----------------------------------------------------------------------------
+function toggleDatabaseConfigModal() {
+  const modal = document.getElementById('configModal');
+  if (!modal) return;
+  const isHidden = modal.style.display === 'none' || !modal.style.display;
+  modal.style.display = isHidden ? 'flex' : 'none';
+
+  if (isHidden) {
+    const url = localStorage.getItem(OWNER_STORAGE_URL) || '';
+    const key = localStorage.getItem(OWNER_STORAGE_KEY) || '';
+    const urlInput = document.getElementById('cfgSupabaseUrl');
+    const keyInput = document.getElementById('cfgSupabaseKey');
+    if (urlInput) urlInput.value = url;
+    if (keyInput) keyInput.value = key;
+  }
+}
+
+function saveDatabaseConfig() {
+  const urlInput = document.getElementById('cfgSupabaseUrl');
+  const keyInput = document.getElementById('cfgSupabaseKey');
+  const url = urlInput ? urlInput.value.trim() : '';
+  const key = keyInput ? keyInput.value.trim() : '';
+
+  if (url) localStorage.setItem(OWNER_STORAGE_URL, url);
+  if (key) localStorage.setItem(OWNER_STORAGE_KEY, key);
+
+  toggleDatabaseConfigModal();
+  showPortfolioToast('✅ Database credentials saved! Refreshing telemetry...');
+  setTimeout(() => refreshInlineAnalytics(true), 500);
+}
+
+

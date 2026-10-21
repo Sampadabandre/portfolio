@@ -105,9 +105,9 @@ module.exports = async (req, res) => {
       user_agent: userAgent
     };
 
-    // Supabase Credentials from Environment Variables
-    const supabaseUrl = process.env.SUPABASE_URL;
-    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
+    // Supabase Credentials from Environment Variables (or client header/body fallback)
+    const supabaseUrl = process.env.SUPABASE_URL || body.supabaseUrl || req.headers['x-supabase-url'];
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || body.supabaseKey || req.headers['x-supabase-key'];
 
     if (!supabaseUrl || !supabaseKey) {
       console.warn('Supabase URL or Key not set in environment variables.');

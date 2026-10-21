@@ -2023,6 +2023,10 @@
                   <i class="fa-solid fa-file-csv"></i>
                   <span>Export CSV</span>
                 </button>
+                <button type="button" class="owner-action-button" onclick="toggleDatabaseConfigModal()" title="Connect Supabase Database">
+                  <i class="fa-solid fa-database"></i>
+                  <span>Database</span>
+                </button>
                 <button type="button" class="owner-action-button danger" onclick="handleInlineOwnerLogout()" title="Lock this section">
                   <i class="fa-solid fa-lock"></i>
                   <span>Lock Dossier</span>
@@ -2341,6 +2345,41 @@
           <i class="fa-solid fa-location-crosshairs"></i> Open Coordinates in Google Maps
         </a>
         <button class="modal-action-btn secondary" onclick="closeTelemetryModal()">Close</button>
+      </div>
+  </div>
+
+  <!-- MODAL: DATABASE CONFIGURATION & KEYS -->
+  <div class="custom-modal-overlay" id="configModal" aria-hidden="true" role="dialog" style="display: none;">
+    <div class="modal-window" style="max-width: 520px;">
+      <div class="modal-header">
+        <div class="modal-title-box">
+          <span class="modal-pill" style="background: rgba(197, 155, 39, 0.15); color: var(--accent-gold);"><i class="fa-solid fa-database"></i> Cloud Database Setup</span>
+          <h3 class="modal-heading">Connect Supabase</h3>
+        </div>
+        <button class="modal-close-btn" onclick="toggleDatabaseConfigModal()" aria-label="Close Modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.2rem; line-height: 1.5;">
+          To record real visitors permanently on your live Vercel site (<strong>portfolio-five-sand-53.vercel.app</strong>), enter your free Supabase credentials below.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem;">
+          <label style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">Supabase Project URL</label>
+          <input type="url" id="cfgSupabaseUrl" class="owner-password-input" placeholder="https://your-project.supabase.co" style="padding: 0.65rem 1rem;">
+          <span style="font-size: 0.72rem; color: var(--text-muted);">Found in Supabase: Project Settings -> API -> Project URL</span>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.2rem;">
+          <label style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">Supabase Service Role Key (or Anon Key)</label>
+          <input type="password" id="cfgSupabaseKey" class="owner-password-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6..." style="padding: 0.65rem 1rem;">
+          <span style="font-size: 0.72rem; color: var(--text-muted);">Found in Supabase: Project Settings -> API -> service_role secret</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-action-btn primary" onclick="saveDatabaseConfig()">
+          <i class="fa-solid fa-floppy-disk"></i> Save & Connect
+        </button>
+        <button class="modal-action-btn secondary" onclick="toggleDatabaseConfigModal()">Cancel</button>
       </div>
     </div>
   </div>
